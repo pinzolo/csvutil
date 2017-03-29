@@ -10,7 +10,7 @@ import (
 )
 
 // UTF8BOM is bytes for byte order mark of UTF8.
-var UTF8BOM = [3]byte{0xEF, 0xBB, 0xBF}
+var UTF8BOM = [...]byte{0xEF, 0xBB, 0xBF}
 
 // NewReader returns *csv.Reader for UTF8.
 // If source has BOM, returns true as second return value.
@@ -24,12 +24,13 @@ func NewReader(r io.Reader) (*csv.Reader, bool) {
 		br = bufio.NewReader(r)
 	}
 
-	bs, err := br.Peek(len(UTF8BOM))
+	l := len(UTF8BOM)
+	bs, err := br.Peek(l)
 	if err != nil {
 		return csv.NewReader(br), false
 	}
-	if bs[0] == UTF8BOM[0] && bs[1] == UTF8BOM[1] && bs[2] == UTF8BOM[2] {
-		br.Discard(len(UTF8BOM))
+	if isSameBytes(bs[:l], UTF8BOM[:]) {
+		br.Discard(l)
 		bom = true
 	}
 
@@ -61,4 +62,13 @@ func NewReaderWithEnc(r io.Reader, e encoding.Encoding) *csv.Reader {
 // NewWriterWithEnc returns *csv.Writer for given encoding.
 func NewWriterWithEnc(w io.Writer, e encoding.Encoding) *csv.Writer {
 	return csv.NewWriter(transform.NewWriter(w, e.NewEncoder()))
+}
+
+func isSameBytes(bs1 []byte, bs2 []byte) bool {
+	for i, b := range bs1 {
+		if b != bs2[i] {
+			return false
+		}
+	}
+	return true
 }
