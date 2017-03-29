@@ -12,13 +12,13 @@ import (
 	"golang.org/x/text/transform"
 )
 
-func TestNewCsvReaderWithoutBOM(t *testing.T) {
+func TestNewReaderWithoutBOM(t *testing.T) {
 	f, err := os.Open("testdata/utf8.csv")
 	if err != nil {
 		t.Error(err)
 	}
 	defer f.Close()
-	r, bom := NewCsvReader(f)
+	r, bom := NewReader(f)
 	if bom {
 		t.Errorf("Cannot check BOM. Expect: false, but got %v", bom)
 	}
@@ -31,13 +31,13 @@ func TestNewCsvReaderWithoutBOM(t *testing.T) {
 	}
 }
 
-func TestNewCsvReaderWithBOM(t *testing.T) {
+func TestNewReaderWithBOM(t *testing.T) {
 	f, err := os.Open("testdata/utf8_with_bom.csv")
 	if err != nil {
 		t.Error(err)
 	}
 	defer f.Close()
-	r, bom := NewCsvReader(f)
+	r, bom := NewReader(f)
 	if !bom {
 		t.Errorf("Cannot check BOM. Expect: true, but got %v", bom)
 	}
@@ -50,13 +50,13 @@ func TestNewCsvReaderWithBOM(t *testing.T) {
 	}
 }
 
-func TestNewCsvReaderWithShortCSV(t *testing.T) {
+func TestNewReaderWithShortCSV(t *testing.T) {
 	f, err := os.Open("testdata/short.csv")
 	if err != nil {
 		t.Error(err)
 	}
 	defer f.Close()
-	r, bom := NewCsvReader(f)
+	r, bom := NewReader(f)
 	if bom {
 		t.Errorf("Cannot check BOM. Expect: false, but got %v", bom)
 	}
@@ -69,9 +69,9 @@ func TestNewCsvReaderWithShortCSV(t *testing.T) {
 	}
 }
 
-func TestNewCsvWriterWithoutBOM(t *testing.T) {
+func TestNewWriterWithoutBOM(t *testing.T) {
 	b := &bytes.Buffer{}
-	w := NewCsvWriter(b, false)
+	w := NewWriter(b, false)
 	w.Write([]string{"名前", "個数"})
 	w.Flush()
 	if b.Bytes()[0] == UTF8BOM[0] {
@@ -82,9 +82,9 @@ func TestNewCsvWriterWithoutBOM(t *testing.T) {
 	}
 }
 
-func TestNewCsvWriterWithBOM(t *testing.T) {
+func TestNewWriterWithBOM(t *testing.T) {
 	b := &bytes.Buffer{}
-	w := NewCsvWriter(b, true)
+	w := NewWriter(b, true)
 	w.Write([]string{"名前", "個数"})
 	w.Flush()
 	bs := b.Bytes()
@@ -96,13 +96,13 @@ func TestNewCsvWriterWithBOM(t *testing.T) {
 	}
 }
 
-func TestNewCsvReaderWithShiftJIS(t *testing.T) {
+func TestNewReaderWithShiftJIS(t *testing.T) {
 	f, err := os.Open("testdata/sjis.csv")
 	if err != nil {
 		t.Error(err)
 	}
 	defer f.Close()
-	r := NewCsvReaderWithEncoding(f, japanese.ShiftJIS)
+	r := NewReaderWithEnc(f, japanese.ShiftJIS)
 	record, err := r.Read()
 	if err != nil {
 		t.Error(err)
@@ -112,13 +112,13 @@ func TestNewCsvReaderWithShiftJIS(t *testing.T) {
 	}
 }
 
-func TestNewCsvReaderWithEUCJP(t *testing.T) {
+func TestNewReaderWithEUCJP(t *testing.T) {
 	f, err := os.Open("testdata/eucjp.csv")
 	if err != nil {
 		t.Error(err)
 	}
 	defer f.Close()
-	r := NewCsvReaderWithEncoding(f, japanese.EUCJP)
+	r := NewReaderWithEnc(f, japanese.EUCJP)
 	record, err := r.Read()
 	if err != nil {
 		t.Error(err)
@@ -128,10 +128,10 @@ func TestNewCsvReaderWithEUCJP(t *testing.T) {
 	}
 }
 
-func TestNewCsvWriterWithEncoding(t *testing.T) {
+func TestNewWriterWithEnc(t *testing.T) {
 	for _, e := range []encoding.Encoding{japanese.ShiftJIS, japanese.EUCJP} {
 		b := &bytes.Buffer{}
-		w := NewCsvWriterWithEncoding(b, e)
+		w := NewWriterWithEnc(b, e)
 		w.Write([]string{"名前", "個数"})
 		w.Flush()
 		s, err := toUTF8(b.Bytes(), e)
