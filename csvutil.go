@@ -42,7 +42,7 @@ func NewReader(r io.Reader) (*csv.Reader, bool) {
 }
 
 // NewWriter returns *csv.Writer for UTF8.
-// If true as bom, Writer writes BOM at the top.
+// If true is given as bom, Writer writes BOM at the top.
 func NewWriter(w io.Writer, bom bool) *csv.Writer {
 	var (
 		bw *bufio.Writer
