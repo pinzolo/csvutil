@@ -74,7 +74,7 @@ func TestNewWriterWithoutBOM(t *testing.T) {
 	w := NewWriter(b, false)
 	w.Write([]string{"名前", "個数"})
 	w.Flush()
-	if b.Bytes()[0] == UTF8BOM[0] {
+	if b.Bytes()[0] == utf8bom[0] {
 		t.Error("Expect: No BOM, but got BOM in the top.")
 	}
 	if !strings.Contains(b.String(), "名前,個数") {
@@ -88,7 +88,7 @@ func TestNewWriterWithBOM(t *testing.T) {
 	w.Write([]string{"名前", "個数"})
 	w.Flush()
 	bs := b.Bytes()
-	if bs[0] != UTF8BOM[0] && bs[1] != UTF8BOM[1] && bs[2] != UTF8BOM[2] {
+	if bs[0] != utf8bom[0] && bs[1] != utf8bom[1] && bs[2] != utf8bom[2] {
 		t.Error("Expect: With BOM, but colud not get BOM.")
 	}
 	if !strings.Contains(b.String(), "名前,個数") {

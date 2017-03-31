@@ -9,8 +9,12 @@ import (
 	"golang.org/x/text/transform"
 )
 
+var utf8bom = [...]byte{0xEF, 0xBB, 0xBF}
+
 // UTF8BOM is bytes for byte order mark of UTF8.
-var UTF8BOM = [...]byte{0xEF, 0xBB, 0xBF}
+func UTF8BOM() []byte {
+	return utf8bom[:]
+}
 
 // NewReader returns *csv.Reader for UTF8.
 // If source has BOM, returns true as second return value.
@@ -24,12 +28,12 @@ func NewReader(r io.Reader) (*csv.Reader, bool) {
 		br = bufio.NewReader(r)
 	}
 
-	l := len(UTF8BOM)
+	l := len(utf8bom)
 	bs, err := br.Peek(l)
 	if err != nil {
 		return csv.NewReader(br), false
 	}
-	if isSameBytes(bs[:l], UTF8BOM[:]) {
+	if isSameBytes(bs[:l], UTF8BOM()) {
 		br.Discard(l)
 		bom = true
 	}
@@ -49,7 +53,7 @@ func NewWriter(w io.Writer, bom bool) *csv.Writer {
 	}
 
 	if bom {
-		bw.Write(UTF8BOM[:])
+		bw.Write(UTF8BOM())
 	}
 	return csv.NewWriter(bw)
 }
