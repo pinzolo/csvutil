@@ -51,16 +51,17 @@ func (c *Command) Usage() {
 // Commands lists the available commands and help topics.
 // The order here is the order in which they are printed by 'csvutil help'.
 var commands = []*Command{
-	cmdName,
 	cmdAddress,
+	cmdAppend,
 	cmdBlank,
+	cmdCount,
 	cmdEmail,
-	cmdTel,
-	cmdSort,
+	cmdName,
 	cmdGenerate,
 	cmdSize,
-	cmdCount,
+	cmdSort,
 	cmdStruct,
+	cmdTel,
 }
 
 func main() {
