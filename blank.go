@@ -75,12 +75,9 @@ func Blank(r io.Reader, w io.Writer, o BlankOption) error {
 			continue
 		}
 		if cols == nil {
-			cols = newColumns(o.ColumnSyms)
-			for _, col := range cols {
-				err = col.findIndex(hdr)
-				if err != nil {
-					return errors.Wrap(err, "Cannot find index")
-				}
+			cols, err = newUniqueColumns(o.ColumnSyms, hdr)
+			if err != nil {
+				return errors.Wrap(err, "Cannot find index")
 			}
 		}
 		newRec := make([]string, len(rec))
