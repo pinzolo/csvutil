@@ -47,22 +47,19 @@ func reader(path string, bak bool) (io.Reader, error) {
 	if path == "" {
 		return os.Stdin, nil
 	}
-	if !bak {
-		return os.Open(path)
+	if bak {
+		return backup(path)
 	}
 
-	bp, err := backup(path)
-	if err != nil {
-		return nil, err
-	}
-	return os.Open(bp)
+	return os.Open(path)
 }
-func backup(path string) (string, error) {
+
+func backup(path string) (io.Reader, error) {
 	ext := filepath.Ext(path)
 	dst := strings.TrimSuffix(path, ext) + "." + time.Now().Format("20060102150405") + ext
 	err := os.Rename(path, dst)
 	if err != nil {
-		return "", errors.Wrap(err, "Cannot move")
+		return nil, errors.Wrap(err, "Cannot move")
 	}
-	return dst, nil
+	return os.Open(dst)
 }

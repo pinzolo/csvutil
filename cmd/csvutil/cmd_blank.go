@@ -90,12 +90,12 @@ func runBlank(args []string) int {
 		return handleError(err)
 	}
 
-	w, cleanup, err := writer(path, blankOpt.Overwrite)
+	w, finisher, err := writer(path, blankOpt.Overwrite)
 	if err != nil {
 		return handleError(err)
 	}
-	if cleanup != nil {
-		defer cleanup()
+	if finisher != nil {
+		defer finisher()
 	}
 
 	r, err := reader(path, blankOpt.Backup)
