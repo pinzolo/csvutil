@@ -36,25 +36,45 @@ func writer(path string, overwrite bool) (io.Writer, func(), error) {
 	if overwrite {
 		tmp, err := ioutil.TempFile("", "")
 		if err != nil {
-			return nil, nil, err
+			return nil, nil, errors.Wrap(err, "Failed create tempfile")
 		}
-		return tmp, func() { os.Rename(tmp.Name(), path) }, nil
+		finisher := func() {
+			tmp.Close()
+			os.Rename(tmp.Name(), path)
+		}
+		return tmp, finisher, nil
 	}
 	return os.Stdout, nil, nil
 }
 
-func reader(path string, bak bool) (io.Reader, error) {
+func reader(path string, bak bool) (io.Reader, func(), error) {
 	if path == "" {
-		return os.Stdin, nil
+		return os.Stdin, nil, nil
 	}
 	if bak {
-		return backup(path)
+		src, err := backup(path)
+		if err != nil {
+			return nil, nil, errors.Wrap(err, "Failed backup")
+		}
+		return openWithCloser(src)
 	}
 
-	return os.Open(path)
+	src, err := os.Open(path)
+	if err != nil {
+		return nil, nil, errors.Wrap(err, "Failed open file")
+	}
+	return openWithCloser(src)
 }
 
-func backup(path string) (io.Reader, error) {
+func openWithCloser(f *os.File) (io.Reader, func(), error) {
+	closer := func() {
+		f.Close()
+	}
+
+	return f, closer, nil
+}
+
+func backup(path string) (*os.File, error) {
 	ext := filepath.Ext(path)
 	dst := strings.TrimSuffix(path, ext) + "." + time.Now().Format("20060102150405") + ext
 	err := os.Rename(path, dst)

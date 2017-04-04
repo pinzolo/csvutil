@@ -90,17 +90,20 @@ func runBlank(args []string) int {
 		return handleError(err)
 	}
 
-	w, finisher, err := writer(path, blankOpt.Overwrite)
+	w, wf, err := writer(path, blankOpt.Overwrite)
 	if err != nil {
 		return handleError(err)
 	}
-	if finisher != nil {
-		defer finisher()
+	if wf != nil {
+		defer wf()
 	}
 
-	r, err := reader(path, blankOpt.Backup)
+	r, rf, err := reader(path, blankOpt.Backup)
 	if err != nil {
 		return handleError(err)
+	}
+	if rf != nil {
+		defer rf()
 	}
 
 	err = csvutil.Blank(r, w, blankOpt.BlankOption)
