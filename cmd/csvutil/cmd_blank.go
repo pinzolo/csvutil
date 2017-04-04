@@ -8,7 +8,9 @@ var cmdBlank = &Command{
 	Run:       runBlank,
 	UsageLine: "blank [OPTIONS...] [FILE]",
 	Short:     "Replace column value(s) by empty or blank string.",
-	Long: `Replace column value(s) by empty or blank string.
+	Long: `DESCRIPTION
+        Replace column value(s) by empty or blank string.
+
 ARGUMENTS
         FILE
             Source CSV file.
