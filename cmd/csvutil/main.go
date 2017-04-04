@@ -58,6 +58,7 @@ var commands = []*Command{
 	cmdEmail,
 	cmdName,
 	cmdGenerate,
+	cmdRemove,
 	cmdSize,
 	cmdSort,
 	cmdStruct,
