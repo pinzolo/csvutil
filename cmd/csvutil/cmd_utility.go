@@ -5,8 +5,10 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path/filepath"
+	"strings"
+	"time"
 
-	"github.com/pinzolo/csvutil"
 	"github.com/pkg/errors"
 
 	"golang.org/x/crypto/ssh/terminal"
@@ -49,9 +51,18 @@ func reader(path string, bak bool) (io.Reader, error) {
 		return os.Open(path)
 	}
 
-	bp, err := csvutil.Backup(path)
+	bp, err := backup(path)
 	if err != nil {
 		return nil, err
 	}
 	return os.Open(bp)
+}
+func backup(path string) (string, error) {
+	ext := filepath.Ext(path)
+	dst := strings.TrimSuffix(path, ext) + "." + time.Now().Format("20060102150405") + ext
+	err := os.Rename(path, dst)
+	if err != nil {
+		return "", errors.Wrap(err, "Cannot move")
+	}
+	return dst, nil
 }
