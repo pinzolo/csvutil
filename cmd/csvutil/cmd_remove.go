@@ -7,9 +7,9 @@ import (
 var cmdRemove = &Command{
 	Run:       runRemove,
 	UsageLine: "remove [OPTIONS...] [FILE]",
-	Short:     "Replace column value(s) by empty or remove string.",
+	Short:     "Remove column(s) in CSV.",
 	Long: `DESCRIPTION
-        Replace column value(s) by empty or remove string.
+        Remove column(s) in CSV.
 
 ARGUMENTS
         FILE
@@ -38,21 +38,6 @@ OPTIONS
             Column symbol accepts column index or column header text.
             If --no-header option is used, this option accepts only column index.
             To target multi columns, use semicolon separated value like foo:bar and 1:2.
-
-        -r, --rate
-            Percentage of replace rate. Without this option, always replace CSV value.
-            Use this option to make discreta data.
-
-        -sw, --space-width
-            Width of space character.
-            0: empty string (default)
-            1: ASCII space [0x20]
-            2: Multi byte space [0xE3 0x80 0x80]
-
-        --ss, --space-size
-            Count of space characters. (default 0)
-            If space size is 2 and space width is 1 then value replaced by "  ". (2 ASCII space characters).
-            If space size is 3 and space width is 2 then value replaced by "　　　". (3 multi byte space characters).
 	`,
 }
 
