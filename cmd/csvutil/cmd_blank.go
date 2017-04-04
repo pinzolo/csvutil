@@ -37,7 +37,7 @@ OPTIONS
             Target column symbol(s).
             Column symbol accepts column index or column header text.
             If --no-header option is used, this option accepts only column index.
-            To target multi columns, use semicolon seperated value like foo:bar and 1:2.
+            To target multi columns, use semicolon separated value like foo:bar and 1:2.
 
         -r, --rate
             Percentage of replace rate. Without this option, always replace CSV value.

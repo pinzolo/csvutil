@@ -35,7 +35,7 @@ OPTIONS
 
         -h, --header
             Appending header text.
-            To target multi headers, use semicolon seperated value like foo:bar.
+            To target multi headers, use semicolon separated value like foo:bar.
             If this option is not given, new header texts are set with column1, column2...
 
         -c, --count
