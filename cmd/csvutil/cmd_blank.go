@@ -62,7 +62,15 @@ OPTIONS
 	`,
 }
 
-var blankOpt = csvutil.BlankOption{}
+type cmdBlankOption struct {
+	csvutil.BlankOption
+	// Overwrite to source. (default false)
+	Overwrite bool
+	// Backup source file. (default false)
+	Backup bool
+}
+
+var blankOpt = cmdBlankOption{}
 
 func init() {
 	cmdBlank.Flag.BoolVar(&blankOpt.Overwrite, "overwrite", false, "Overwrite to source.")
@@ -103,7 +111,7 @@ func runBlank(args []string) int {
 		return handleError(err)
 	}
 
-	err = csvutil.Blank(r, w, blankOpt)
+	err = csvutil.Blank(r, w, blankOpt.BlankOption)
 	if err != nil {
 		return handleError(err)
 	}

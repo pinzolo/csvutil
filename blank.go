@@ -9,12 +9,8 @@ import (
 
 // BlankOption is option struct for `csvutil blank` command.
 type BlankOption struct {
-	// Overwrite to source. (default false)
-	Overwrite bool
 	// Source file does not have header line. (default false)
 	NoHeader bool
-	// Backup source file. (default false)
-	Backup bool
 	// Encoding of source file. (default utf8)
 	Encoding string
 	// Column header or column index
