@@ -49,3 +49,22 @@ func newColumns(syms []string) []*column {
 	}
 	return cols
 }
+
+func newColumnsWithIndexes(syms []string, hdr []string) ([]*column, error) {
+	cols := newColumns(syms)
+	for _, col := range cols {
+		err := col.findIndex(hdr)
+		if err != nil {
+			return nil, errors.Wrap(err, "Cannot find index")
+		}
+	}
+	return cols, nil
+}
+
+func newUniqueColumns(syms []string, hdr []string) ([]*column, error) {
+	cols, err := newColumnsWithIndexes(syms, hdr)
+	if err != nil {
+		return nil, err
+	}
+	return uniqColumns(cols), nil
+}
