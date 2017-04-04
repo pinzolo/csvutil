@@ -7,7 +7,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// BlankOption is option struct for `csvutil blank` command.
+// BlankOption is option holder for Blank.
 type BlankOption struct {
 	// Source file does not have header line. (default false)
 	NoHeader bool
