@@ -83,3 +83,7 @@ func backup(path string) (*os.File, error) {
 	}
 	return os.Open(dst)
 }
+
+func split(s string) []string {
+	return strings.Split(s, ":")
+}
