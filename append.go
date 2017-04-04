@@ -21,10 +21,10 @@ type AppendOption struct {
 
 func (o AppendOption) validate() error {
 	if o.Count < 0 {
-		return errors.New("Count requires positive digit.")
+		return errors.New("negative count")
 	}
 	if o.Count == 0 && len(o.Headers) == 0 {
-		return errors.New("Required count or headers.")
+		return errors.New("required count or headers")
 	}
 	return nil
 }
@@ -52,7 +52,7 @@ func (o AppendOption) appendingHeaders() []string {
 // Append empty values to end of each lines.
 func Append(r io.Reader, w io.Writer, o AppendOption) error {
 	if err := o.validate(); err != nil {
-		return errors.Wrap(err, "Invalid option")
+		return errors.Wrap(err, "invalid option")
 	}
 
 	cr, bom := reader(r, o.Encoding)
@@ -66,7 +66,7 @@ func Append(r io.Reader, w io.Writer, o AppendOption) error {
 			if err == io.EOF {
 				break
 			}
-			return errors.Wrap(err, "Cannot read csv line")
+			return errors.Wrap(err, "cannot read csv line")
 		}
 		if hdr == nil && !o.NoHeader {
 			hdr = rec

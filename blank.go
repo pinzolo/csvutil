@@ -28,23 +28,23 @@ type BlankOption struct {
 
 func (o BlankOption) validate() error {
 	if len(o.ColumnSyms) == 0 {
-		return errors.New("No column.")
+		return errors.New("no column")
 	}
 	if o.NoHeader {
 		for _, c := range o.ColumnSyms {
 			if !isDigit(c) {
-				return errors.New("Column symbol must be a number for no header csv.")
+				return errors.New("not number column symbol")
 			}
 		}
 	}
 	if o.SpaceWidth < 0 || 2 < o.SpaceWidth {
-		return errors.New("Invalid space width (Acceptable 0, 1, 2)")
+		return errors.New("invalid space width")
 	}
 	if o.SpaceSize < 0 {
-		return errors.New("Invalid space size (Acceptable 0 or positive)")
+		return errors.New("invalid space size")
 	}
 	if o.Rate < 0 || 100 < o.Rate {
-		return errors.New("Invalid rate (Acceptable 0 <= rate <= 100)")
+		return errors.New("invalid rate")
 	}
 	return nil
 }
@@ -52,7 +52,7 @@ func (o BlankOption) validate() error {
 // Blank overwrite value of given column by empty or spaces.
 func Blank(r io.Reader, w io.Writer, o BlankOption) error {
 	if err := o.validate(); err != nil {
-		return errors.Wrap(err, "Invalid option")
+		return errors.Wrap(err, "invalid option")
 	}
 
 	cr, bom := reader(r, o.Encoding)
@@ -67,7 +67,7 @@ func Blank(r io.Reader, w io.Writer, o BlankOption) error {
 			if err == io.EOF {
 				break
 			}
-			return errors.Wrap(err, "Cannot read csv line")
+			return errors.Wrap(err, "cannot read csv line")
 		}
 		if hdr == nil && !o.NoHeader {
 			hdr = rec
@@ -77,7 +77,7 @@ func Blank(r io.Reader, w io.Writer, o BlankOption) error {
 		if cols == nil {
 			cols, err = newUniqueColumns(o.ColumnSyms, hdr)
 			if err != nil {
-				return errors.Wrap(err, "Cannot find index")
+				return errors.Wrap(err, "cannot find index")
 			}
 		}
 		newRec := make([]string, len(rec))

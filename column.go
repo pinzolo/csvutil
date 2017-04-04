@@ -16,14 +16,14 @@ func (c *column) findIndex(hdr []string) error {
 	if isDigit(c.symbol) {
 		i, err := strconv.Atoi(c.symbol)
 		if err != nil {
-			return errors.Wrap(err, "Cannot parse index")
+			return errors.Wrap(err, "cannot parse index")
 		}
 		c.index = i
 		c.found = true
 		return nil
 	}
 	if hdr == nil {
-		return errors.New("Column symbol require index only in no header.")
+		return errors.New("not number column symbol")
 	}
 	for i, h := range hdr {
 		if h == c.symbol {
@@ -32,7 +32,7 @@ func (c *column) findIndex(hdr []string) error {
 			return nil
 		}
 	}
-	return errors.Errorf("Column %s is not found", c.symbol)
+	return errors.Errorf("column %s not found", c.symbol)
 }
 
 func newColumn(sym string) *column {
@@ -55,7 +55,7 @@ func newColumnsWithIndexes(syms []string, hdr []string) ([]*column, error) {
 	for _, col := range cols {
 		err := col.findIndex(hdr)
 		if err != nil {
-			return nil, errors.Wrap(err, "Cannot find index")
+			return nil, errors.Wrap(err, "cannot find index")
 		}
 	}
 	return cols, nil

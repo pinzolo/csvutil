@@ -18,12 +18,12 @@ type RemoveOption struct {
 
 func (o RemoveOption) validate() error {
 	if len(o.ColumnSyms) == 0 {
-		return errors.New("No column.")
+		return errors.New("no column")
 	}
 	if o.NoHeader {
 		for _, c := range o.ColumnSyms {
 			if !isDigit(c) {
-				return errors.New("Column symbol must be a number for no header csv.")
+				return errors.New("not number column symbol")
 			}
 		}
 	}
@@ -33,7 +33,7 @@ func (o RemoveOption) validate() error {
 // Remove column(s) in CSV.
 func Remove(r io.Reader, w io.Writer, o RemoveOption) error {
 	if err := o.validate(); err != nil {
-		return errors.Wrap(err, "Invalid option")
+		return errors.Wrap(err, "invalid option")
 	}
 
 	cr, bom := reader(r, o.Encoding)
@@ -48,7 +48,7 @@ func Remove(r io.Reader, w io.Writer, o RemoveOption) error {
 			if err == io.EOF {
 				break
 			}
-			return errors.Wrap(err, "Cannot read csv line")
+			return errors.Wrap(err, "cannot read line")
 		}
 		if hdr == nil && !o.NoHeader {
 			hdr = rec
@@ -56,7 +56,7 @@ func Remove(r io.Reader, w io.Writer, o RemoveOption) error {
 		if cols == nil {
 			cols, err = newUniqueColumns(o.ColumnSyms, hdr)
 			if err != nil {
-				return errors.Wrap(err, "Cannot find index")
+				return errors.Wrap(err, "cannot find index")
 			}
 		}
 		var newRec []string
