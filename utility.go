@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"io"
 	"math/rand"
-	"strings"
 	"unicode"
 
 	"golang.org/x/text/encoding/japanese"
@@ -57,8 +56,4 @@ func lot(n int) bool {
 		return false
 	}
 	return rand.Intn(100) < n
-}
-
-func split(s string) []string {
-	return strings.Split(s, ":")
 }

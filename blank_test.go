@@ -20,8 +20,8 @@ func TestBlankWithNoHeaderAndNoDigitColumn(t *testing.T) {
 	r := &bytes.Buffer{}
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		NoHeader: true,
-		Column:   "foo",
+		NoHeader:   true,
+		ColumnSyms: []string{"foo"},
 	}
 
 	err := Blank(r, w, o)
@@ -34,7 +34,7 @@ func TestBlankWithNegativeSpaceWidth(t *testing.T) {
 	r := &bytes.Buffer{}
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		Column:     "1",
+		ColumnSyms: []string{"1"},
 		SpaceWidth: -1,
 	}
 	err := Blank(r, w, o)
@@ -47,7 +47,7 @@ func TestBlankWithOver2SpaceWidth(t *testing.T) {
 	r := &bytes.Buffer{}
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		Column:     "1",
+		ColumnSyms: []string{"1"},
 		SpaceWidth: 3,
 	}
 	err := Blank(r, w, o)
@@ -60,8 +60,8 @@ func TestBlankWithNegativeSpaceSize(t *testing.T) {
 	r := &bytes.Buffer{}
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		Column:    "1",
-		SpaceSize: -1,
+		ColumnSyms: []string{"1"},
+		SpaceSize:  -1,
 	}
 	err := Blank(r, w, o)
 	if err == nil {
@@ -73,8 +73,8 @@ func TestBlankWithNegativeRate(t *testing.T) {
 	r := &bytes.Buffer{}
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		Column: "1",
-		Rate:   -1,
+		ColumnSyms: []string{"1"},
+		Rate:       -1,
 	}
 	err := Blank(r, w, o)
 	if err == nil {
@@ -86,8 +86,8 @@ func TestBlankWithOver101Rate(t *testing.T) {
 	r := &bytes.Buffer{}
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		Column: "1",
-		Rate:   101,
+		ColumnSyms: []string{"1"},
+		Rate:       101,
 	}
 	err := Blank(r, w, o)
 	if err == nil {
@@ -103,9 +103,9 @@ func TestBlankWithSymbolColumnButNoHeader(t *testing.T) {
 	r := bytes.NewBuffer([]byte(s))
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		NoHeader: true,
-		Column:   "aaa",
-		Rate:     100,
+		NoHeader:   true,
+		ColumnSyms: []string{"aaa"},
+		Rate:       100,
 	}
 	err := Blank(r, w, o)
 	if err == nil {
@@ -122,8 +122,8 @@ func TestBlankWithUnknownHeaderSymbol(t *testing.T) {
 	r := bytes.NewBuffer([]byte(s))
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		Column: "ddd",
-		Rate:   100,
+		ColumnSyms: []string{"ddd"},
+		Rate:       100,
 	}
 	err := Blank(r, w, o)
 	if err == nil {
@@ -140,8 +140,8 @@ func TestBlankWhenColumnIsHeaderText(t *testing.T) {
 	r := bytes.NewBuffer([]byte(s))
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		Column: "bbb",
-		Rate:   100,
+		ColumnSyms: []string{"bbb"},
+		Rate:       100,
 	}
 	err := Blank(r, w, o)
 	if err != nil {
@@ -166,8 +166,8 @@ func TestBlankWhenColumnIsIndex(t *testing.T) {
 	r := bytes.NewBuffer([]byte(s))
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		Column: "1",
-		Rate:   100,
+		ColumnSyms: []string{"1"},
+		Rate:       100,
 	}
 	err := Blank(r, w, o)
 	if err != nil {
@@ -191,9 +191,9 @@ func TestBlankWhenColumnIsIndexAndNoHeader(t *testing.T) {
 	r := bytes.NewBuffer([]byte(s))
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		NoHeader: true,
-		Column:   "1",
-		Rate:     100,
+		NoHeader:   true,
+		ColumnSyms: []string{"1"},
+		Rate:       100,
 	}
 	err := Blank(r, w, o)
 	if err != nil {
@@ -217,7 +217,7 @@ func TestBlankWhenSpaceWidthIs1AndSpaceSizeIs1(t *testing.T) {
 	r := bytes.NewBuffer([]byte(s))
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		Column:     "bbb",
+		ColumnSyms: []string{"bbb"},
 		SpaceWidth: 1,
 		SpaceSize:  1,
 		Rate:       100,
@@ -245,7 +245,7 @@ func TestBlankWhenSpaceWidthIs2AndSpaceSizeIs3(t *testing.T) {
 	r := bytes.NewBuffer([]byte(s))
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		Column:     "bbb",
+		ColumnSyms: []string{"bbb"},
 		SpaceWidth: 2,
 		SpaceSize:  3,
 		Rate:       100,
@@ -274,8 +274,8 @@ func TestBlankWhenColumnIsMultiColumn(t *testing.T) {
 	r := bytes.NewBuffer([]byte(s))
 	w := &bytes.Buffer{}
 	o := BlankOption{
-		Column: "aaa:bbb",
-		Rate:   100,
+		ColumnSyms: []string{"aaa", "bbb"},
+		Rate:       100,
 	}
 	err := Blank(r, w, o)
 	if err != nil {

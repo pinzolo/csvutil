@@ -62,6 +62,8 @@ type cmdBlankOption struct {
 	Overwrite bool
 	// Backup source file. (default false)
 	Backup bool
+	// Column header or column index separated by semicolon.
+	Column string
 }
 
 var blankOpt = cmdBlankOption{}
@@ -108,6 +110,8 @@ func runBlank(args []string) int {
 		defer rf()
 	}
 
+	opt := blankOpt.BlankOption
+	opt.ColumnSyms = split(blankOpt.Column)
 	err = csvutil.Blank(r, w, blankOpt.BlankOption)
 	if err != nil {
 		return handleError(err)

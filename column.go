@@ -42,8 +42,7 @@ func newColumn(sym string) *column {
 	}
 }
 
-func newColumns(sym string) []*column {
-	syms := split(sym)
+func newColumns(syms []string) []*column {
 	cols := make([]*column, len(syms))
 	for i, sym := range syms {
 		cols[i] = newColumn(sym)

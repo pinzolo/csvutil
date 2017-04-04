@@ -13,8 +13,8 @@ type BlankOption struct {
 	NoHeader bool
 	// Encoding of source file. (default utf8)
 	Encoding string
-	// Column header or column index
-	Column string
+	// ColumnSyms header or column index list.
+	ColumnSyms []string
 	// Rate of fill
 	Rate int
 	// Space character width.
@@ -27,11 +27,15 @@ type BlankOption struct {
 }
 
 func (o BlankOption) validate() error {
-	if o.Column == "" {
+	if len(o.ColumnSyms) == 0 {
 		return errors.New("No column.")
 	}
-	if o.NoHeader && !isDigit(o.Column) {
-		return errors.New("Column symbol must be a number for no header csv.")
+	if o.NoHeader {
+		for _, c := range o.ColumnSyms {
+			if !isDigit(c) {
+				return errors.New("Column symbol must be a number for no header csv.")
+			}
+		}
 	}
 	if o.SpaceWidth < 0 || 2 < o.SpaceWidth {
 		return errors.New("Invalid space width (Acceptable 0, 1, 2)")
@@ -71,7 +75,7 @@ func Blank(r io.Reader, w io.Writer, o BlankOption) error {
 			continue
 		}
 		if cols == nil {
-			cols = newColumns(o.Column)
+			cols = newColumns(o.ColumnSyms)
 			for _, col := range cols {
 				err = col.findIndex(hdr)
 				if err != nil {
