@@ -32,6 +32,10 @@ OPTIONS
 
         -c, --count
             Generateing line count. Default count is 3.
+
+        -b, --bom
+            Append bom to top of CSV.
+            If encoding is not UTF-8, this option is ignored.
 	`,
 }
 
@@ -52,19 +56,16 @@ func init() {
 	cmdGenerate.Flag.StringVar(&generateOpt.Header, "h", "", "Generateing header(s)")
 	cmdGenerate.Flag.IntVar(&generateOpt.Size, "size", 3, "Generateing column size")
 	cmdGenerate.Flag.IntVar(&generateOpt.Size, "s", 3, "Generateing column size")
-	cmdGenerate.Flag.IntVar(&generateOpt.Count, "size", 3, "Generateing line count")
-	cmdGenerate.Flag.IntVar(&generateOpt.Count, "s", 3, "Generateing line count")
+	cmdGenerate.Flag.IntVar(&generateOpt.Count, "count", 3, "Generateing line count")
+	cmdGenerate.Flag.IntVar(&generateOpt.Count, "c", 3, "Generateing line count")
+	cmdGenerate.Flag.BoolVar(&generateOpt.BOM, "bom", false, "Add bom")
+	cmdGenerate.Flag.BoolVar(&generateOpt.BOM, "b", false, "Add bom")
 }
 
 // runGenerate executes generate command and return exit code.
 func runGenerate(args []string) int {
 	success := false
-	path, err := path(args)
-	if err != nil {
-		return handleError(err)
-	}
-
-	w, wf, err := writer(path, false)
+	w, wf, err := writer("", false)
 	if err != nil {
 		return handleError(err)
 	}

@@ -85,5 +85,8 @@ func backup(path string) (*os.File, error) {
 }
 
 func split(s string) []string {
+	if s == "" {
+		return nil
+	}
 	return strings.Split(s, ":")
 }
