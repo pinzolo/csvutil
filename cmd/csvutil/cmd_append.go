@@ -39,9 +39,9 @@ OPTIONS
             If this option is not given, new header texts are set with column1, column2...
 
         -s, --size
-            Appending column size.
-            If size is less than header length, use header size.
-            If size is greater than header length, use this.
+            Appending column size. Default is 1
+            If size is less than header length, ignore unused header(s).
+            If size is greater than header length, append default header(s).
 	`,
 }
 
@@ -68,8 +68,8 @@ func init() {
 	cmdAppend.Flag.StringVar(&appendOpt.Encoding, "e", "utf8", "Encoding of source file")
 	cmdAppend.Flag.StringVar(&appendOpt.Header, "header", "", "Appending header(s)")
 	cmdAppend.Flag.StringVar(&appendOpt.Header, "h", "", "Appending header(s)")
-	cmdAppend.Flag.IntVar(&appendOpt.Size, "size", 0, "Appending column size")
-	cmdAppend.Flag.IntVar(&appendOpt.Size, "s", 0, "Appending column size")
+	cmdAppend.Flag.IntVar(&appendOpt.Size, "size", 1, "Appending column size")
+	cmdAppend.Flag.IntVar(&appendOpt.Size, "s", 1, "Appending column size")
 }
 
 // runAppend executes append command and return exit code.
