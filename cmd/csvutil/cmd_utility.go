@@ -24,7 +24,7 @@ func path(args []string) (string, error) {
 		if !terminal.IsTerminal(0) {
 			return "", nil
 		}
-		return "", errors.New("Required file path or CSV source.")
+		return "", errors.New("no file and source")
 	}
 	return args[0], nil
 }
@@ -36,7 +36,7 @@ func writer(path string, overwrite bool) (io.Writer, func(*bool, bool), error) {
 	if overwrite {
 		tmp, err := ioutil.TempFile("", "")
 		if err != nil {
-			return nil, nil, errors.Wrap(err, "Failed create tempfile")
+			return nil, nil, errors.Wrap(err, "failed create tempfile")
 		}
 		finisher := func(success *bool, bak bool) {
 			tmp.Close()
@@ -61,7 +61,7 @@ func reader(path string) (io.Reader, func(), error) {
 
 	src, err := os.Open(path)
 	if err != nil {
-		return nil, nil, errors.Wrap(err, "Failed open file")
+		return nil, nil, errors.Wrap(err, "failed open file")
 	}
 	return openWithCloser(src)
 }
@@ -79,7 +79,7 @@ func backup(path string) (*os.File, error) {
 	dst := strings.TrimSuffix(path, ext) + "." + time.Now().Format("20060102150405") + ext
 	err := os.Rename(path, dst)
 	if err != nil {
-		return nil, errors.Wrap(err, "Cannot move")
+		return nil, errors.Wrap(err, "cannot move")
 	}
 	return os.Open(dst)
 }
