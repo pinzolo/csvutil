@@ -74,6 +74,7 @@ func init() {
 
 // runAppend executes append command and return exit code.
 func runAppend(args []string) int {
+	success := false
 	path, err := path(args)
 	if err != nil {
 		return handleError(err)
@@ -84,10 +85,10 @@ func runAppend(args []string) int {
 		return handleError(err)
 	}
 	if wf != nil {
-		defer wf()
+		defer wf(&success, appendOpt.Backup)
 	}
 
-	r, rf, err := reader(path, appendOpt.Backup)
+	r, rf, err := reader(path)
 	if err != nil {
 		return handleError(err)
 	}
@@ -102,5 +103,6 @@ func runAppend(args []string) int {
 		return handleError(err)
 	}
 
+	success = true
 	return 0
 }

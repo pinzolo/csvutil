@@ -89,6 +89,7 @@ func init() {
 
 // runBlank executes blank command and return exit code.
 func runBlank(args []string) int {
+	success := false
 	path, err := path(args)
 	if err != nil {
 		return handleError(err)
@@ -99,10 +100,10 @@ func runBlank(args []string) int {
 		return handleError(err)
 	}
 	if wf != nil {
-		defer wf()
+		defer wf(&success, blankOpt.Backup)
 	}
 
-	r, rf, err := reader(path, blankOpt.Backup)
+	r, rf, err := reader(path)
 	if err != nil {
 		return handleError(err)
 	}
@@ -117,5 +118,6 @@ func runBlank(args []string) int {
 		return handleError(err)
 	}
 
+	success = true
 	return 0
 }

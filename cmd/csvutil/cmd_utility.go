@@ -29,7 +29,7 @@ func path(args []string) (string, error) {
 	return args[0], nil
 }
 
-func writer(path string, overwrite bool) (io.Writer, func(), error) {
+func writer(path string, overwrite bool) (io.Writer, func(*bool, bool), error) {
 	if path == "" {
 		return os.Stdout, nil, nil
 	}
@@ -38,25 +38,25 @@ func writer(path string, overwrite bool) (io.Writer, func(), error) {
 		if err != nil {
 			return nil, nil, errors.Wrap(err, "Failed create tempfile")
 		}
-		finisher := func() {
+		finisher := func(success *bool, bak bool) {
 			tmp.Close()
-			os.Rename(tmp.Name(), path)
+			if *success {
+				if bak {
+					backup(path)
+				}
+				if overwrite {
+					os.Rename(tmp.Name(), path)
+				}
+			}
 		}
 		return tmp, finisher, nil
 	}
 	return os.Stdout, nil, nil
 }
 
-func reader(path string, bak bool) (io.Reader, func(), error) {
+func reader(path string) (io.Reader, func(), error) {
 	if path == "" {
 		return os.Stdin, nil, nil
-	}
-	if bak {
-		src, err := backup(path)
-		if err != nil {
-			return nil, nil, errors.Wrap(err, "Failed backup")
-		}
-		return openWithCloser(src)
 	}
 
 	src, err := os.Open(path)

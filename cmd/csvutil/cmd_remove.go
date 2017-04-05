@@ -68,6 +68,7 @@ func init() {
 
 // runRemove executes remove command and return exit code.
 func runRemove(args []string) int {
+	success := false
 	path, err := path(args)
 	if err != nil {
 		return handleError(err)
@@ -78,10 +79,10 @@ func runRemove(args []string) int {
 		return handleError(err)
 	}
 	if wf != nil {
-		defer wf()
+		defer wf(&success, removeOpt.Backup)
 	}
 
-	r, rf, err := reader(path, removeOpt.Backup)
+	r, rf, err := reader(path)
 	if err != nil {
 		return handleError(err)
 	}
@@ -96,5 +97,6 @@ func runRemove(args []string) int {
 		return handleError(err)
 	}
 
+	success = true
 	return 0
 }
