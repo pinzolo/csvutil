@@ -52,8 +52,8 @@ func init() {
 	cmdGenerate.Flag.StringVar(&generateOpt.Header, "h", "", "Generateing header(s)")
 	cmdGenerate.Flag.IntVar(&generateOpt.Size, "size", 3, "Generateing column size")
 	cmdGenerate.Flag.IntVar(&generateOpt.Size, "s", 3, "Generateing column size")
-	cmdGenerate.Flag.IntVar(&generateOpt.Count, "size", 3, "Generateing line count")
-	cmdGenerate.Flag.IntVar(&generateOpt.Count, "s", 3, "Generateing line count")
+	cmdGenerate.Flag.IntVar(&generateOpt.Count, "count", 3, "Generateing line count")
+	cmdGenerate.Flag.IntVar(&generateOpt.Count, "c", 3, "Generateing line count")
 }
 
 // runGenerate executes generate command and return exit code.
