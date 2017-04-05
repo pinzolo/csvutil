@@ -13,10 +13,10 @@ var cmdGenerate = &Command{
 
 OPTIONS
         -H, --no-header
-            Tel given CSV does not have header line.
+            Output headerless CSV.
 
         -e, --encoding
-            Encoding of source file.
+            Encoding of output CSV.
             This option accepts 'sjis' or 'eucjp'.
             Without this option, csvutil treats CSV file is encoded by UTF-8.
 
