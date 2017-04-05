@@ -59,12 +59,7 @@ func init() {
 // runGenerate executes generate command and return exit code.
 func runGenerate(args []string) int {
 	success := false
-	path, err := path(args)
-	if err != nil {
-		return handleError(err)
-	}
-
-	w, wf, err := writer(path, false)
+	w, wf, err := writer("", false)
 	if err != nil {
 		return handleError(err)
 	}
