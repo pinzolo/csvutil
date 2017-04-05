@@ -5,29 +5,27 @@ import (
 	"testing"
 )
 
-func TestAppendWithoutHeadersAndCount(t *testing.T) {
+func TestAppendWithoutSize(t *testing.T) {
 	r := &bytes.Buffer{}
 	w := &bytes.Buffer{}
 	o := AppendOption{}
-	err := Append(r, w, o)
-	if err == nil {
-		t.Error("Append without headers and count should raise error.")
+	if err := Append(r, w, o); err == nil {
+		t.Error("Append without size should raise error.")
 	}
 }
 
-func TestAppendWithNegativeCount(t *testing.T) {
+func TestAppendWithNegativeSize(t *testing.T) {
 	r := &bytes.Buffer{}
 	w := &bytes.Buffer{}
 	o := AppendOption{
-		Count: -1,
+		Size: -1,
 	}
-	err := Append(r, w, o)
-	if err == nil {
-		t.Error("Append with negative count should raise error.")
+	if err := Append(r, w, o); err == nil {
+		t.Error("Append with negative size should raise error.")
 	}
 }
 
-func TestAppendWithCount(t *testing.T) {
+func TestAppendWithHeadersOnly(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3
 4,5,6
@@ -36,7 +34,23 @@ func TestAppendWithCount(t *testing.T) {
 	r := bytes.NewBuffer([]byte(s))
 	w := &bytes.Buffer{}
 	o := AppendOption{
-		Count: 2,
+		Headers: []string{"foo", "bar"},
+	}
+	if err := Append(r, w, o); err == nil {
+		t.Error("Append without size should raise error.")
+	}
+}
+
+func TestAppendWithSize(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBuffer([]byte(s))
+	w := &bytes.Buffer{}
+	o := AppendOption{
+		Size: 2,
 	}
 	if err := Append(r, w, o); err != nil {
 		t.Error(err)
@@ -52,7 +66,7 @@ func TestAppendWithCount(t *testing.T) {
 	}
 }
 
-func TestAppendWithHeaders(t *testing.T) {
+func TestAppendWithGreaterSizeThanHeadersLength(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3
 4,5,6
@@ -62,32 +76,7 @@ func TestAppendWithHeaders(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := AppendOption{
 		Headers: []string{"foo", "bar"},
-	}
-	if err := Append(r, w, o); err != nil {
-		t.Error(err)
-	}
-
-	expected := `aaa,bbb,ccc,foo,bar
-1,2,3,,
-4,5,6,,
-7,8,9,,
-`
-	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
-	}
-}
-
-func TestAppendWithGreaterCountThanHeadersLength(t *testing.T) {
-	s := `aaa,bbb,ccc
-1,2,3
-4,5,6
-7,8,9
-`
-	r := bytes.NewBuffer([]byte(s))
-	w := &bytes.Buffer{}
-	o := AppendOption{
-		Headers: []string{"foo", "bar"},
-		Count:   3,
+		Size:    3,
 	}
 	if err := Append(r, w, o); err != nil {
 		t.Error(err)
@@ -103,7 +92,7 @@ func TestAppendWithGreaterCountThanHeadersLength(t *testing.T) {
 	}
 }
 
-func TestAppendWithLessCountThanHeadersLength(t *testing.T) {
+func TestAppendWithLessSizeThanHeadersLength(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3
 4,5,6
@@ -113,23 +102,23 @@ func TestAppendWithLessCountThanHeadersLength(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := AppendOption{
 		Headers: []string{"foo", "bar", "baz"},
-		Count:   2,
+		Size:    2,
 	}
 	if err := Append(r, w, o); err != nil {
 		t.Error(err)
 	}
 
-	expected := `aaa,bbb,ccc,foo,bar,baz
-1,2,3,,,
-4,5,6,,,
-7,8,9,,,
+	expected := `aaa,bbb,ccc,foo,bar
+1,2,3,,
+4,5,6,,
+7,8,9,,
 `
 	if actual := w.String(); actual != expected {
 		t.Errorf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
-func TestAppendWithLessCountThanHeadersLengthButNoHeader(t *testing.T) {
+func TestAppendWithLessSizeThanHeadersLengthButNoHeader(t *testing.T) {
 	s := `1,2,3
 4,5,6
 7,8,9
@@ -138,16 +127,16 @@ func TestAppendWithLessCountThanHeadersLengthButNoHeader(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := AppendOption{
 		Headers:  []string{"foo", "bar", "baz"},
-		Count:    2,
+		Size:     2,
 		NoHeader: true,
 	}
 	if err := Append(r, w, o); err != nil {
 		t.Error(err)
 	}
 
-	expected := `1,2,3,,,
-4,5,6,,,
-7,8,9,,,
+	expected := `1,2,3,,
+4,5,6,,
+7,8,9,,
 `
 	if actual := w.String(); actual != expected {
 		t.Errorf("Expectd: %s, but got %s", expected, actual)

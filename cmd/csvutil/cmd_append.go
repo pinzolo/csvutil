@@ -38,10 +38,10 @@ OPTIONS
             To target multi headers, use semicolon separated value like foo:bar.
             If this option is not given, new header texts are set with column1, column2...
 
-        -c, --count
-            Appending column count.
-            If count is less than header length, use header size.
-            If count is greater than header length, use this coun.
+        -s, --size
+            Appending column size.
+            If size is less than header length, use header size.
+            If size is greater than header length, use this.
 	`,
 }
 
@@ -66,10 +66,10 @@ func init() {
 	cmdAppend.Flag.BoolVar(&appendOpt.Backup, "b", false, "Backup source file.")
 	cmdAppend.Flag.StringVar(&appendOpt.Encoding, "encoding", "utf8", "Encoding of source file")
 	cmdAppend.Flag.StringVar(&appendOpt.Encoding, "e", "utf8", "Encoding of source file")
-	cmdAppend.Flag.StringVar(&appendOpt.Header, "header", "", "Header symbols")
-	cmdAppend.Flag.StringVar(&appendOpt.Header, "h", "", "Header symbols")
-	cmdAppend.Flag.IntVar(&appendOpt.Count, "count", 0, "Space character count")
-	cmdAppend.Flag.IntVar(&appendOpt.Count, "c", 0, "Space character count")
+	cmdAppend.Flag.StringVar(&appendOpt.Header, "header", "", "Appending header(s)")
+	cmdAppend.Flag.StringVar(&appendOpt.Header, "h", "", "Appending header(s)")
+	cmdAppend.Flag.IntVar(&appendOpt.Size, "size", 0, "Appending column size")
+	cmdAppend.Flag.IntVar(&appendOpt.Size, "s", 0, "Appending column size")
 }
 
 // runAppend executes append command and return exit code.

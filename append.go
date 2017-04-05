@@ -15,36 +15,26 @@ type AppendOption struct {
 	Encoding string
 	// Headers is appending header list.
 	Headers []string
-	// Count is appending column count.
-	Count int
+	// Size is appending column size.
+	Size int
 }
 
 func (o AppendOption) validate() error {
-	if o.Count < 0 {
-		return errors.New("negative count")
-	}
-	if o.Count == 0 && len(o.Headers) == 0 {
-		return errors.New("required count or headers")
+	if o.Size <= 0 {
+		return errors.New("negative or zero size")
 	}
 	return nil
 }
 
-func (o AppendOption) appendingCount() int {
-	if len(o.Headers) > o.Count {
-		return len(o.Headers)
-	}
-	return o.Count
-}
-
 func (o AppendOption) appendingHeaders() []string {
-	if len(o.Headers) > o.Count {
-		return o.Headers
-	}
-
-	hdr := make([]string, o.Count)
-	copy(hdr, o.Headers)
-	for i := 0; i < o.Count-len(o.Headers); i++ {
-		hdr[len(o.Headers)+i] = "column" + strconv.Itoa(i+1)
+	hdr := make([]string, o.Size)
+	hl := len(o.Headers)
+	for i := 0; i < o.Size; i++ {
+		if hl > i {
+			hdr[i] = o.Headers[i]
+			continue
+		}
+		hdr[i] = "column" + strconv.Itoa(i-hl+1)
 	}
 	return hdr
 }
@@ -76,7 +66,7 @@ func Append(r io.Reader, w io.Writer, o AppendOption) error {
 			cw.Write(hdr)
 			continue
 		}
-		for i := 0; i < o.appendingCount(); i++ {
+		for i := 0; i < o.Size; i++ {
 			rec = append(rec, "")
 		}
 		cw.Write(rec)
