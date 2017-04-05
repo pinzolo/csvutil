@@ -46,7 +46,7 @@ func (o GenerateOption) actualHeaders() []string {
 	return hdr
 }
 
-// Generate empty values to end of each lines.
+// Generate empty values CSV.
 func Generate(w io.Writer, o GenerateOption) error {
 	if err := o.validate(); err != nil {
 		return errors.Wrap(err, "invalid option")
