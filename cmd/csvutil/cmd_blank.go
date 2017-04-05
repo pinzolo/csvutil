@@ -113,7 +113,7 @@ func runBlank(args []string) int {
 
 	opt := blankOpt.BlankOption
 	opt.ColumnSyms = split(blankOpt.Column)
-	err = csvutil.Blank(r, w, blankOpt.BlankOption)
+	err = csvutil.Blank(r, w, opt)
 	if err != nil {
 		return handleError(err)
 	}

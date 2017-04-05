@@ -98,7 +98,7 @@ func runAppend(args []string) int {
 
 	opt := appendOpt.AppendOption
 	opt.Headers = split(appendOpt.Header)
-	err = csvutil.Append(r, w, appendOpt.AppendOption)
+	err = csvutil.Append(r, w, opt)
 	if err != nil {
 		return handleError(err)
 	}

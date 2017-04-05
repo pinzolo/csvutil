@@ -92,7 +92,7 @@ func runRemove(args []string) int {
 
 	opt := removeOpt.RemoveOption
 	opt.ColumnSyms = split(removeOpt.Column)
-	err = csvutil.Remove(r, w, removeOpt.RemoveOption)
+	err = csvutil.Remove(r, w, opt)
 	if err != nil {
 		return handleError(err)
 	}
