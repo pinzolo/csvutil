@@ -7,31 +7,35 @@ import (
 var cmdGenerate = &Command{
 	Run:       runGenerate,
 	UsageLine: "generate [OPTIONS...]",
-	Short:     "Generate CSV that have no values.",
+	Short:     "CSVの新規生成",
 	Long: `DESCRIPTION
-        Generate CSV that have no values.
+        全ての値が空のCSVを新規に出力します。
 
 OPTIONS
         -H, --no-header
-            Output headerless CSV.
+            このオプションを指定すると、ヘッダーの無いCSVを出力します。
 
         -oe, --output-encoding
-            Encoding for output.
-            This option accepts 'sjis', 'eucjp', 'utf8' or 'utf8bom'.
-            Without this option, using 'utf8'.
+            出力するCSVの文字エンコーディングを指定します。
+            このオプションが指定されていない場合 --encoding オプションで指定されたエンコーディングとして出力します。
+            対応している値:
+                utf8    : UTF-8として出力します（BOMは出力しません）
+                utf8bom : UTF-8として出力します（BOMは出力します）
+                sjis    : Shift_JISとして出力します
+                eucjp   : EUC_JP として出力します
 
         -h, --header
-            Generateing header text.
-            To target multi headers, use semicolon separated value like foo:bar.
-            If this option is not given, new header texts are set with column1, column2...
+            新規に追加する列のヘッダーテキストを指定します。
+            複数のヘッダーテキストを指定する場合には、foo:bar のようにコロン区切りにします。
+            このオプションが指定されていない場合、もしくは指定したヘッダーが --size オプションの値に足りない場合には、
+            column1,column2... のように連番のヘッダーが自動で付与されます。
+            また --size オプションの値を超えた場合は、超えた分が無視されます。
 
         -s, --size
-            Generateing column size. Default size is 3.
-            If size is less than header length, ignore unused header(s).
-            If size is greater than header length, append default header(s).
+            生成する列の数を指定します。初期値は 3 です。
 
         -c, --count
-            Generateing line count. Default count is 3.
+            生成する行の数を指定します。初期値は 3 です。
 	`,
 }
 

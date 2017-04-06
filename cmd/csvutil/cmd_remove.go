@@ -7,42 +7,49 @@ import (
 var cmdRemove = &Command{
 	Run:       runRemove,
 	UsageLine: "remove [OPTIONS...] [FILE]",
-	Short:     "Remove column(s) in CSV.",
+	Short:     "列削除",
 	Long: `DESCRIPTION
-        Remove column(s) in CSV.
+        指定された列を削除したCSVを出力します。
 
 ARGUMENTS
         FILE
-            Source CSV file.
-            Without FILE argument, read from STDIN.
+            ソースとなる CSV ファイルのパスを指定します。
+            パスが指定されていない場合、標準入力が対象となりパイプでの使用ができます。
 
 OPTIONS
         -w, --overwrite
-            Overwrite source file by replaced CSV.
-            This option does not work when file is not given.
+            指定されたCSVファイルを実行結果で上書きします。
+            ファイルパスが渡されていない場合には無視されます。
 
         -H, --no-header
-            Tel given CSV does not have header line.
+            ソースとなるCSVの1行目をヘッダー列として扱いません。
 
         -b, --backup
-            Create backup file before replace.
-            This option should be used with --overwrite option.
+            処理が成功した場合に、指定されたCSVファイルをバックアップします。
+            --overwrite オプションと同時に使用されることを想定しているため、ファイルパスが渡されていない場合には無視されます。
 
         -e, --encoding
-            Encoding of source file.
-            This option accepts 'sjis' or 'eucjp'.
-            Without this option, csvutil treats CSV file is encoded by UTF-8.
+            ソースとなるCSVの文字エンコーディングを指定します。
+            このオプションが指定されていない場合、csvutil はUTF-8とみなして処理を行います。
+            UTF-8であった場合、BOMのあるなしは自動的に判別されます。
+            対応している値:
+                sjis : Shift_JISとして扱います
+                eucjp: EUC_JP として扱います
 
         -oe, --output-encoding
-            Encoding for output.
-            This option accepts 'sjis', 'eucjp', 'utf8' or 'utf8bom'.
-            Without this option, using --encoding option (or default).
+            出力するCSVの文字エンコーディングを指定します。
+            このオプションが指定されていない場合 --encoding オプションで指定されたエンコーディングとして出力します。
+            対応している値:
+                utf8    : UTF-8として出力します（BOMは出力しません）
+                utf8bom : UTF-8として出力します（BOMは出力します）
+                sjis    : Shift_JISとして出力します
+                eucjp   : EUC_JP として出力します
 
         -c, --column
-            Target column symbol(s).
-            Column symbol accepts column index or column header text.
-            If --no-header option is used, this option accepts only column index.
-            To target multi columns, use semicolon separated value like foo:bar and 1:2.
+            削除する列のシンボルを指定します。
+            列のシンボルとは列のインデックス（0開始）、もしくはヘッダーテキストです。
+            --no-header オプションが指定された場合、インデックスしか受け入れません。
+            複数列を対象としたい場合は、foo:bar や 1:2のようにコロン区切りで指定して下さい。
 	`,
 }
 
