@@ -2,7 +2,6 @@ package csvutil
 
 import (
 	"encoding/csv"
-	"fmt"
 	"io"
 	"math/rand"
 	"unicode"
@@ -21,7 +20,6 @@ func reader(r io.Reader, enc string) (*csv.Reader, bool) {
 }
 
 func writer(w io.Writer, bom bool, enc string) *csv.Writer {
-	fmt.Println(enc)
 	if enc == "sjis" {
 		return NewWriterWithEnc(w, japanese.ShiftJIS)
 	} else if enc == "eucjp" {
