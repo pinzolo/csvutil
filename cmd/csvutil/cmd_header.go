@@ -23,7 +23,7 @@ OPTIONS
             UTF-8であった場合、BOMのあるなしは自動的に判別されます。
             対応している値:
                 sjis : Shift_JISとして扱います
-                eucjp: EUC_JP として扱います
+                eucjp: EUC_JPとして扱います
 
         -oe, --output-encoding
             出力するCSVの文字エンコーディングを指定します。
@@ -32,7 +32,7 @@ OPTIONS
                 utf8    : UTF-8として出力します（BOMは出力しません）
                 utf8bom : UTF-8として出力します（BOMは出力します）
                 sjis    : Shift_JISとして出力します
-                eucjp   : EUC_JP として出力します
+                eucjp   : EUC_JPとして出力します
 
         -i, --index
             このオプションを指定すると、列のインデックスも合わせて出力します。

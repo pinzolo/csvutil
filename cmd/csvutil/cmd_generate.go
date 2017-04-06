@@ -22,7 +22,7 @@ OPTIONS
                 utf8    : UTF-8として出力します（BOMは出力しません）
                 utf8bom : UTF-8として出力します（BOMは出力します）
                 sjis    : Shift_JISとして出力します
-                eucjp   : EUC_JP として出力します
+                eucjp   : EUC_JPとして出力します
 
         -h, --header
             新規に追加する列のヘッダーテキストを指定します。

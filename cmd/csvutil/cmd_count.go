@@ -28,8 +28,8 @@ OPTIONS
             このオプションが指定されていない場合、csvutil はUTF-8とみなして処理を行います。
             UTF-8であった場合、BOMのあるなしは自動的に判別されます。
             対応している値:
-                sjis : Shift_JISとして扱います
-                eucjp: EUC_JP として扱います
+                sjis : Shift_JIS として扱います
+                eucjp: EUC_JPとして扱います
 	`,
 }
 
