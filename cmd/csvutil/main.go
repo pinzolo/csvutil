@@ -9,6 +9,8 @@ import (
 	"os"
 	"strings"
 	"text/template"
+
+	"github.com/pinzolo/csvutil"
 )
 
 // A Command is an implementation of a csvutil command
@@ -79,6 +81,11 @@ func main() {
 
 	if args[0] == "help" {
 		help(args[1:])
+		return
+	}
+
+	if args[0] == "version" {
+		fmt.Fprintf(os.Stdout, "csvutil version %s\n", csvutil.Version)
 		return
 	}
 
