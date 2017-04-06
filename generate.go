@@ -19,8 +19,6 @@ type GenerateOption struct {
 	Size int
 	// Count is generating line count.
 	Count int
-	// Set BOM when encoding is utf8.
-	BOM bool
 }
 
 func (o GenerateOption) validate() error {
@@ -52,7 +50,7 @@ func Generate(w io.Writer, o GenerateOption) error {
 		return errors.Wrap(err, "invalid option")
 	}
 
-	cw := writer(w, o.BOM, o.OutputEncoding)
+	cw := writer(w, false, o.OutputEncoding)
 	defer cw.Flush()
 	if !o.NoHeader {
 		cw.Write(o.actualHeaders())
