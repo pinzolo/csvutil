@@ -7,57 +7,68 @@ import (
 var cmdBlank = &Command{
 	Run:       runBlank,
 	UsageLine: "blank [OPTIONS...] [FILE]",
-	Short:     "Replace column value(s) by empty or blank string.",
+	Short:     "列の空白可",
 	Long: `DESCRIPTION
-        Replace column value(s) by empty or blank string.
+        指定した列の値を削除、もしくは特定の空白文字で置き換えます。
 
 ARGUMENTS
         FILE
-            Source CSV file.
-            Without FILE argument, read from STDIN.
+            ソースとなる CSV ファイルのパスを指定します。
+            パスが指定されていない場合、標準入力が対象となりパイプでの使用ができます。
 
 OPTIONS
         -w, --overwrite
-            Overwrite source file by replaced CSV.
-            This option does not work when file is not given.
+            指定されたCSVファイルを実行結果で上書きします。
+            ファイルパスが渡されていない場合には無視されます。
 
         -H, --no-header
-            Tel given CSV does not have header line.
+            ソースとなるCSVの1行目をヘッダー列として扱いません。
 
         -b, --backup
-            Create backup file before replace.
-            This option should be used with --overwrite option.
+            処理が成功した場合に、指定されたCSVファイルをバックアップします。
+            --overwrite オプションと同時に使用されることを想定しているため、ファイルパスが渡されていない場合には無視されます。
 
         -e, --encoding
-            Encoding of source file.
-            This option accepts 'sjis' or 'eucjp'.
-            Without this option, csvutil treats CSV file is encoded by UTF-8.
+            ソースとなるCSVの文字エンコーディングを指定します。
+            このオプションが指定されていない場合、csvutil はUTF-8とみなして処理を行います。
+            UTF-8であった場合、BOMのあるなしは自動的に判別されます。
+            対応している値:
+                sjis : Shift_JISとして扱います
+                eucjp: EUC_JP として扱います
 
         -oe, --output-encoding
-            Encoding for output.
-            This option accepts 'sjis', 'eucjp', 'utf8' or 'utf8bom'.
-            Without this option, using --encoding option (or default).
+            出力するCSVの文字エンコーディングを指定します。
+            このオプションが指定されていない場合 --encoding オプションで指定されたエンコーディングとして出力します。
+            対応している値:
+                utf8    : UTF-8として出力します（BOMは出力しません）
+                utf8bom : UTF-8として出力します（BOMは出力します）
+                sjis    : Shift_JISとして出力します
+                eucjp   : EUC_JP として出力します
 
         -c, --column
-            Target column symbol(s).
-            Column symbol accepts column index or column header text.
-            If --no-header option is used, this option accepts only column index.
-            To target multi columns, use semicolon separated value like foo:bar and 1:2.
+            対象となる列のシンボルを指定します。
+            列のシンボルとは列のインデックス（0開始）、もしくはヘッダーテキストです。
+            --no-header オプションが指定された場合、インデックスしか受け入れません。
+            複数列を対象としたい場合は、foo:bar や 1:2のようにコロン区切りで指定して下さい。
 
         -r, --rate
-            Percentage of replace rate. Without this option, always replace CSV value.
-            Use this option to make discreta data.
+            空白可する割合を指定します。0〜100までの整数を指定して下さい。
+            指定しない場合、100%空白化します。
 
         -sw, --space-width
-            Width of space character.
-            0: empty string (default)
-            1: ASCII space [0x20]
-            2: Multi byte space [0xE3 0x80 0x80]
+            空白化に指定する空白文字を数字で指定します。
+                0: 空文字（初期値）
+                1: 半角スペース [0x20]
+                2: 全角スペース [0xE3 0x80 0x80]
 
         --ss, --space-size
-            Count of space characters. (default 0)
-            If space size is 2 and space width is 1 then value replaced by "  ". (2 ASCII space characters).
-            If space size is 3 and space width is 2 then value replaced by "　　　". (3 multi byte space characters).
+            空白化する際に --space-width で指定した文字を何回繰り返すかを指定します。
+            初期値が0なので --space-width も指定しないと必ず空文字での空白可を行います。
+            例:
+                --space-size が 0 で --space-width が 1 ならば空文字
+                --space-size が 1 で --space-width が 0 ならば空文字
+                --space-size が 2 で --space-width が 1 ならば "  " (半角スペース2つ）
+                --space-size が 3 で --space-width が 2 ならば "　　　" (全角スペース3つ）
 	`,
 }
 

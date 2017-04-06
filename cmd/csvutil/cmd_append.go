@@ -7,46 +7,54 @@ import (
 var cmdAppend = &Command{
 	Run:       runAppend,
 	UsageLine: "append [OPTIONS...] [FILE]",
-	Short:     "Append empty values to CSV each line.",
+	Short:     "列追加",
 	Long: `DESCRIPTION
-        Append empty values to CSV each line.
+        指定されたCSVの末尾に新規に列を追加したCSVを出力します。
+        追加された列の値は空です。
 
 ARGUMENTS
         FILE
-            Source CSV file.
-            Without FILE argument, read from STDIN.
+            ソースとなる CSV ファイルのパスを指定します。
+            パスが指定されていない場合、標準入力が対象となりパイプでの使用ができます。
 
 OPTIONS
         -w, --overwrite
-            Overwrite source file by replaced CSV.
-            This option does not work when file is not given.
+            指定されたCSVファイルを実行結果で上書きします。
+            ファイルパスが渡されていない場合には無視されます。
 
         -H, --no-header
-            Tel given CSV does not have header line.
+            ソースとなるCSVの1行目をヘッダー列として扱いません。
 
         -b, --backup
-            Create backup file before replace.
-            This option should be used with --overwrite option.
+            処理が成功した場合に、指定されたCSVファイルをバックアップします。
+            --overwrite オプションと同時に使用されることを想定しているため、ファイルパスが渡されていない場合には無視されます。
 
         -e, --encoding
-            Encoding of source file.
-            This option accepts 'sjis' or 'eucjp'.
-            Without this option, csvutil treats CSV file is encoded by UTF-8.
+            ソースとなるCSVの文字エンコーディングを指定します。
+            このオプションが指定されていない場合、csvutil はUTF-8とみなして処理を行います。
+            UTF-8であった場合、BOMのあるなしは自動的に判別されます。
+            対応している値:
+                sjis : Shift_JISとして扱います
+                eucjp: EUC_JP として扱います
 
         -oe, --output-encoding
-            Encoding for output.
-            This option accepts 'sjis', 'eucjp', 'utf8' or 'utf8bom'.
-            Without this option, using --encoding option (or default).
+            出力するCSVの文字エンコーディングを指定します。
+            このオプションが指定されていない場合 --encoding オプションで指定されたエンコーディングとして出力します。
+            対応している値:
+                utf8    : UTF-8として出力します（BOMは出力しません）
+                utf8bom : UTF-8として出力します（BOMは出力します）
+                sjis    : Shift_JISとして出力します
+                eucjp   : EUC_JP として出力します
 
         -h, --header
-            Appending header text.
-            To target multi headers, use semicolon separated value like foo:bar.
-            If this option is not given, new header texts are set with column1, column2...
+            新規に追加する列のヘッダーテキストを指定します。
+            複数のヘッダーテキストを指定する場合には、foo:bar のようにコロン区切りにします。
+            このオプションが指定されていない場合、もしくは指定したヘッダーが --size オプションの値に足りない場合には、
+            column1,column2... のように連番のヘッダーが自動で付与されます。
+            また --size オプションの値を超えた場合は、超えた分が無視されます。
 
         -s, --size
-            Appending column size. Default is 1
-            If size is less than header length, ignore unused header(s).
-            If size is greater than header length, append default header(s).
+            追加する列の数を指定します。初期値は 1 です。
 	`,
 }
 

@@ -7,32 +7,39 @@ import (
 var cmdHeader = &Command{
 	Run:       runHeader,
 	UsageLine: "header [OPTIONS...] [FILE]",
-	Short:     "Header CSV that have no values.",
+	Short:     "ヘッダー読取",
 	Long: `DESCRIPTION
-        Header CSV that have no values.
+        CSVのヘッダーだけを読込、1列1行として出力します。
 
 ARGUMENTS
         FILE
-            Source CSV file.
-            Without FILE argument, read from STDIN.
+            ソースとなる CSV ファイルのパスを指定します。
+            パスが指定されていない場合、標準入力が対象となりパイプでの使用ができます。
 
 OPTIONS
         -e, --encoding
-            Encoding of source file.
-            This option accepts 'sjis' or 'eucjp'.
-            Without this option, csvutil treats CSV file is encoded by UTF-8.
+            ソースとなるCSVの文字エンコーディングを指定します。
+            このオプションが指定されていない場合、csvutil はUTF-8とみなして処理を行います。
+            UTF-8であった場合、BOMのあるなしは自動的に判別されます。
+            対応している値:
+                sjis : Shift_JISとして扱います
+                eucjp: EUC_JP として扱います
 
         -oe, --output-encoding
-            Encoding for output.
-            This option accepts 'sjis', 'eucjp', 'utf8' or 'utf8bom'.
-            Without this option, using --encoding option (or default).
+            出力するCSVの文字エンコーディングを指定します。
+            このオプションが指定されていない場合 --encoding オプションで指定されたエンコーディングとして出力します。
+            対応している値:
+                utf8    : UTF-8として出力します（BOMは出力しません）
+                utf8bom : UTF-8として出力します（BOMは出力します）
+                sjis    : Shift_JISとして出力します
+                eucjp   : EUC_JP として出力します
 
         -i, --index
-            Print header with index.
+            このオプションを指定すると、列のインデックスも合わせて出力します。
 
         -io, --index-origin
-            Start number of index.
-            If --index option is not given, this option is ignored.
+            インデックスの開始値を指定します。初期値は 0 です。
+            --index オプションが指定されていない場合、このオプションは無視されます。
 	`,
 }
 
