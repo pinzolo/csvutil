@@ -11,8 +11,8 @@ import (
 type GenerateOption struct {
 	// Source file does not have header line. (default false)
 	NoHeader bool
-	// Encoding of source file. (default utf8)
-	Encoding string
+	// Encoding for output.
+	OutputEncoding string
 	// Headers is appending header list.
 	Headers []string
 	// Size is generating column size.
@@ -52,7 +52,7 @@ func Generate(w io.Writer, o GenerateOption) error {
 		return errors.Wrap(err, "invalid option")
 	}
 
-	cw := writer(w, o.BOM, o.Encoding)
+	cw := writer(w, o.BOM, o.OutputEncoding)
 	defer cw.Flush()
 	if !o.NoHeader {
 		cw.Write(o.actualHeaders())

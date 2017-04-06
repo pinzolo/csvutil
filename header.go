@@ -11,16 +11,25 @@ import (
 type HeaderOption struct {
 	// Encoding of source file. (default utf8)
 	Encoding string
+	// Encoding for output.
+	OutputEncoding string
 	// Print index
 	Index bool
 	// Index origin number
 	IndexOrigin int
 }
 
+func (o HeaderOption) outputEncoding() string {
+	if o.OutputEncoding != "" {
+		return o.OutputEncoding
+	}
+	return o.Encoding
+}
+
 // Header print headers of CSV.
 func Header(r io.Reader, w io.Writer, o HeaderOption) error {
 	cr, bom := reader(r, o.Encoding)
-	cw := writer(w, bom, o.Encoding)
+	cw := writer(w, bom, o.outputEncoding())
 	cw.Comma = '\t'
 	defer cw.Flush()
 

@@ -13,6 +13,8 @@ type BlankOption struct {
 	NoHeader bool
 	// Encoding of source file. (default utf8)
 	Encoding string
+	// Encoding for output.
+	OutputEncoding string
 	// ColumnSyms header or column index list.
 	ColumnSyms []string
 	// Rate of fill
@@ -49,6 +51,13 @@ func (o BlankOption) validate() error {
 	return nil
 }
 
+func (o BlankOption) outputEncoding() string {
+	if o.OutputEncoding != "" {
+		return o.OutputEncoding
+	}
+	return o.Encoding
+}
+
 // Blank overwrite value of given column by empty or spaces.
 func Blank(r io.Reader, w io.Writer, o BlankOption) error {
 	if err := o.validate(); err != nil {
@@ -56,7 +65,7 @@ func Blank(r io.Reader, w io.Writer, o BlankOption) error {
 	}
 
 	cr, bom := reader(r, o.Encoding)
-	cw := writer(w, bom, o.Encoding)
+	cw := writer(w, bom, o.outputEncoding())
 	defer cw.Flush()
 
 	var cols []*column

@@ -33,6 +33,11 @@ OPTIONS
             This option accepts 'sjis' or 'eucjp'.
             Without this option, csvutil treats CSV file is encoded by UTF-8.
 
+        -oe, --output-encoding
+            Encoding for output.
+            This option accepts 'sjis', 'eucjp', 'utf8' or 'utf8bom'.
+            Without this option, using --encoding option (or default).
+
         -c, --column
             Target column symbol(s).
             Column symbol accepts column index or column header text.
@@ -77,6 +82,8 @@ func init() {
 	cmdBlank.Flag.BoolVar(&blankOpt.Backup, "b", false, "Backup source file.")
 	cmdBlank.Flag.StringVar(&blankOpt.Encoding, "encoding", "utf8", "Encoding of source file")
 	cmdBlank.Flag.StringVar(&blankOpt.Encoding, "e", "utf8", "Encoding of source file")
+	cmdBlank.Flag.StringVar(&blankOpt.OutputEncoding, "output-encoding", "", "Encoding for output")
+	cmdBlank.Flag.StringVar(&blankOpt.OutputEncoding, "oe", "", "Encoding for output")
 	cmdBlank.Flag.StringVar(&blankOpt.Column, "column", "", "Column symbol")
 	cmdBlank.Flag.StringVar(&blankOpt.Column, "c", "", "Column symbol")
 	cmdBlank.Flag.IntVar(&blankOpt.Rate, "rate", 100, "Filling rate")

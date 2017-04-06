@@ -15,10 +15,10 @@ OPTIONS
         -H, --no-header
             Output headerless CSV.
 
-        -e, --encoding
-            Encoding of output CSV.
-            This option accepts 'sjis' or 'eucjp'.
-            Without this option, csvutil treats CSV file is encoded by UTF-8.
+        -oe, --output-encoding
+            Encoding for output.
+            This option accepts 'sjis', 'eucjp', 'utf8' or 'utf8bom'.
+            Without this option, using 'utf8'.
 
         -h, --header
             Generateing header text.
@@ -50,8 +50,8 @@ var generateOpt = cmdGenerateOption{}
 func init() {
 	cmdGenerate.Flag.BoolVar(&generateOpt.NoHeader, "no-header", false, "Source file does not have header line")
 	cmdGenerate.Flag.BoolVar(&generateOpt.NoHeader, "H", false, "Source file does not have header line")
-	cmdGenerate.Flag.StringVar(&generateOpt.Encoding, "encoding", "utf8", "Encoding of source file")
-	cmdGenerate.Flag.StringVar(&generateOpt.Encoding, "e", "utf8", "Encoding of source file")
+	cmdGenerate.Flag.StringVar(&generateOpt.OutputEncoding, "output-encoding", "utf8", "Encoding for output")
+	cmdGenerate.Flag.StringVar(&generateOpt.OutputEncoding, "oe", "utf8", "Encoding for output")
 	cmdGenerate.Flag.StringVar(&generateOpt.Header, "header", "", "Generateing header(s)")
 	cmdGenerate.Flag.StringVar(&generateOpt.Header, "h", "", "Generateing header(s)")
 	cmdGenerate.Flag.IntVar(&generateOpt.Size, "size", 3, "Generateing column size")

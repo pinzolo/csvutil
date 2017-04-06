@@ -12,6 +12,8 @@ type RemoveOption struct {
 	NoHeader bool
 	// Encoding of source file. (default utf8)
 	Encoding string
+	// Encoding for output.
+	OutputEncoding string
 	// ColumnSyms header or column index list.
 	ColumnSyms []string
 }
@@ -30,6 +32,13 @@ func (o RemoveOption) validate() error {
 	return nil
 }
 
+func (o RemoveOption) outputEncoding() string {
+	if o.OutputEncoding != "" {
+		return o.OutputEncoding
+	}
+	return o.Encoding
+}
+
 // Remove column(s) in CSV.
 func Remove(r io.Reader, w io.Writer, o RemoveOption) error {
 	if err := o.validate(); err != nil {
@@ -37,7 +46,7 @@ func Remove(r io.Reader, w io.Writer, o RemoveOption) error {
 	}
 
 	cr, bom := reader(r, o.Encoding)
-	cw := writer(w, bom, o.Encoding)
+	cw := writer(w, bom, o.outputEncoding())
 	defer cw.Flush()
 
 	var cols []*column

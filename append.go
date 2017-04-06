@@ -13,10 +13,19 @@ type AppendOption struct {
 	NoHeader bool
 	// Encoding of source file. (default utf8)
 	Encoding string
+	// Encoding for output.
+	OutputEncoding string
 	// Headers is appending header list.
 	Headers []string
 	// Size is appending column size.
 	Size int
+}
+
+func (o AppendOption) outputEncoding() string {
+	if o.OutputEncoding != "" {
+		return o.OutputEncoding
+	}
+	return o.Encoding
 }
 
 func (o AppendOption) validate() error {
@@ -46,7 +55,7 @@ func Append(r io.Reader, w io.Writer, o AppendOption) error {
 	}
 
 	cr, bom := reader(r, o.Encoding)
-	cw := writer(w, bom, o.Encoding)
+	cw := writer(w, bom, o.outputEncoding())
 	defer cw.Flush()
 
 	var hdr []string

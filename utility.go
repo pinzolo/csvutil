@@ -2,6 +2,7 @@ package csvutil
 
 import (
 	"encoding/csv"
+	"fmt"
 	"io"
 	"math/rand"
 	"unicode"
@@ -20,10 +21,15 @@ func reader(r io.Reader, enc string) (*csv.Reader, bool) {
 }
 
 func writer(w io.Writer, bom bool, enc string) *csv.Writer {
+	fmt.Println(enc)
 	if enc == "sjis" {
 		return NewWriterWithEnc(w, japanese.ShiftJIS)
 	} else if enc == "eucjp" {
 		return NewWriterWithEnc(w, japanese.EUCJP)
+	} else if enc == "utf8bom" {
+		return NewWriter(w, true)
+	} else if enc == "utf8" {
+		return NewWriter(w, false)
 	} else {
 		return NewWriter(w, bom)
 	}
@@ -39,13 +45,6 @@ func isDigit(s string) bool {
 		}
 	}
 	return true
-}
-
-func isDigitOrEmpty(s string) bool {
-	if s == "" {
-		return true
-	}
-	return isDigit(s)
 }
 
 func lot(n int) bool {

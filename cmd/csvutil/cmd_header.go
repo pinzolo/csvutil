@@ -22,6 +22,11 @@ OPTIONS
             This option accepts 'sjis' or 'eucjp'.
             Without this option, csvutil treats CSV file is encoded by UTF-8.
 
+        -oe, --output-encoding
+            Encoding for output.
+            This option accepts 'sjis', 'eucjp', 'utf8' or 'utf8bom'.
+            Without this option, using --encoding option (or default).
+
         -i, --index
             Print header with index.
 
@@ -40,6 +45,8 @@ var headerOpt = cmdHeaderOption{}
 func init() {
 	cmdHeader.Flag.StringVar(&headerOpt.Encoding, "encoding", "utf8", "Encoding of source file")
 	cmdHeader.Flag.StringVar(&headerOpt.Encoding, "e", "utf8", "Encoding of source file")
+	cmdHeader.Flag.StringVar(&headerOpt.OutputEncoding, "output-encoding", "", "Encoding for output")
+	cmdHeader.Flag.StringVar(&headerOpt.OutputEncoding, "oe", "", "Encoding for output")
 	cmdHeader.Flag.BoolVar(&headerOpt.Index, "index", false, "Print index")
 	cmdHeader.Flag.BoolVar(&headerOpt.Index, "i", false, "Print index")
 	cmdHeader.Flag.IntVar(&headerOpt.IndexOrigin, "index-origin", 0, "Index origin number")

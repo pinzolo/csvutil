@@ -33,6 +33,11 @@ OPTIONS
             This option accepts 'sjis' or 'eucjp'.
             Without this option, csvutil treats CSV file is encoded by UTF-8.
 
+        -oe, --output-encoding
+            Encoding for output.
+            This option accepts 'sjis', 'eucjp', 'utf8' or 'utf8bom'.
+            Without this option, using --encoding option (or default).
+
         -h, --header
             Appending header text.
             To target multi headers, use semicolon separated value like foo:bar.
@@ -66,6 +71,8 @@ func init() {
 	cmdAppend.Flag.BoolVar(&appendOpt.Backup, "b", false, "Backup source file.")
 	cmdAppend.Flag.StringVar(&appendOpt.Encoding, "encoding", "utf8", "Encoding of source file")
 	cmdAppend.Flag.StringVar(&appendOpt.Encoding, "e", "utf8", "Encoding of source file")
+	cmdAppend.Flag.StringVar(&appendOpt.OutputEncoding, "output-encoding", "", "Encoding for output")
+	cmdAppend.Flag.StringVar(&appendOpt.OutputEncoding, "oe", "", "Encoding for output")
 	cmdAppend.Flag.StringVar(&appendOpt.Header, "header", "", "Appending header(s)")
 	cmdAppend.Flag.StringVar(&appendOpt.Header, "h", "", "Appending header(s)")
 	cmdAppend.Flag.IntVar(&appendOpt.Size, "size", 1, "Appending column size")
