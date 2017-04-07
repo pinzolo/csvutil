@@ -54,20 +54,3 @@ func lot(n int) bool {
 	}
 	return rand.Intn(100) < n
 }
-
-func uniqColumns(cols []*column) []*column {
-	var newCols []*column
-	for _, col := range cols {
-		exists := false
-		for _, newCol := range newCols {
-			if newCol.index == col.index {
-				exists = true
-				break
-			}
-		}
-		if col.index != -1 && !exists {
-			newCols = append(newCols, col)
-		}
-	}
-	return newCols
-}

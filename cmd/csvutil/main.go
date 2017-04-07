@@ -60,6 +60,7 @@ var commands = []*Command{
 	cmdEmail,
 	cmdGenerate,
 	cmdHeader,
+	cmdInsert,
 	cmdName,
 	cmdRemove,
 	cmdSize,

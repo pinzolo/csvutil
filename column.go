@@ -50,12 +50,21 @@ func newColumns(syms []string) []*column {
 	return cols
 }
 
+func newColumnWithIndex(sym string, hdr []string) (*column, error) {
+	col := newColumn(sym)
+	err := col.findIndex(hdr)
+	if err != nil {
+		return nil, errors.Wrapf(err, "index not found: %s", col.symbol)
+	}
+	return col, nil
+}
+
 func newColumnsWithIndexes(syms []string, hdr []string) ([]*column, error) {
 	cols := newColumns(syms)
 	for _, col := range cols {
 		err := col.findIndex(hdr)
 		if err != nil {
-			return nil, errors.Wrap(err, "cannot find index")
+			return nil, errors.Wrapf(err, "index not found: %s", col.symbol)
 		}
 	}
 	return cols, nil
@@ -67,4 +76,21 @@ func newUniqueColumns(syms []string, hdr []string) ([]*column, error) {
 		return nil, err
 	}
 	return uniqColumns(cols), nil
+}
+
+func uniqColumns(cols []*column) []*column {
+	var newCols []*column
+	for _, col := range cols {
+		exists := false
+		for _, newCol := range newCols {
+			if newCol.index == col.index {
+				exists = true
+				break
+			}
+		}
+		if col.index != -1 && !exists {
+			newCols = append(newCols, col)
+		}
+	}
+	return newCols
 }
