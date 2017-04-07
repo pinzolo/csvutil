@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"io"
 	"math/rand"
-	"unicode"
 
 	"golang.org/x/text/encoding/japanese"
 )
@@ -14,9 +13,8 @@ func reader(r io.Reader, enc string) (*csv.Reader, bool) {
 		return NewReaderWithEnc(r, japanese.ShiftJIS), false
 	} else if enc == "eucjp" {
 		return NewReaderWithEnc(r, japanese.EUCJP), false
-	} else {
-		return NewReader(r)
 	}
+	return NewReader(r)
 }
 
 func writer(w io.Writer, bom bool, enc string) *csv.Writer {
@@ -24,21 +22,16 @@ func writer(w io.Writer, bom bool, enc string) *csv.Writer {
 		return NewWriterWithEnc(w, japanese.ShiftJIS)
 	} else if enc == "eucjp" {
 		return NewWriterWithEnc(w, japanese.EUCJP)
-	} else if enc == "utf8bom" {
-		return NewWriter(w, true)
-	} else if enc == "utf8" {
-		return NewWriter(w, false)
-	} else {
-		return NewWriter(w, bom)
 	}
+	return NewWriter(w, bom)
 }
 
 func isDigit(s string) bool {
 	if s == "" {
 		return false
 	}
-	for _, r := range s {
-		if !unicode.IsDigit(r) {
+	for _, b := range []byte(s) {
+		if b < 0x30 || 0x39 < b {
 			return false
 		}
 	}

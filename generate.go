@@ -21,6 +21,20 @@ type GenerateOption struct {
 	Count int
 }
 
+func (o GenerateOption) outputEncoding() string {
+	if o.OutputEncoding == "utf8dom" {
+		return "utf8"
+	}
+	return o.OutputEncoding
+}
+
+func (o GenerateOption) dom() bool {
+	if o.OutputEncoding == "utf8bom" {
+		return true
+	}
+	return false
+}
+
 func (o GenerateOption) validate() error {
 	if o.Size <= 0 {
 		return errors.New("negative or zero size")
@@ -50,7 +64,7 @@ func Generate(w io.Writer, o GenerateOption) error {
 		return errors.Wrap(err, "invalid option")
 	}
 
-	cw := writer(w, false, o.OutputEncoding)
+	cw := writer(w, o.dom(), o.outputEncoding())
 	defer cw.Flush()
 	if !o.NoHeader {
 		cw.Write(o.actualHeaders())
