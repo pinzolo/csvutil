@@ -50,7 +50,7 @@ func (o InsertOption) headers() []string {
 	return hdr
 }
 
-// Insert empty values to end of each lines.
+// Insert empty values to CSV
 func Insert(r io.Reader, w io.Writer, o InsertOption) error {
 	if err := o.validate(); err != nil {
 		return errors.Wrap(err, "invalid option")
