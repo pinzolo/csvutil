@@ -14,10 +14,7 @@ type column struct {
 
 func (c *column) findIndex(hdr []string) error {
 	if isDigit(c.symbol) {
-		i, err := strconv.Atoi(c.symbol)
-		if err != nil {
-			return errors.Wrap(err, "cannot parse index")
-		}
+		i, _ := strconv.Atoi(c.symbol)
 		c.index = i
 		c.found = true
 		return nil
