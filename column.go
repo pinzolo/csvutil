@@ -51,7 +51,7 @@ func newColumnWithIndex(sym string, hdr []string) (*column, error) {
 	col := newColumn(sym)
 	err := col.findIndex(hdr)
 	if err != nil {
-		return nil, errors.Wrapf(err, "index not found: %s", col.symbol)
+		return nil, err
 	}
 	return col, nil
 }
@@ -61,7 +61,7 @@ func newColumnsWithIndexes(syms []string, hdr []string) ([]*column, error) {
 	for _, col := range cols {
 		err := col.findIndex(hdr)
 		if err != nil {
-			return nil, errors.Wrapf(err, "index not found: %s", col.symbol)
+			return nil, err
 		}
 	}
 	return cols, nil

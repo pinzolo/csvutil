@@ -86,7 +86,7 @@ func Blank(r io.Reader, w io.Writer, o BlankOption) error {
 		if cols == nil {
 			cols, err = newUniqueColumns(o.ColumnSyms, hdr)
 			if err != nil {
-				return errors.Wrap(err, "cannot find index")
+				return errors.Wrap(err, "column not found")
 			}
 		}
 		newRec := make([]string, len(rec))

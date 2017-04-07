@@ -78,7 +78,7 @@ func Insert(r io.Reader, w io.Writer, o InsertOption) error {
 				col, err = newColumnWithIndex(o.Before, rec)
 			}
 			if err != nil {
-				return err
+				return errors.Wrap(err, "column not found")
 			}
 		}
 		if hdr == nil && !o.NoHeader {
