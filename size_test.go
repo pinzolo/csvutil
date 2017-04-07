@@ -9,8 +9,14 @@ func TestSizeWithEmptyCSV(t *testing.T) {
 	s := ""
 	r := bytes.NewBufferString(s)
 	o := SizeOption{}
-	if _, err := Size(r, o); err == nil {
-		t.Error("Size with empty CSV should raise error.")
+	actual, err := Size(r, o)
+	if err != nil {
+		t.Error(err)
+	}
+
+	expected := 0
+	if actual != expected {
+		t.Errorf("Expectd: %d, but got %d", expected, actual)
 	}
 }
 

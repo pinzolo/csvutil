@@ -19,7 +19,7 @@ func Size(r io.Reader, o SizeOption) (int, error) {
 	rec, err := cr.Read()
 	if err != nil {
 		if err == io.EOF {
-			return 0, errors.Wrap(err, "empty csv")
+			return 0, nil
 		}
 		return 0, errors.Wrap(err, "cannot read csv line")
 	}
