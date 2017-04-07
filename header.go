@@ -36,7 +36,7 @@ func Header(r io.Reader, w io.Writer, o HeaderOption) error {
 	hdr, err := cr.Read()
 	if err != nil {
 		if err == io.EOF {
-			return errors.Wrap(err, "empty csv")
+			return nil
 		}
 		return errors.Wrap(err, "cannot read csv header")
 	}

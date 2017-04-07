@@ -5,16 +5,6 @@ import (
 	"testing"
 )
 
-func TestHeaderWithEmptyCSV(t *testing.T) {
-	s := ""
-	r := bytes.NewBuffer([]byte(s))
-	w := &bytes.Buffer{}
-	o := HeaderOption{}
-	if err := Header(r, w, o); err == nil {
-		t.Error("Header with empty CSV should raise error.")
-	}
-}
-
 func TestHeader(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3
