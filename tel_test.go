@@ -9,7 +9,7 @@ import (
 
 var telNumRegex = regexp.MustCompile(`\d+-\d+-\d`)
 
-func TestTelWithoutColumnAndMobile(t *testing.T) {
+func TestTelWithoutColumn(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3
 4,5,6
@@ -21,7 +21,7 @@ func TestTelWithoutColumnAndMobile(t *testing.T) {
 
 	err := Tel(r, w, o)
 	if err == nil {
-		t.Error("Tel without home and mobile column should raise error.")
+		t.Error("Email without column symbol should raise error.")
 	}
 }
 
@@ -39,7 +39,7 @@ func TestTelWithNoHeaderButColumnNotNumber(t *testing.T) {
 
 	err := Tel(r, w, o)
 	if err == nil {
-		t.Error("Tel with not number home for no header CSV should raise error.")
+		t.Error("Email with not number column symbol for no header CSV should raise error.")
 	}
 
 }
