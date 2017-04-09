@@ -22,7 +22,6 @@ type TelOption struct {
 	OutputEncoding string
 	Column         string
 	MobileRate     int
-	col            *column
 }
 
 func (o TelOption) validate() error {
@@ -58,6 +57,7 @@ func Tel(r io.Reader, w io.Writer, o TelOption) error {
 	cw := writer(w, bom, o.outputEncoding())
 	defer cw.Flush()
 
+	var col *column
 	var hdr []string
 	for {
 		rec, err := cr.Read()
@@ -72,13 +72,15 @@ func Tel(r io.Reader, w io.Writer, o TelOption) error {
 			cw.Write(rec)
 			continue
 		}
-		o, err = setupTelColumn(o, hdr)
-		if err != nil {
-			return err
+		if col == nil {
+			col, err = newColumnWithIndex(o.Column, hdr)
+			if err != nil {
+				return errors.Wrap(err, "column not found")
+			}
 		}
 		newRec := make([]string, len(rec))
 		for i, s := range rec {
-			if i == o.col.index {
+			if i == col.index {
 				if lot(o.MobileRate) {
 					newRec[i] = fakeMobileTel()
 				} else {
@@ -92,17 +94,6 @@ func Tel(r io.Reader, w io.Writer, o TelOption) error {
 	}
 
 	return nil
-}
-
-func setupTelColumn(o TelOption, hdr []string) (TelOption, error) {
-	if o.col == nil {
-		col, err := newColumnWithIndex(o.Column, hdr)
-		if err != nil {
-			return o, errors.Wrap(err, "column not found")
-		}
-		o.col = col
-	}
-	return o, nil
 }
 
 func fakeTel() string {

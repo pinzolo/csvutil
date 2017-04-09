@@ -24,7 +24,6 @@ type EmailOption struct {
 	OutputEncoding string
 	Column         string
 	MobileRate     int
-	col            *column
 }
 
 func (o EmailOption) validate() error {
@@ -60,6 +59,7 @@ func Email(r io.Reader, w io.Writer, o EmailOption) error {
 	cw := writer(w, bom, o.outputEncoding())
 	defer cw.Flush()
 
+	var col *column
 	var hdr []string
 	for {
 		rec, err := cr.Read()
@@ -74,13 +74,15 @@ func Email(r io.Reader, w io.Writer, o EmailOption) error {
 			cw.Write(rec)
 			continue
 		}
-		o, err = setupEmailColumn(o, hdr)
-		if err != nil {
-			return err
+		if col == nil {
+			col, err = newColumnWithIndex(o.Column, hdr)
+			if err != nil {
+				return errors.Wrap(err, "column not found")
+			}
 		}
 		newRec := make([]string, len(rec))
 		for i, s := range rec {
-			if i == o.col.index {
+			if i == col.index {
 				if lot(o.MobileRate) {
 					newRec[i] = fakeMobileEmail()
 				} else {
@@ -94,17 +96,6 @@ func Email(r io.Reader, w io.Writer, o EmailOption) error {
 	}
 
 	return nil
-}
-
-func setupEmailColumn(o EmailOption, hdr []string) (EmailOption, error) {
-	if o.col == nil {
-		col, err := newColumnWithIndex(o.Column, hdr)
-		if err != nil {
-			return o, errors.Wrap(err, "column not found")
-		}
-		o.col = col
-	}
-	return o, nil
 }
 
 func fakeEmail() string {
