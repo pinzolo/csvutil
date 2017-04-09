@@ -11,7 +11,7 @@ func TestHeader(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := HeaderOption{}
 	if err := Header(r, w, o); err != nil {
@@ -33,7 +33,7 @@ func TestHeaderWithIndex(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := HeaderOption{
 		Index: true,
@@ -57,7 +57,7 @@ func TestHeaderWithIndexOrigin(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := HeaderOption{
 		Index:       true,
@@ -82,7 +82,7 @@ func TestHeaderWithIndexOriginButWithoutIndex(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := HeaderOption{
 		Index:       false,

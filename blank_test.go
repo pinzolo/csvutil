@@ -100,7 +100,7 @@ func TestBlankWithSymbolColumnButNoHeader(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		NoHeader:   true,
@@ -119,7 +119,7 @@ func TestBlankWithUnknownHeaderSymbol(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"ddd"},
@@ -137,7 +137,7 @@ func TestBlankWhenColumnIsHeaderText(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"bbb"},
@@ -163,7 +163,7 @@ func TestBlankWhenColumnIsIndex(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"1"},
@@ -188,7 +188,7 @@ func TestBlankWhenColumnIsIndexAndNoHeader(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		NoHeader:   true,
@@ -214,7 +214,7 @@ func TestBlankWhenSpaceWidthIs1AndSpaceSizeIs1(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"bbb"},
@@ -242,7 +242,7 @@ func TestBlankWhenSpaceWidthIs2AndSpaceSizeIs3(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"bbb"},
@@ -271,7 +271,7 @@ func TestBlankWhenColumnIsMultiColumn(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"aaa", "bbb"},

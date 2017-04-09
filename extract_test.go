@@ -35,7 +35,7 @@ func TestExtractWithSymbolColumnButNoHeader(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := ExtractOption{
 		NoHeader:   true,
@@ -53,7 +53,7 @@ func TestExtractWithUnknownHeaderSymbol(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := ExtractOption{
 		ColumnSyms: []string{"ddd"},
@@ -70,7 +70,7 @@ func TestExtractWhenColumnIsHeaderText(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := ExtractOption{
 		ColumnSyms: []string{"bbb"},
@@ -95,7 +95,7 @@ func TestExtractWhenColumnIsIndex(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := ExtractOption{
 		ColumnSyms: []string{"1"},
@@ -119,7 +119,7 @@ func TestExtractWhenColumnIsIndexAndNoHeader(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := ExtractOption{
 		NoHeader:   true,
@@ -144,7 +144,7 @@ func TestExtractWhenColumnIsMultiColumn(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := ExtractOption{
 		ColumnSyms: []string{"aaa", "bbb"},

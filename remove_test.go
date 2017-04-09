@@ -35,7 +35,7 @@ func TestRemoveWithSymbolColumnButNoHeader(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := RemoveOption{
 		NoHeader:   true,
@@ -53,7 +53,7 @@ func TestRemoveWithUnknownHeaderSymbol(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := RemoveOption{
 		ColumnSyms: []string{"ddd"},
@@ -70,7 +70,7 @@ func TestRemoveWhenColumnIsHeaderText(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := RemoveOption{
 		ColumnSyms: []string{"bbb"},
@@ -95,7 +95,7 @@ func TestRemoveWhenColumnIsIndex(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := RemoveOption{
 		ColumnSyms: []string{"1"},
@@ -119,7 +119,7 @@ func TestRemoveWhenColumnIsIndexAndNoHeader(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := RemoveOption{
 		NoHeader:   true,
@@ -144,7 +144,7 @@ func TestRemoveWhenColumnIsMultiColumn(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := RemoveOption{
 		ColumnSyms: []string{"aaa", "bbb"},

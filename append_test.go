@@ -31,7 +31,7 @@ func TestAppendWithHeadersOnly(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AppendOption{
 		Headers: []string{"foo", "bar"},
@@ -47,7 +47,7 @@ func TestAppendWithSize(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AppendOption{
 		Size: 2,
@@ -72,7 +72,7 @@ func TestAppendWithGreaterSizeThanHeadersLength(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AppendOption{
 		Headers: []string{"foo", "bar"},
@@ -98,7 +98,7 @@ func TestAppendWithLessSizeThanHeadersLength(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AppendOption{
 		Headers: []string{"foo", "bar", "baz"},
@@ -123,7 +123,7 @@ func TestAppendWithLessSizeThanHeadersLengthButNoHeader(t *testing.T) {
 4,5,6
 7,8,9
 `
-	r := bytes.NewBuffer([]byte(s))
+	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AppendOption{
 		Headers:  []string{"foo", "bar", "baz"},
