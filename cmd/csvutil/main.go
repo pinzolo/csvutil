@@ -6,9 +6,11 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/rand"
 	"os"
 	"strings"
 	"text/template"
+	"time"
 
 	"github.com/pinzolo/csvutil"
 )
@@ -71,6 +73,7 @@ var commands = []*Command{
 }
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
 
 	flag.Usage = usage
 	flag.Parse()
