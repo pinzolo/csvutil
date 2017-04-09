@@ -1,5 +1,11 @@
 # csvutil
 
+[![Build Status](https://travis-ci.org/pinzolo/csvutil.png)](http://travis-ci.org/pinzolo/csvutil)
+[![Coverage Status](https://coveralls.io/repos/github/pinzolo/csvutil/badge.svg?branch=master)](https://coveralls.io/github/pinzolo/csvutil?branch=master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/pinzolo/csvutil)](https://goreportcard.com/report/github.com/pinzolo/csvutil)
+[![Godoc](http://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/pinzolo/csvutil)
+[![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/pinzolo/csvutil/master/LICENSE)
+
 ## Description
 
 ## Usage
