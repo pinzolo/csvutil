@@ -19,11 +19,16 @@ var mobileEmailDomains = []string{
 
 // EmailOption is option holder for Email.
 type EmailOption struct {
-	NoHeader       bool
-	Encoding       string
+	// Source file does not have header line. (default false)
+	NoHeader bool
+	// Encoding of source file. (default utf8)
+	Encoding string
+	// Encoding for output.
 	OutputEncoding string
-	Column         string
-	MobileRate     int
+	// Target column symbol.
+	Column string
+	// Rate of output mobile email address.
+	MobileRate int
 }
 
 func (o EmailOption) validate() error {

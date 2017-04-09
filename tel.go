@@ -17,11 +17,16 @@ var mobileTelAreaCodes = []string{
 
 // TelOption is option holder for Tel.
 type TelOption struct {
-	NoHeader       bool
-	Encoding       string
+	// Source file does not have header line. (default false)
+	NoHeader bool
+	// Encoding of source file. (default utf8)
+	Encoding string
+	// Encoding for output.
 	OutputEncoding string
-	Column         string
-	MobileRate     int
+	// Target column symbol.
+	Column string
+	// Rate of output mobile tel number.
+	MobileRate int
 }
 
 func (o TelOption) validate() error {
