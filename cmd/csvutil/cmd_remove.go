@@ -83,25 +83,15 @@ func init() {
 // runRemove executes remove command and return exit code.
 func runRemove(args []string) int {
 	success := false
-	path, err := path(args)
-	if err != nil {
-		return handleError(err)
-	}
-
-	w, wf, err := writer(path, removeOpt.Overwrite)
-	if err != nil {
-		return handleError(err)
-	}
+	w, wf, r, rf, err := prepare(args, insertOpt.Overwrite)
 	if wf != nil {
-		defer wf(&success, removeOpt.Backup)
-	}
-
-	r, rf, err := reader(path)
-	if err != nil {
-		return handleError(err)
+		defer wf(&success, insertOpt.Backup)
 	}
 	if rf != nil {
 		defer rf()
+	}
+	if err != nil {
+		return handleError(err)
 	}
 
 	opt := removeOpt.RemoveOption

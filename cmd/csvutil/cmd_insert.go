@@ -97,25 +97,16 @@ func init() {
 // runInsert executes insert command and return exit code.
 func runInsert(args []string) int {
 	success := false
-	path, err := path(args)
-	if err != nil {
-		return handleError(err)
-	}
 
-	w, wf, err := writer(path, insertOpt.Overwrite)
-	if err != nil {
-		return handleError(err)
-	}
+	w, wf, r, rf, err := prepare(args, insertOpt.Overwrite)
 	if wf != nil {
 		defer wf(&success, insertOpt.Backup)
 	}
-
-	r, rf, err := reader(path)
-	if err != nil {
-		return handleError(err)
-	}
 	if rf != nil {
 		defer rf()
+	}
+	if err != nil {
+		return handleError(err)
 	}
 
 	opt := insertOpt.InsertOption

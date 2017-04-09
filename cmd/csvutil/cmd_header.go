@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/pinzolo/csvutil"
 )
 
@@ -62,29 +64,15 @@ func init() {
 
 // runHeader executes header command and return exit code.
 func runHeader(args []string) int {
-	path, err := path(args)
-	if err != nil {
-		return handleError(err)
-	}
-
-	w, wf, err := writer(path, false)
-	if err != nil {
-		return handleError(err)
-	}
-	if wf != nil {
-		f := false
-		defer wf(&f, false)
-	}
-
-	r, rf, err := reader(path)
-	if err != nil {
-		return handleError(err)
-	}
+	r, rf, err := prepareReader(args)
 	if rf != nil {
 		defer rf()
 	}
+	if err != nil {
+		return handleError(err)
+	}
 
-	err = csvutil.Header(r, w, headerOpt.HeaderOption)
+	err = csvutil.Header(r, os.Stdout, headerOpt.HeaderOption)
 	if err != nil {
 		return handleError(err)
 	}

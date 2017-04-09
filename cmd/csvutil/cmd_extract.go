@@ -83,25 +83,15 @@ func init() {
 // runExtract executes extract command and return exit code.
 func runExtract(args []string) int {
 	success := false
-	path, err := path(args)
-	if err != nil {
-		return handleError(err)
-	}
-
-	w, wf, err := writer(path, extractOpt.Overwrite)
-	if err != nil {
-		return handleError(err)
-	}
+	w, wf, r, rf, err := prepare(args, insertOpt.Overwrite)
 	if wf != nil {
-		defer wf(&success, extractOpt.Backup)
-	}
-
-	r, rf, err := reader(path)
-	if err != nil {
-		return handleError(err)
+		defer wf(&success, insertOpt.Backup)
 	}
 	if rf != nil {
 		defer rf()
+	}
+	if err != nil {
+		return handleError(err)
 	}
 
 	opt := extractOpt.ExtractOption

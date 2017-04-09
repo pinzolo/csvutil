@@ -42,17 +42,12 @@ func init() {
 
 // runSize executes size command and return exit code.
 func runSize(args []string) int {
-	path, err := path(args)
-	if err != nil {
-		return handleError(err)
-	}
-
-	r, rf, err := reader(path)
-	if err != nil {
-		return handleError(err)
-	}
+	r, rf, err := prepareReader(args)
 	if rf != nil {
 		defer rf()
+	}
+	if err != nil {
+		return handleError(err)
 	}
 
 	i, err := csvutil.Size(r, sizeOpt.SizeOption)

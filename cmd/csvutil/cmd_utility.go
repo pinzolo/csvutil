@@ -63,10 +63,10 @@ func reader(path string) (io.Reader, func(), error) {
 	if err != nil {
 		return nil, nil, errors.Wrap(err, "failed open file")
 	}
-	return openWithCloser(src)
+	return withCloser(src)
 }
 
-func openWithCloser(f *os.File) (io.Reader, func(), error) {
+func withCloser(f *os.File) (io.Reader, func(), error) {
 	closer := func() {
 		f.Close()
 	}
@@ -89,4 +89,35 @@ func split(s string) []string {
 		return nil
 	}
 	return strings.Split(s, ":")
+}
+
+func prepare(args []string, ow bool) (io.Writer, func(*bool, bool), io.Reader, func(), error) {
+	path, err := path(args)
+	if err != nil {
+		return nil, nil, nil, nil, err
+	}
+
+	w, wf, err := writer(path, ow)
+	if err != nil {
+		return nil, nil, nil, nil, err
+	}
+
+	r, rf, err := reader(path)
+	if err != nil {
+		return w, wf, nil, nil, err
+	}
+	return w, wf, r, rf, nil
+}
+
+func prepareReader(args []string) (io.Reader, func(), error) {
+	path, err := path(args)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	r, rf, err := reader(path)
+	if err != nil {
+		return nil, nil, err
+	}
+	return r, rf, nil
 }

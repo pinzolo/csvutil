@@ -84,25 +84,15 @@ func init() {
 // runTel executes tel command and return exit code.
 func runTel(args []string) int {
 	success := false
-	path, err := path(args)
-	if err != nil {
-		return handleError(err)
-	}
-
-	w, wf, err := writer(path, telOpt.Overwrite)
-	if err != nil {
-		return handleError(err)
-	}
+	w, wf, r, rf, err := prepare(args, insertOpt.Overwrite)
 	if wf != nil {
-		defer wf(&success, telOpt.Backup)
-	}
-
-	r, rf, err := reader(path)
-	if err != nil {
-		return handleError(err)
+		defer wf(&success, insertOpt.Backup)
 	}
 	if rf != nil {
 		defer rf()
+	}
+	if err != nil {
+		return handleError(err)
 	}
 
 	err = csvutil.Tel(r, w, telOpt.TelOption)

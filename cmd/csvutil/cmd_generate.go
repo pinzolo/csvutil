@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/pinzolo/csvutil"
 )
 
@@ -61,22 +63,12 @@ func init() {
 
 // runGenerate executes generate command and return exit code.
 func runGenerate(args []string) int {
-	success := false
-	w, wf, err := writer("", false)
-	if err != nil {
-		return handleError(err)
-	}
-	if wf != nil {
-		defer wf(&success, false)
-	}
-
 	opt := generateOpt.GenerateOption
 	opt.Headers = split(generateOpt.Header)
-	err = csvutil.Generate(w, opt)
+	err := csvutil.Generate(os.Stdout, opt)
 	if err != nil {
 		return handleError(err)
 	}
 
-	success = true
 	return 0
 }

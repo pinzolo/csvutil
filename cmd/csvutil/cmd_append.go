@@ -90,25 +90,15 @@ func init() {
 // runAppend executes append command and return exit code.
 func runAppend(args []string) int {
 	success := false
-	path, err := path(args)
-	if err != nil {
-		return handleError(err)
-	}
-
-	w, wf, err := writer(path, appendOpt.Overwrite)
-	if err != nil {
-		return handleError(err)
-	}
+	w, wf, r, rf, err := prepare(args, insertOpt.Overwrite)
 	if wf != nil {
-		defer wf(&success, appendOpt.Backup)
-	}
-
-	r, rf, err := reader(path)
-	if err != nil {
-		return handleError(err)
+		defer wf(&success, insertOpt.Backup)
 	}
 	if rf != nil {
 		defer rf()
+	}
+	if err != nil {
+		return handleError(err)
 	}
 
 	opt := appendOpt.AppendOption
