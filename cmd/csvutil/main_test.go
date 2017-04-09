@@ -6,7 +6,6 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"testing"
 
 	"github.com/pinzolo/csvutil"
 )
@@ -17,12 +16,6 @@ const (
 )
 
 var bakFileRegex = regexp.MustCompile(`utf8\.\d{14}\.csv`)
-
-func TestMain(m *testing.M) {
-	//errWriter = &bytes.Buffer{}
-	code := m.Run()
-	defer os.Exit(code)
-}
 
 func copyTestFile() error {
 	src, err := os.Open(testFilePath("utf8.csv"))
