@@ -9,14 +9,12 @@ import (
 type column struct {
 	symbol string
 	index  int
-	found  bool
 }
 
 func (c *column) findIndex(hdr []string) error {
 	if isDigit(c.symbol) {
 		i, _ := strconv.Atoi(c.symbol)
 		c.index = i
-		c.found = true
 		return nil
 	}
 	if hdr == nil {
@@ -25,7 +23,6 @@ func (c *column) findIndex(hdr []string) error {
 	for i, h := range hdr {
 		if h == c.symbol {
 			c.index = i
-			c.found = true
 			return nil
 		}
 	}
