@@ -63,7 +63,7 @@ func reader(path string) (io.Reader, func(), error) {
 
 	src, err := os.Open(path)
 	if err != nil {
-		return nil, nil, errors.Wrap(err, "failed open file")
+		return nil, nil, errors.Wrap(err, "failed open")
 	}
 	return withCloser(src)
 }
@@ -81,7 +81,7 @@ func backup(path string) (*os.File, error) {
 	dst := strings.TrimSuffix(path, ext) + "." + time.Now().Format("20060102150405") + ext
 	err := os.Rename(path, dst)
 	if err != nil {
-		return nil, errors.Wrap(err, "cannot move")
+		return nil, errors.Wrap(err, "failed backup")
 	}
 	return os.Open(dst)
 }
