@@ -83,9 +83,9 @@ func init() {
 // runRemove executes remove command and return exit code.
 func runRemove(args []string) int {
 	success := false
-	w, wf, r, rf, err := prepare(args, insertOpt.Overwrite)
+	w, wf, r, rf, err := prepare(args, removeOpt.Overwrite)
 	if wf != nil {
-		defer wf(&success, insertOpt.Backup)
+		defer wf(&success, removeOpt.Backup)
 	}
 	if rf != nil {
 		defer rf()

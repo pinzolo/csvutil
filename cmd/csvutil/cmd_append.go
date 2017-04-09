@@ -90,9 +90,9 @@ func init() {
 // runAppend executes append command and return exit code.
 func runAppend(args []string) int {
 	success := false
-	w, wf, r, rf, err := prepare(args, insertOpt.Overwrite)
+	w, wf, r, rf, err := prepare(args, appendOpt.Overwrite)
 	if wf != nil {
-		defer wf(&success, insertOpt.Backup)
+		defer wf(&success, appendOpt.Backup)
 	}
 	if rf != nil {
 		defer rf()

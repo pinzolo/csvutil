@@ -84,9 +84,9 @@ func init() {
 // runTel executes tel command and return exit code.
 func runTel(args []string) int {
 	success := false
-	w, wf, r, rf, err := prepare(args, insertOpt.Overwrite)
+	w, wf, r, rf, err := prepare(args, telOpt.Overwrite)
 	if wf != nil {
-		defer wf(&success, insertOpt.Backup)
+		defer wf(&success, telOpt.Backup)
 	}
 	if rf != nil {
 		defer rf()

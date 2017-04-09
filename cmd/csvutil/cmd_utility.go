@@ -14,8 +14,10 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 )
 
+var errWriter = io.Writer(os.Stderr)
+
 func handleError(err error) int {
-	fmt.Fprintln(os.Stderr, err)
+	fmt.Fprintln(errWriter, err)
 	return 2
 }
 

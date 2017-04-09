@@ -83,9 +83,9 @@ func init() {
 // runExtract executes extract command and return exit code.
 func runExtract(args []string) int {
 	success := false
-	w, wf, r, rf, err := prepare(args, insertOpt.Overwrite)
+	w, wf, r, rf, err := prepare(args, extractOpt.Overwrite)
 	if wf != nil {
-		defer wf(&success, insertOpt.Backup)
+		defer wf(&success, extractOpt.Backup)
 	}
 	if rf != nil {
 		defer rf()

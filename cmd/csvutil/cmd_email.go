@@ -90,9 +90,9 @@ func init() {
 // runEmail executes email command and return exit code.
 func runEmail(args []string) int {
 	success := false
-	w, wf, r, rf, err := prepare(args, insertOpt.Overwrite)
+	w, wf, r, rf, err := prepare(args, emailOpt.Overwrite)
 	if wf != nil {
-		defer wf(&success, insertOpt.Backup)
+		defer wf(&success, emailOpt.Backup)
 	}
 	if rf != nil {
 		defer rf()

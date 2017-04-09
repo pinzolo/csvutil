@@ -108,9 +108,9 @@ func init() {
 // runBlank executes blank command and return exit code.
 func runBlank(args []string) int {
 	success := false
-	w, wf, r, rf, err := prepare(args, insertOpt.Overwrite)
+	w, wf, r, rf, err := prepare(args, blankOpt.Overwrite)
 	if wf != nil {
-		defer wf(&success, insertOpt.Backup)
+		defer wf(&success, blankOpt.Backup)
 	}
 	if rf != nil {
 		defer rf()
