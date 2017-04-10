@@ -3,7 +3,7 @@ package main
 var cmdSort = &Command{
 	Run:       runSort,
 	UsageLine: "sort ",
-	Short:     "",
+	Short:     "[Not implemented yet]",
 	Long: `
 
 	`,

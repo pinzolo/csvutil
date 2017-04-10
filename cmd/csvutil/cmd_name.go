@@ -3,7 +3,7 @@ package main
 var cmdName = &Command{
 	Run:       runName,
 	UsageLine: "name ",
-	Short:     "",
+	Short:     "[Not implemented yet]",
 	Long: `
 
 	`,

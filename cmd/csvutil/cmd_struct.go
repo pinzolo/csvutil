@@ -3,7 +3,7 @@ package main
 var cmdStruct = &Command{
 	Run:       runStruct,
 	UsageLine: "struct ",
-	Short:     "",
+	Short:     "[Not implemented yet]",
 	Long: `
 
 	`,
