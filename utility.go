@@ -4,9 +4,13 @@ import (
 	"encoding/csv"
 	"io"
 	"math/rand"
+	"strings"
 
 	"golang.org/x/text/encoding/japanese"
 )
+
+var halfWidthNums = []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-"}
+var fullWidthNums = []string{"０", "１", "２", "３", "４", "５", "６", "７", "８", "９", "ー"}
 
 func reader(r io.Reader, enc string) (*csv.Reader, bool) {
 	if enc == "sjis" {
@@ -59,4 +63,21 @@ func containsString(ss []string, s string) bool {
 		}
 	}
 	return false
+}
+
+func containsInt(is []int, i int) bool {
+	for _, i2 := range is {
+		if i2 == i {
+			return true
+		}
+	}
+	return false
+}
+
+func toFullWidthNum(s string) string {
+	fs := s
+	for i, hn := range halfWidthNums {
+		fs = strings.Replace(fs, hn, fullWidthNums[i], -1)
+	}
+	return fs
 }
