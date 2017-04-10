@@ -12,6 +12,9 @@ type column struct {
 }
 
 func (c *column) findIndex(hdr []string) error {
+	if c.symbol == "" {
+		return nil
+	}
 	if isDigit(c.symbol) {
 		i, _ := strconv.Atoi(c.symbol)
 		c.index = i
