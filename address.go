@@ -152,7 +152,7 @@ func (c addrCols) indexes() []int {
 	}
 }
 
-// Address overwrite value of given column by dummy email address.
+// Address overwrite value of given column by dummy address.
 func Address(r io.Reader, w io.Writer, o AddressOption) error {
 	if err := o.validate(); err != nil {
 		return errors.Wrap(err, "invalid option")
