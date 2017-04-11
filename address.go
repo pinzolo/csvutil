@@ -115,7 +115,7 @@ func (o AddressOption) validate() error {
 			return errors.New("not number city column symbol")
 		}
 		if !isEmptyOrDigit(o.Town) {
-			return errors.New("not number town symbol")
+			return errors.New("not number town column symbol")
 		}
 	}
 	if o.NumberWidth != 1 && o.NumberWidth != 2 {
