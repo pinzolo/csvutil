@@ -26,11 +26,167 @@ func TestAddressWithUnsupportedNumberWidth(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AddressOption{
-		ZipCode:          "0",
+		ZipCode:     "0",
 		NumberWidth: -1,
 	}
 	if err := Address(r, w, o); err == nil {
 		t.Error("Address with negative size should raise error.")
+	}
+}
+
+func TestAddressWithNoHeaderAndNotDigitZipCode(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := AddressOption{
+		NoHeader:    true,
+		ZipCode:     "aaa",
+		NumberWidth: 1,
+	}
+
+	err := Address(r, w, o)
+	if err == nil {
+		t.Error("Address with no header and not digit zip code column symbol should raise error.")
+	}
+}
+
+func TestAddressWithNoHeaderAndNotDigitPrefecture(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := AddressOption{
+		NoHeader:    true,
+		Prefecture:  "aaa",
+		NumberWidth: 1,
+	}
+
+	err := Address(r, w, o)
+	if err == nil {
+		t.Error("Address with no header and not digit prefecture column symbol should raise error.")
+	}
+}
+
+func TestAddressWithNoHeaderAndNotDigitCity(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := AddressOption{
+		NoHeader:    true,
+		City:        "aaa",
+		NumberWidth: 1,
+	}
+
+	err := Address(r, w, o)
+	if err == nil {
+		t.Error("Address with no header and not digit city column symbol should raise error.")
+	}
+}
+
+func TestAddressWithNoHeaderAndNotDigitTown(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := AddressOption{
+		NoHeader:    true,
+		Town:        "aaa",
+		NumberWidth: 1,
+	}
+
+	err := Address(r, w, o)
+	if err == nil {
+		t.Error("Address with no header and not digit town column symbol should raise error.")
+	}
+}
+
+func TestAddressOnZipCodeNotFound(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := AddressOption{
+		ZipCode:     "ddd",
+		NumberWidth: 1,
+	}
+
+	err := Address(r, w, o)
+	if err == nil {
+		t.Error("Address with unknown zip code column symbol should raise error.")
+	}
+}
+
+func TestAddressOnPrefectureNotFound(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := AddressOption{
+		Prefecture:  "ddd",
+		NumberWidth: 1,
+	}
+
+	err := Address(r, w, o)
+	if err == nil {
+		t.Error("Address with unknown prefecture column symbol should raise error.")
+	}
+}
+
+func TestAddressOnCityNotFound(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := AddressOption{
+		City:        "ddd",
+		NumberWidth: 1,
+	}
+
+	err := Address(r, w, o)
+	if err == nil {
+		t.Error("Address with unknown city column symbol should raise error.")
+	}
+}
+
+func TestAddressOnTownNotFound(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := AddressOption{
+		Town:        "ddd",
+		NumberWidth: 1,
+	}
+
+	err := Address(r, w, o)
+	if err == nil {
+		t.Error("Address with unknown town column symbol should raise error.")
 	}
 }
 
@@ -43,7 +199,7 @@ func TestAddressWithZipCode(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AddressOption{
-		ZipCode:          "aaa",
+		ZipCode:     "aaa",
 		NumberWidth: 1,
 	}
 
@@ -72,7 +228,7 @@ func TestAddressWithPrefecture(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AddressOption{
-		Prefecture:       "aaa",
+		Prefecture:  "aaa",
 		NumberWidth: 1,
 	}
 
@@ -100,9 +256,9 @@ func TestAddressWithPrefectureCode(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AddressOption{
-		Prefecture:       "aaa",
-		PrefectureCode:   true,
-		NumberWidth: 1,
+		Prefecture:     "aaa",
+		PrefectureCode: true,
+		NumberWidth:    1,
 	}
 
 	if err := Address(r, w, o); err != nil {
@@ -133,7 +289,7 @@ func TestAddressWithCity(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AddressOption{
-		City:             "aaa",
+		City:        "aaa",
 		NumberWidth: 1,
 	}
 
@@ -161,7 +317,7 @@ func TestAddressWithTown(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AddressOption{
-		Town:             "aaa",
+		Town:        "aaa",
 		NumberWidth: 1,
 	}
 
@@ -194,8 +350,8 @@ func TestAddressWithBlockNumber(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AddressOption{
-		Town:             "aaa",
-		BlockNumber:      true,
+		Town:        "aaa",
+		BlockNumber: true,
 		NumberWidth: 1,
 	}
 
@@ -233,8 +389,8 @@ func TestAddressWithFullWidthBlockNumber(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AddressOption{
-		Town:             "aaa",
-		BlockNumber:      true,
+		Town:        "aaa",
+		BlockNumber: true,
 		NumberWidth: 2,
 	}
 
@@ -272,11 +428,11 @@ func TestAddressWithAppending(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := AddressOption{
-		ZipCode:          "0",
-		Prefecture:       "aaa",
-		City:             "0",
-		Town:             "aaa",
-		BlockNumber:      true,
+		ZipCode:     "0",
+		Prefecture:  "aaa",
+		City:        "0",
+		Town:        "aaa",
+		BlockNumber: true,
 		NumberWidth: 2,
 	}
 

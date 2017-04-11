@@ -42,6 +42,13 @@ func isDigit(s string) bool {
 	return true
 }
 
+func isEmptyOrDigit(s string) bool {
+	if s == "" {
+		return true
+	}
+	return isDigit(s)
+}
+
 func lot(n int) bool {
 	if n == 100 {
 		return true

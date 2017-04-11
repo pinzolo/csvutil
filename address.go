@@ -105,16 +105,16 @@ func (o AddressOption) validate() error {
 		return errors.New("no column")
 	}
 	if o.NoHeader {
-		if !isDigit(o.ZipCode) {
+		if !isEmptyOrDigit(o.ZipCode) {
 			return errors.New("not number zip code column symbol")
 		}
-		if !isDigit(o.Prefecture) {
+		if !isEmptyOrDigit(o.Prefecture) {
 			return errors.New("not number prefecture column symbol")
 		}
-		if !isDigit(o.City) {
+		if !isEmptyOrDigit(o.City) {
 			return errors.New("not number city column symbol")
 		}
-		if !isDigit(o.Town) {
+		if !isEmptyOrDigit(o.Town) {
 			return errors.New("not number town symbol")
 		}
 	}
