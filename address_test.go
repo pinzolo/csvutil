@@ -30,13 +30,12 @@ func TestAddressWithUnsupportedNumberWidth(t *testing.T) {
 		NumberWidth: -1,
 	}
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address with negative size should raise error.")
+		t.Error("Address with negative number width should raise error.")
 	}
 }
 
 func TestAddressWithNoHeaderAndNotDigitZipCode(t *testing.T) {
-	s := `aaa,bbb,ccc
-1,2,3
+	s := `1,2,3
 4,5,6
 7,8,9
 `
@@ -55,8 +54,7 @@ func TestAddressWithNoHeaderAndNotDigitZipCode(t *testing.T) {
 }
 
 func TestAddressWithNoHeaderAndNotDigitPrefecture(t *testing.T) {
-	s := `aaa,bbb,ccc
-1,2,3
+	s := `1,2,3
 4,5,6
 7,8,9
 `
@@ -75,8 +73,7 @@ func TestAddressWithNoHeaderAndNotDigitPrefecture(t *testing.T) {
 }
 
 func TestAddressWithNoHeaderAndNotDigitCity(t *testing.T) {
-	s := `aaa,bbb,ccc
-1,2,3
+	s := `1,2,3
 4,5,6
 7,8,9
 `
@@ -95,8 +92,7 @@ func TestAddressWithNoHeaderAndNotDigitCity(t *testing.T) {
 }
 
 func TestAddressWithNoHeaderAndNotDigitTown(t *testing.T) {
-	s := `aaa,bbb,ccc
-1,2,3
+	s := `1,2,3
 4,5,6
 7,8,9
 `
