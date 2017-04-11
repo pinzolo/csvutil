@@ -7,7 +7,7 @@ import (
 var cmdBuilding = &Command{
 	Run:       runBuilding,
 	UsageLine: "building [OPTIONS...] [FILE]",
-	Short:     "建物埋め込み",
+	Short:     "建物出力",
 	Long: `DESCRIPTION
         指定した列にダミーの建物を出力します。
         自宅の場合は部屋番号、勤務先の場合はフロアを建物名似合わせて出力します。

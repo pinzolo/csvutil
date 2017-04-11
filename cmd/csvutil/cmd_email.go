@@ -7,9 +7,9 @@ import (
 var cmdEmail = &Command{
 	Run:       runEmail,
 	UsageLine: "email [OPTIONS...] [FILE]",
-	Short:     "メールアドレス埋め込み",
+	Short:     "メールアドレス出力",
 	Long: `DESCRIPTION
-        指定した列にダミーのメールアドレスを埋め込みます。
+        指定した列にダミーのメールアドレスを出力します。
 
 ARGUMENTS
         FILE

@@ -7,9 +7,9 @@ import (
 var cmdTel = &Command{
 	Run:       runTel,
 	UsageLine: "tel [OPTIONS...] [FILE]",
-	Short:     "電話番号埋め込み",
+	Short:     "電話番号出力",
 	Long: `DESCRIPTION
-        指定した列にダミーの電話番号を埋め込みます。
+        指定した列にダミーの電話番号を出力します。
 
 ARGUMENTS
         FILE
