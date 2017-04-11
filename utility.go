@@ -10,7 +10,7 @@ import (
 )
 
 var halfWidthNums = []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-"}
-var fullWidthNums = []string{"０", "１", "２", "３", "４", "５", "６", "７", "８", "９", "ー"}
+var fullWidthNums = []string{"０", "１", "２", "３", "４", "５", "６", "７", "８", "９", "－"}
 
 func reader(r io.Reader, enc string) (*csv.Reader, bool) {
 	if enc == "sjis" {
