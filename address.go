@@ -6,7 +6,7 @@ import (
 	"math/rand"
 	"strconv"
 
-	gimei "github.com/mattn/go-gimei"
+	gimei "github.com/pinzolo/go-gimei"
 	"github.com/pkg/errors"
 )
 
