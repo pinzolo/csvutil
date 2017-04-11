@@ -13,7 +13,7 @@ func TestAddressWithoutTargetColumns(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := AddressOption{}
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address without size should raise error.")
+		t.Error("Address without output target column should raise error.")
 	}
 }
 
