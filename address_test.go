@@ -17,7 +17,7 @@ func TestAddressWithoutTargetColumns(t *testing.T) {
 	}
 }
 
-func TestAddressWithUnsupportedBlockNumberWidth(t *testing.T) {
+func TestAddressWithUnsupportedNumberWidth(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3
 4,5,6
@@ -27,7 +27,7 @@ func TestAddressWithUnsupportedBlockNumberWidth(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := AddressOption{
 		ZipCode:          "0",
-		BlockNumberWidth: -1,
+		NumberWidth: -1,
 	}
 	if err := Address(r, w, o); err == nil {
 		t.Error("Address with negative size should raise error.")
@@ -44,7 +44,7 @@ func TestAddressWithZipCode(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := AddressOption{
 		ZipCode:          "aaa",
-		BlockNumberWidth: 1,
+		NumberWidth: 1,
 	}
 
 	if err := Address(r, w, o); err != nil {
@@ -73,7 +73,7 @@ func TestAddressWithPrefecture(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := AddressOption{
 		Prefecture:       "aaa",
-		BlockNumberWidth: 1,
+		NumberWidth: 1,
 	}
 
 	if err := Address(r, w, o); err != nil {
@@ -102,7 +102,7 @@ func TestAddressWithPrefectureCode(t *testing.T) {
 	o := AddressOption{
 		Prefecture:       "aaa",
 		PrefectureCode:   true,
-		BlockNumberWidth: 1,
+		NumberWidth: 1,
 	}
 
 	if err := Address(r, w, o); err != nil {
@@ -134,7 +134,7 @@ func TestAddressWithCity(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := AddressOption{
 		City:             "aaa",
-		BlockNumberWidth: 1,
+		NumberWidth: 1,
 	}
 
 	if err := Address(r, w, o); err != nil {
@@ -162,7 +162,7 @@ func TestAddressWithTown(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := AddressOption{
 		Town:             "aaa",
-		BlockNumberWidth: 1,
+		NumberWidth: 1,
 	}
 
 	if err := Address(r, w, o); err != nil {
@@ -196,7 +196,7 @@ func TestAddressWithBlockNumber(t *testing.T) {
 	o := AddressOption{
 		Town:             "aaa",
 		BlockNumber:      true,
-		BlockNumberWidth: 1,
+		NumberWidth: 1,
 	}
 
 	if err := Address(r, w, o); err != nil {
@@ -235,7 +235,7 @@ func TestAddressWithFullWidthBlockNumber(t *testing.T) {
 	o := AddressOption{
 		Town:             "aaa",
 		BlockNumber:      true,
-		BlockNumberWidth: 2,
+		NumberWidth: 2,
 	}
 
 	if err := Address(r, w, o); err != nil {
@@ -277,7 +277,7 @@ func TestAddressWithAppending(t *testing.T) {
 		City:             "0",
 		Town:             "aaa",
 		BlockNumber:      true,
-		BlockNumberWidth: 2,
+		NumberWidth: 2,
 	}
 
 	if err := Address(r, w, o); err != nil {

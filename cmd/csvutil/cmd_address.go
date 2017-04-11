@@ -66,7 +66,7 @@ OPTIONS
         -bn, --block-number
             このオプションを指定すると --town オプションに対して、ダミーの番地を出力します。
 
-        -bw, --block-width
+        -nw, --number-width
             このオプションに 1 を渡すと半角で、2 を渡すと全角で番地を出力します。
             初期値は 1 です。
 	`,
@@ -103,8 +103,8 @@ func init() {
 	cmdAddress.Flag.StringVar(&addressOpt.Town, "t", "", "Town column symbol")
 	cmdAddress.Flag.BoolVar(&addressOpt.BlockNumber, "block-number", false, "Output block number after town")
 	cmdAddress.Flag.BoolVar(&addressOpt.BlockNumber, "bn", false, "Output block number after town")
-	cmdAddress.Flag.IntVar(&addressOpt.BlockNumberWidth, "block-width", 1, "Block number character width")
-	cmdAddress.Flag.IntVar(&addressOpt.BlockNumberWidth, "bw", 1, "Block number character width")
+	cmdAddress.Flag.IntVar(&addressOpt.NumberWidth, "number-width", 1, "Block number character width")
+	cmdAddress.Flag.IntVar(&addressOpt.NumberWidth, "nw", 1, "Block number character width")
 }
 
 // runAddress executes address command and return exit code.

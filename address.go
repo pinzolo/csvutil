@@ -81,7 +81,7 @@ type AddressOption struct {
 	// BlockNumber output flag.
 	BlockNumber bool
 	// BlockNumber width(1 or 2)
-	BlockNumberWidth int
+	NumberWidth int
 }
 
 func (o AddressOption) hasTargetColumn() bool {
@@ -118,7 +118,7 @@ func (o AddressOption) validate() error {
 			return errors.New("not number town symbol")
 		}
 	}
-	if o.BlockNumberWidth != 1 && o.BlockNumberWidth != 2 {
+	if o.NumberWidth != 1 && o.NumberWidth != 2 {
 		return errors.New("invalid number width (1 or 2)")
 	}
 
@@ -126,7 +126,7 @@ func (o AddressOption) validate() error {
 }
 
 func (o AddressOption) isFullWidthBlockNumber() bool {
-	return o.BlockNumberWidth == 2
+	return o.NumberWidth == 2
 }
 
 func (o AddressOption) outputEncoding() string {
