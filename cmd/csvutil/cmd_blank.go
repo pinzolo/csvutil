@@ -28,7 +28,7 @@ OPTIONS
             処理が成功した場合に、指定されたCSVファイルをバックアップします。
             --overwrite オプションと同時に使用されることを想定しているため、ファイルパスが渡されていない場合には無視されます。
 
-        -e, --encoding
+        -e, --encoding ENCODING
             ソースとなるCSVの文字エンコーディングを指定します。
             このオプションが指定されていない場合、csvutil はUTF-8とみなして処理を行います。
             UTF-8であった場合、BOMのあるなしは自動的に判別されます。
@@ -36,7 +36,7 @@ OPTIONS
                 sjis : Shift_JISとして扱います
                 eucjp: EUC_JPとして扱います
 
-        -oe, --output-encoding
+        -oe, --output-encoding ENCODING
             出力するCSVの文字エンコーディングを指定します。
             このオプションが指定されていない場合 --encoding オプションで指定されたエンコーディングとして出力します。
             対応している値:
@@ -45,23 +45,23 @@ OPTIONS
                 sjis    : Shift_JISとして出力します
                 eucjp   : EUC_JPとして出力します
 
-        -c, --column
+        -c, --column COLUMN_SYMBOL(S)
             対象となる列のシンボルを指定します。
             列のシンボルとは列のインデックス（0開始）、もしくはヘッダーテキストです。
             --no-header オプションが指定された場合、インデックスしか受け入れません。
             複数列を対象としたい場合は、foo:bar や 1:2のようにコロン区切りで指定して下さい。
 
-        -r, --rate
+        -r, --rate PERCENTAGE
             空白可する割合を指定します。0〜100までの整数を指定して下さい。
             指定しない場合、100%空白化します。
 
-        -sw, --space-width
+        -sw, --space-width NUMBER
             空白化に指定する空白文字を数字で指定します。
                 0: 空文字（初期値）
                 1: 半角スペース [0x20]
                 2: 全角スペース [0xE3 0x80 0x80]
 
-        --ss, --space-size
+        --ss, --space-size NUMBER
             空白化する際に --space-width で指定した文字を何回繰り返すかを指定します。
             初期値が0なので --space-width も指定しないと必ず空文字での空白可を行います。
             例:

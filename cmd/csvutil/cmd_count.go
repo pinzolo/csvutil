@@ -23,7 +23,7 @@ OPTIONS
         -H, --no-header
             ソースとなるCSVの1行目をヘッダー列として扱いません。
 
-        -e, --encoding
+        -e, --encoding ENCODING
             ソースとなるCSVの文字エンコーディングを指定します。
             このオプションが指定されていない場合、csvutil はUTF-8とみなして処理を行います。
             UTF-8であった場合、BOMのあるなしは自動的に判別されます。

@@ -30,7 +30,7 @@ OPTIONS
             処理が成功した場合に、指定されたCSVファイルをバックアップします。
             --overwrite オプションと同時に使用されることを想定しているため、ファイルパスが渡されていない場合には無視されます。
 
-        -e, --encoding
+        -e, --encoding ENCODING
             ソースとなるCSVの文字エンコーディングを指定します。
             このオプションが指定されていない場合、csvutil はUTF-8とみなして処理を行います。
             UTF-8であった場合、BOMのあるなしは自動的に判別されます。
@@ -38,7 +38,7 @@ OPTIONS
                 sjis : Shift_JISとして扱います
                 eucjp: EUC_JPとして扱います
 
-        -oe, --output-encoding
+        -oe, --output-encoding ENCODING
             出力するCSVの文字エンコーディングを指定します。
             このオプションが指定されていない場合 --encoding オプションで指定されたエンコーディングとして出力します。
             対応している値:
@@ -47,26 +47,26 @@ OPTIONS
                 sjis    : Shift_JISとして出力します
                 eucjp   : EUC_JPとして出力します
 
-        -z, --zip-code
+        -z, --zip-code COLUMN_SYMBOL
             郵便番号を出力する列のシンボルを指定します。
 
-        -p, --prefecture
+        -p, --prefecture COLUMN_SYMBOL
             都道府県を出力する列のシンボルを指定します。
 
         -pc, --prefecture-code
             このオプションを指定すると都道府県を都道府県コードとして出力します。
             都道府県コードは 01 の用にゼロ埋めされています。
 
-        -c, --city
+        -c, --city COLUMN_SYMBOL
             都市を出力する列のシンボルを指定します。
 
-        -t, --town
+        -t, --town COLUMN_SYMBOL
             町を出力する列のシンボルを指定します。
 
         -bn, --block-number
             このオプションを指定すると --town オプションに対して、ダミーの番地を出力します。
 
-        -nw, --number-width
+        -nw, --number-width NUMBER
             このオプションに 1 を渡すと半角で、2 を渡すと全角で番地を出力します。
             初期値は 1 です。
 	`,

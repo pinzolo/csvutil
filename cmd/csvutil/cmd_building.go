@@ -29,7 +29,7 @@ OPTIONS
             処理が成功した場合に、指定されたCSVファイルをバックアップします。
             --overwrite オプションと同時に使用されることを想定しているため、ファイルパスが渡されていない場合には無視されます。
 
-        -e, --encoding
+        -e, --encoding ENCODING
             ソースとなるCSVの文字エンコーディングを指定します。
             このオプションが指定されていない場合、csvutil はUTF-8とみなして処理を行います。
             UTF-8であった場合、BOMのあるなしは自動的に判別されます。
@@ -37,7 +37,7 @@ OPTIONS
                 sjis : Shift_JISとして扱います
                 eucjp: EUC_JPとして扱います
 
-        -oe, --output-encoding
+        -oe, --output-encoding ENCODING
             出力するCSVの文字エンコーディングを指定します。
             このオプションが指定されていない場合 --encoding オプションで指定されたエンコーディングとして出力します。
             対応している値:
@@ -46,16 +46,16 @@ OPTIONS
                 sjis    : Shift_JISとして出力します
                 eucjp   : EUC_JPとして出力します
 
-        -c, --column
+        -c, --column COLUMN_SYMBOL
             対象となる列のシンボルを指定します。
             列のシンボルとは列のインデックス（0開始）、もしくはヘッダーテキストです。
             --no-header オプションが指定された場合、インデックスしか受け入れません。
 
-        -nw, --number-width
+        -nw, --number-width NUMBER
             このオプションに 1 を渡すと半角で、2 を渡すと全角で部屋番号・フロアを出力します。
             初期値は 1 です。
 
-        -or, --office-rate
+        -or, --office-rate PERCENTAGE
             ダミーの勤務先向け建物を設定する割合を指定します。0〜100までの整数を指定して下さい。（初期値: 0）
             このオプションはランダムなビル名とランダムなフロアを出力します。
 	`,

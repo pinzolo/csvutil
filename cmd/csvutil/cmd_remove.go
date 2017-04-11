@@ -28,7 +28,7 @@ OPTIONS
             処理が成功した場合に、指定されたCSVファイルをバックアップします。
             --overwrite オプションと同時に使用されることを想定しているため、ファイルパスが渡されていない場合には無視されます。
 
-        -e, --encoding
+        -e, --encoding ENCODING
             ソースとなるCSVの文字エンコーディングを指定します。
             このオプションが指定されていない場合、csvutil はUTF-8とみなして処理を行います。
             UTF-8であった場合、BOMのあるなしは自動的に判別されます。
@@ -36,7 +36,7 @@ OPTIONS
                 sjis : Shift_JISとして扱います
                 eucjp: EUC_JPとして扱います
 
-        -oe, --output-encoding
+        -oe, --output-encoding ENCODING
             出力するCSVの文字エンコーディングを指定します。
             このオプションが指定されていない場合 --encoding オプションで指定されたエンコーディングとして出力します。
             対応している値:
@@ -45,7 +45,7 @@ OPTIONS
                 sjis    : Shift_JISとして出力します
                 eucjp   : EUC_JPとして出力します
 
-        -c, --column
+        -c, --column COLUMN_SYMBOL(S)
             削除する列のシンボルを指定します。
             列のシンボルとは列のインデックス（0開始）、もしくはヘッダーテキストです。
             --no-header オプションが指定された場合、インデックスしか受け入れません。
