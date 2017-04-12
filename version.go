@@ -5,6 +5,6 @@ import "github.com/coreos/go-semver/semver"
 // Version of csvutil.
 var Version = semver.Version{
 	Major: 0,
-	Minor: 13,
+	Minor: 14,
 	Patch: 0,
 }
