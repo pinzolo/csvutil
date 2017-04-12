@@ -18,9 +18,9 @@ CSVの構成操作、およびダミーデータ生成が可能です。
 
 ```bash
 $ csvutil generate --size 5 --count 10 --header 氏名:郵便番号:住所:建物:メール | \
-  csvutil name --name 氏名 |\
-  csvutil address --zip-code 郵便番号 --prefecture 住所 --city 住所 --town 住所 --block-number |\
-  csvutil building --column 建物 |\
+  csvutil name --name 氏名 | \
+  csvutil address --zip-code 郵便番号 --prefecture 住所 --city 住所 --town 住所 --block-number | \
+  csvutil building --column 建物 | \
   csvutil email --column メール
 ```
 
