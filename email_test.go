@@ -97,6 +97,23 @@ func TestEmailWithUnknownColumn(t *testing.T) {
 	}
 }
 
+func TestEmailWithBrokenCSV(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := EmailOption{
+		Column: "aaa",
+	}
+
+	if err := Email(r, w, o); err == nil {
+		t.Error("Email with broken csv should raise error.")
+	}
+}
+
 func TestEmailWitColumn(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

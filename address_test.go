@@ -186,6 +186,24 @@ func TestAddressOnTownNotFound(t *testing.T) {
 	}
 }
 
+func TestAddressWithBrokenCSV(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := AddressOption{
+		ZipCode:     "aaa",
+		NumberWidth: 1,
+	}
+
+	if err := Address(r, w, o); err == nil {
+		t.Error("Address with broken csv should raise error.")
+	}
+}
+
 func TestAddressWithZipCode(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

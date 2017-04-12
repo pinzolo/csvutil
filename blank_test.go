@@ -131,6 +131,24 @@ func TestBlankWithUnknownHeaderSymbol(t *testing.T) {
 	}
 }
 
+func TestBlankWithBrokenCSV(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := BlankOption{
+		ColumnSyms: []string{"ddd"},
+		Rate:       100,
+	}
+
+	if err := Blank(r, w, o); err == nil {
+		t.Error("Blank with broken csv should raise error.")
+	}
+}
+
 func TestBlankWhenColumnIsHeaderText(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

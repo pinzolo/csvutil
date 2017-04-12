@@ -64,6 +64,23 @@ func TestExtractWithUnknownHeaderSymbol(t *testing.T) {
 	}
 }
 
+func TestExtractWithBrokenCSV(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := ExtractOption{
+		ColumnSyms: []string{"aaa"},
+	}
+
+	if err := Extract(r, w, o); err == nil {
+		t.Error("Extract with broken csv should raise error.")
+	}
+}
+
 func TestExtractWhenColumnIsHeaderText(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

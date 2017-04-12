@@ -341,6 +341,23 @@ func TestNameOnLastReferenceNotFound(t *testing.T) {
 	}
 }
 
+func TestNameWithBrokenCSV(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := NameOption{
+		Name: "aaa",
+	}
+
+	if err := Name(r, w, o); err == nil {
+		t.Error("Name with broken csv should raise error.")
+	}
+}
+
 func TestNameWithName(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

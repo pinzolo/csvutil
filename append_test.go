@@ -41,6 +41,24 @@ func TestAppendWithHeadersOnly(t *testing.T) {
 	}
 }
 
+func TestAppendWithBrokenCSV(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := AppendOption{
+		Size: 1,
+	}
+
+	err := Append(r, w, o)
+	if err == nil {
+		t.Error("Append with broken csv should raise error.")
+	}
+}
+
 func TestAppendWithSize(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

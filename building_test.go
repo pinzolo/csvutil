@@ -143,6 +143,24 @@ func TestBuildingOnApartment(t *testing.T) {
 	}
 }
 
+func TestBuildingWithBrokenCSV(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := BuildingOption{
+		Column:      "aaa",
+		NumberWidth: 1,
+	}
+
+	if err := Building(r, w, o); err == nil {
+		t.Error("Building with broken csv should raise error.")
+	}
+}
+
 func TestBuildingOnApartmentFull(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

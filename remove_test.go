@@ -64,6 +64,23 @@ func TestRemoveWithUnknownHeaderSymbol(t *testing.T) {
 	}
 }
 
+func TestRemoveWithBrokenCSV(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := RemoveOption{
+		ColumnSyms: []string{"aaa"},
+	}
+
+	if err := Remove(r, w, o); err == nil {
+		t.Error("Remove with broken csv should raise error.")
+	}
+}
+
 func TestRemoveWhenColumnIsHeaderText(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

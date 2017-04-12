@@ -5,6 +5,36 @@ import (
 	"testing"
 )
 
+func TestHeaderWithBrokenCSV(t *testing.T) {
+	s := `a"aa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := HeaderOption{}
+
+	if err := Header(r, w, o); err == nil {
+		t.Error("Header with broken csv should raise error.")
+	}
+}
+
+func TestHeaderWithEmpty(t *testing.T) {
+	s := ``
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := HeaderOption{}
+	if err := Header(r, w, o); err != nil {
+		t.Error(err)
+	}
+
+	expected := ""
+	if actual := w.String(); actual != expected {
+		t.Errorf("Expectd: %s, but got %s", expected, actual)
+	}
+}
+
 func TestHeader(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

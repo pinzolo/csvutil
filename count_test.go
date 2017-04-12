@@ -5,6 +5,20 @@ import (
 	"testing"
 )
 
+func TestCountWithBrokenCSV(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	o := CountOption{}
+
+	if _, err := Count(r, o); err == nil {
+		t.Error("Count with broken csv should raise error.")
+	}
+}
+
 func TestCountWithHeader(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

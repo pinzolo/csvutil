@@ -20,6 +20,20 @@ func TestSizeWithEmptyCSV(t *testing.T) {
 	}
 }
 
+func TestSizeWithBrokenCSV(t *testing.T) {
+	s := `a"aa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	o := SizeOption{}
+
+	if _, err := Size(r, o); err == nil {
+		t.Error("Size with broken csv should raise error.")
+	}
+}
+
 func TestSize(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3
