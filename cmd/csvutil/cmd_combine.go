@@ -9,7 +9,7 @@ var cmdCombine = &Command{
 	UsageLine: "combine [OPTIONS...] [FILE]",
 	Short:     "列結合",
 	Long: `DESCRIPTION
-        指定された列を抽出したCSVを出力します。
+        指定された列を結合した値を、指定した列に出力します。
 
 ARGUMENTS
         FILE
