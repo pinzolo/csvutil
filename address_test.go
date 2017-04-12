@@ -47,8 +47,7 @@ func TestAddressWithNoHeaderAndNotDigitZipCode(t *testing.T) {
 		NumberWidth: 1,
 	}
 
-	err := Address(r, w, o)
-	if err == nil {
+	if err := Address(r, w, o); err == nil {
 		t.Error("Address with no header and not digit zip code column symbol should raise error.")
 	}
 }
@@ -66,8 +65,7 @@ func TestAddressWithNoHeaderAndNotDigitPrefecture(t *testing.T) {
 		NumberWidth: 1,
 	}
 
-	err := Address(r, w, o)
-	if err == nil {
+	if err := Address(r, w, o); err == nil {
 		t.Error("Address with no header and not digit prefecture column symbol should raise error.")
 	}
 }
@@ -85,8 +83,7 @@ func TestAddressWithNoHeaderAndNotDigitCity(t *testing.T) {
 		NumberWidth: 1,
 	}
 
-	err := Address(r, w, o)
-	if err == nil {
+	if err := Address(r, w, o); err == nil {
 		t.Error("Address with no header and not digit city column symbol should raise error.")
 	}
 }
@@ -104,8 +101,7 @@ func TestAddressWithNoHeaderAndNotDigitTown(t *testing.T) {
 		NumberWidth: 1,
 	}
 
-	err := Address(r, w, o)
-	if err == nil {
+	if err := Address(r, w, o); err == nil {
 		t.Error("Address with no header and not digit town column symbol should raise error.")
 	}
 }
@@ -123,8 +119,7 @@ func TestAddressOnZipCodeNotFound(t *testing.T) {
 		NumberWidth: 1,
 	}
 
-	err := Address(r, w, o)
-	if err == nil {
+	if err := Address(r, w, o); err == nil {
 		t.Error("Address with unknown zip code column symbol should raise error.")
 	}
 }
@@ -142,8 +137,7 @@ func TestAddressOnPrefectureNotFound(t *testing.T) {
 		NumberWidth: 1,
 	}
 
-	err := Address(r, w, o)
-	if err == nil {
+	if err := Address(r, w, o); err == nil {
 		t.Error("Address with unknown prefecture column symbol should raise error.")
 	}
 }
@@ -161,8 +155,7 @@ func TestAddressOnCityNotFound(t *testing.T) {
 		NumberWidth: 1,
 	}
 
-	err := Address(r, w, o)
-	if err == nil {
+	if err := Address(r, w, o); err == nil {
 		t.Error("Address with unknown city column symbol should raise error.")
 	}
 }
@@ -180,8 +173,7 @@ func TestAddressOnTownNotFound(t *testing.T) {
 		NumberWidth: 1,
 	}
 
-	err := Address(r, w, o)
-	if err == nil {
+	if err := Address(r, w, o); err == nil {
 		t.Error("Address with unknown town column symbol should raise error.")
 	}
 }

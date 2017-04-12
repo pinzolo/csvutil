@@ -19,8 +19,7 @@ func TestTelWithoutColumn(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := TelOption{}
 
-	err := Tel(r, w, o)
-	if err == nil {
+	if err := Tel(r, w, o); err == nil {
 		t.Error("Email without column symbol should raise error.")
 	}
 }
@@ -37,8 +36,7 @@ func TestTelWithNoHeaderButColumnNotNumber(t *testing.T) {
 		Column:   "foo",
 	}
 
-	err := Tel(r, w, o)
-	if err == nil {
+	if err := Tel(r, w, o); err == nil {
 		t.Error("Email with not number column symbol for no header CSV should raise error.")
 	}
 
@@ -57,8 +55,7 @@ func TestTelWithNegativeMobileRate(t *testing.T) {
 		MobileRate: -1,
 	}
 
-	err := Tel(r, w, o)
-	if err == nil {
+	if err := Tel(r, w, o); err == nil {
 		t.Error("Tel with negative mobile rate should raise error.")
 	}
 }
@@ -76,8 +73,7 @@ func TestTelWithOver100MobileRate(t *testing.T) {
 		MobileRate: 101,
 	}
 
-	err := Tel(r, w, o)
-	if err == nil {
+	if err := Tel(r, w, o); err == nil {
 		t.Error("Tel with over 100 rate should raise error.")
 	}
 }
@@ -94,8 +90,7 @@ func TestTelWithUnknownColumn(t *testing.T) {
 		Column: "ddd",
 	}
 
-	err := Tel(r, w, o)
-	if err == nil {
+	if err := Tel(r, w, o); err == nil {
 		t.Error("Tel with unknown column should raise error.")
 	}
 }

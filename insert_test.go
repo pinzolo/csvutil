@@ -9,6 +9,7 @@ func TestInsertWithoutSize(t *testing.T) {
 	r := &bytes.Buffer{}
 	w := &bytes.Buffer{}
 	o := InsertOption{}
+
 	if err := Insert(r, w, o); err == nil {
 		t.Error("Insert without size should raise error.")
 	}
@@ -20,6 +21,7 @@ func TestInsertWithNegativeSize(t *testing.T) {
 	o := InsertOption{
 		Size: -1,
 	}
+
 	if err := Insert(r, w, o); err == nil {
 		t.Error("Insert with negative size should raise error.")
 	}
@@ -36,6 +38,7 @@ func TestInsertWithHeadersOnly(t *testing.T) {
 	o := InsertOption{
 		Headers: []string{"foo", "bar"},
 	}
+
 	if err := Insert(r, w, o); err == nil {
 		t.Error("Insert without size should raise error.")
 	}

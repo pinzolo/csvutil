@@ -19,8 +19,7 @@ func TestBuildingWithoutColumn(t *testing.T) {
 		NumberWidth: 1,
 	}
 
-	err := Building(r, w, o)
-	if err == nil {
+	if err := Building(r, w, o); err == nil {
 		t.Error("Building without column symbol should raise error.")
 	}
 }
@@ -38,8 +37,7 @@ func TestBuildingWithNoHeaderButColumnNotNumber(t *testing.T) {
 		NumberWidth: 1,
 	}
 
-	err := Building(r, w, o)
-	if err == nil {
+	if err := Building(r, w, o); err == nil {
 		t.Error("Building with not number column symbol for no header CSV should raise error.")
 	}
 
@@ -59,8 +57,7 @@ func TestBuildingWithNegativeOfficeRate(t *testing.T) {
 		NumberWidth: 1,
 	}
 
-	err := Building(r, w, o)
-	if err == nil {
+	if err := Building(r, w, o); err == nil {
 		t.Error("Building with negative office rate should raise error.")
 	}
 }

@@ -9,6 +9,7 @@ func TestAppendWithoutSize(t *testing.T) {
 	r := &bytes.Buffer{}
 	w := &bytes.Buffer{}
 	o := AppendOption{}
+
 	if err := Append(r, w, o); err == nil {
 		t.Error("Append without size should raise error.")
 	}
@@ -20,6 +21,7 @@ func TestAppendWithNegativeSize(t *testing.T) {
 	o := AppendOption{
 		Size: -1,
 	}
+
 	if err := Append(r, w, o); err == nil {
 		t.Error("Append with negative size should raise error.")
 	}
@@ -36,6 +38,7 @@ func TestAppendWithHeadersOnly(t *testing.T) {
 	o := AppendOption{
 		Headers: []string{"foo", "bar"},
 	}
+
 	if err := Append(r, w, o); err == nil {
 		t.Error("Append without size should raise error.")
 	}
@@ -53,8 +56,7 @@ func TestAppendWithBrokenCSV(t *testing.T) {
 		Size: 1,
 	}
 
-	err := Append(r, w, o)
-	if err == nil {
+	if err := Append(r, w, o); err == nil {
 		t.Error("Append with broken csv should raise error.")
 	}
 }

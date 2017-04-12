@@ -10,8 +10,7 @@ func TestRemoveWithEmptyColumn(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := RemoveOption{}
 
-	err := Remove(r, w, o)
-	if err == nil {
+	if err := Remove(r, w, o); err == nil {
 		t.Error("Remove with empty column should raise error.")
 	}
 }
@@ -24,8 +23,7 @@ func TestRemoveWithNoHeaderAndNoDigitColumn(t *testing.T) {
 		ColumnSyms: []string{"foo"},
 	}
 
-	err := Remove(r, w, o)
-	if err == nil {
+	if err := Remove(r, w, o); err == nil {
 		t.Error("Remove with no header and no digit column symbol should raise error.")
 	}
 }
@@ -41,8 +39,8 @@ func TestRemoveWithSymbolColumnButNoHeader(t *testing.T) {
 		NoHeader:   true,
 		ColumnSyms: []string{"aaa"},
 	}
-	err := Remove(r, w, o)
-	if err == nil {
+
+	if err := Remove(r, w, o); err == nil {
 		t.Error("When given header text as column symbol but CSV does not have header, Remove should raise error.")
 	}
 }
@@ -58,8 +56,8 @@ func TestRemoveWithUnknownHeaderSymbol(t *testing.T) {
 	o := RemoveOption{
 		ColumnSyms: []string{"ddd"},
 	}
-	err := Remove(r, w, o)
-	if err == nil {
+
+	if err := Remove(r, w, o); err == nil {
 		t.Error("Remove with unknown header symbol should raise error.")
 	}
 }
@@ -92,8 +90,8 @@ func TestRemoveWhenColumnIsHeaderText(t *testing.T) {
 	o := RemoveOption{
 		ColumnSyms: []string{"bbb"},
 	}
-	err := Remove(r, w, o)
-	if err != nil {
+
+	if err := Remove(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `aaa,ccc
@@ -117,8 +115,8 @@ func TestRemoveWhenColumnIsIndex(t *testing.T) {
 	o := RemoveOption{
 		ColumnSyms: []string{"1"},
 	}
-	err := Remove(r, w, o)
-	if err != nil {
+
+	if err := Remove(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `aaa,ccc
@@ -142,8 +140,8 @@ func TestRemoveWhenColumnIsIndexAndNoHeader(t *testing.T) {
 		NoHeader:   true,
 		ColumnSyms: []string{"1"},
 	}
-	err := Remove(r, w, o)
-	if err != nil {
+
+	if err := Remove(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `1,3
@@ -166,8 +164,8 @@ func TestRemoveWhenColumnIsMultiColumn(t *testing.T) {
 	o := RemoveOption{
 		ColumnSyms: []string{"aaa", "bbb"},
 	}
-	err := Remove(r, w, o)
-	if err != nil {
+
+	if err := Remove(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `ccc

@@ -10,8 +10,7 @@ func TestExtractWithEmptyColumn(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := ExtractOption{}
 
-	err := Extract(r, w, o)
-	if err == nil {
+	if err := Extract(r, w, o); err == nil {
 		t.Error("Extract with empty column should raise error.")
 	}
 }
@@ -24,8 +23,7 @@ func TestExtractWithNoHeaderAndNoDigitColumn(t *testing.T) {
 		ColumnSyms: []string{"foo"},
 	}
 
-	err := Extract(r, w, o)
-	if err == nil {
+	if err := Extract(r, w, o); err == nil {
 		t.Error("Extract with no header and no digit column symbol should raise error.")
 	}
 }
@@ -41,8 +39,8 @@ func TestExtractWithSymbolColumnButNoHeader(t *testing.T) {
 		NoHeader:   true,
 		ColumnSyms: []string{"aaa"},
 	}
-	err := Extract(r, w, o)
-	if err == nil {
+
+	if err := Extract(r, w, o); err == nil {
 		t.Error("When given header text as column symbol but CSV does not have header, Extract should raise error.")
 	}
 }
@@ -58,8 +56,8 @@ func TestExtractWithUnknownHeaderSymbol(t *testing.T) {
 	o := ExtractOption{
 		ColumnSyms: []string{"ddd"},
 	}
-	err := Extract(r, w, o)
-	if err == nil {
+
+	if err := Extract(r, w, o); err == nil {
 		t.Error("Extract with unknown header symbol should raise error.")
 	}
 }
@@ -92,8 +90,8 @@ func TestExtractWhenColumnIsHeaderText(t *testing.T) {
 	o := ExtractOption{
 		ColumnSyms: []string{"bbb"},
 	}
-	err := Extract(r, w, o)
-	if err != nil {
+
+	if err := Extract(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `bbb
@@ -117,8 +115,8 @@ func TestExtractWhenColumnIsIndex(t *testing.T) {
 	o := ExtractOption{
 		ColumnSyms: []string{"1"},
 	}
-	err := Extract(r, w, o)
-	if err != nil {
+
+	if err := Extract(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `bbb
@@ -142,8 +140,8 @@ func TestExtractWhenColumnIsIndexAndNoHeader(t *testing.T) {
 		NoHeader:   true,
 		ColumnSyms: []string{"1"},
 	}
-	err := Extract(r, w, o)
-	if err != nil {
+
+	if err := Extract(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `2
@@ -166,8 +164,8 @@ func TestExtractWhenColumnIsMultiColumn(t *testing.T) {
 	o := ExtractOption{
 		ColumnSyms: []string{"aaa", "bbb"},
 	}
-	err := Extract(r, w, o)
-	if err != nil {
+
+	if err := Extract(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `aaa,bbb

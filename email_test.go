@@ -16,8 +16,7 @@ func TestEmailWithoutColumn(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := EmailOption{}
 
-	err := Email(r, w, o)
-	if err == nil {
+	if err := Email(r, w, o); err == nil {
 		t.Error("Email without column symbol should raise error.")
 	}
 }
@@ -34,8 +33,7 @@ func TestEmailWithNoHeaderButColumnNotNumber(t *testing.T) {
 		Column:   "foo",
 	}
 
-	err := Email(r, w, o)
-	if err == nil {
+	if err := Email(r, w, o); err == nil {
 		t.Error("Email with not number column symbol for no header CSV should raise error.")
 	}
 
@@ -54,8 +52,7 @@ func TestEmailWithNegativeMobileRate(t *testing.T) {
 		MobileRate: -1,
 	}
 
-	err := Email(r, w, o)
-	if err == nil {
+	if err := Email(r, w, o); err == nil {
 		t.Error("Email with negative mobile rate should raise error.")
 	}
 }
@@ -73,8 +70,7 @@ func TestEmailWithOver100MobileRate(t *testing.T) {
 		MobileRate: 101,
 	}
 
-	err := Email(r, w, o)
-	if err == nil {
+	if err := Email(r, w, o); err == nil {
 		t.Error("Email with over 100 mobile rate should raise error.")
 	}
 }
@@ -91,8 +87,7 @@ func TestEmailWithUnknownColumn(t *testing.T) {
 		Column: "ddd",
 	}
 
-	err := Email(r, w, o)
-	if err == nil {
+	if err := Email(r, w, o); err == nil {
 		t.Error("Email with unknown column should raise error.")
 	}
 }

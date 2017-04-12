@@ -28,8 +28,7 @@ func TestNameWithNoHeaderAndNotDigitName(t *testing.T) {
 		Name:     "aaa",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with no header and not digit name column symbol should raise error.")
 	}
 }
@@ -46,8 +45,7 @@ func TestNameWithNoHeaderAndNotDigitFirstName(t *testing.T) {
 		FirstName: "aaa",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with no header and not digit first name column symbol should raise error.")
 	}
 }
@@ -64,8 +62,7 @@ func TestNameWithNoHeaderAndNotDigitLastName(t *testing.T) {
 		LastName: "aaa",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with no header and not digit last name column symbol should raise error.")
 	}
 }
@@ -82,8 +79,7 @@ func TestNameWithNoHeaderAndNotDigitKana(t *testing.T) {
 		Kana:     "aaa",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Kana with no header and not digit kana column symbol should raise error.")
 	}
 }
@@ -100,8 +96,7 @@ func TestNameWithNoHeaderAndNotDigitFirstKana(t *testing.T) {
 		FirstKana: "aaa",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with no header and not digit first kana column symbol should raise error.")
 	}
 }
@@ -118,8 +113,7 @@ func TestNameWithNoHeaderAndNotDigitLastKana(t *testing.T) {
 		LastKana: "aaa",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with no header and not digit last kana column symbol should raise error.")
 	}
 }
@@ -136,8 +130,7 @@ func TestNameWithNoHeaderAndNotDigitGender(t *testing.T) {
 		Gender:   "aaa",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with no header and not digit gender column symbol should raise error.")
 	}
 }
@@ -155,8 +148,7 @@ func TestNameWithNoHeaderAndNotDigitReference(t *testing.T) {
 		Reference: "aaa",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with no header and not digit reference column symbol should raise error.")
 	}
 }
@@ -173,6 +165,7 @@ func TestNameWithUnsupportedSpaceWidth(t *testing.T) {
 		Name:       "0",
 		SpaceWidth: -1,
 	}
+
 	if err := Name(r, w, o); err == nil {
 		t.Error("Name with negative space width should raise error.")
 	}
@@ -190,6 +183,7 @@ func TestNameWithUnsupportedGenderFormat(t *testing.T) {
 		Gender:       "0",
 		GenderFormat: "x",
 	}
+
 	if err := Name(r, w, o); err == nil {
 		t.Error("Name with unknown gender format should raise error.")
 	}
@@ -207,8 +201,7 @@ func TestNameOnNameNotFound(t *testing.T) {
 		Name: "ddd",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with unknown name column symbol should raise error.")
 	}
 }
@@ -225,8 +218,7 @@ func TestNameOnFirstNameNotFound(t *testing.T) {
 		FirstName: "ddd",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with unknown first name column symbol should raise error.")
 	}
 }
@@ -243,8 +235,7 @@ func TestNameOnLastNameNotFound(t *testing.T) {
 		LastName: "ddd",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with unknown last name column symbol should raise error.")
 	}
 }
@@ -261,8 +252,7 @@ func TestNameOnKanaNotFound(t *testing.T) {
 		Kana: "ddd",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with unknown kana column symbol should raise error.")
 	}
 }
@@ -279,8 +269,7 @@ func TestNameOnFirstKanaNotFound(t *testing.T) {
 		FirstKana: "ddd",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with unknown first kana column symbol should raise error.")
 	}
 }
@@ -297,8 +286,7 @@ func TestNameOnLastKanaNotFound(t *testing.T) {
 		LastKana: "ddd",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with unknown last kana column symbol should raise error.")
 	}
 }
@@ -316,8 +304,7 @@ func TestNameOnLastGenderNotFound(t *testing.T) {
 		GenderFormat: "jp_short",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with unknown gender column symbol should raise error.")
 	}
 }
@@ -335,8 +322,7 @@ func TestNameOnLastReferenceNotFound(t *testing.T) {
 		Reference: "ddd",
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with unknown reference column symbol should raise error.")
 	}
 }
@@ -370,8 +356,7 @@ func TestNameWithName(t *testing.T) {
 		Name: "aaa",
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -406,8 +391,7 @@ func TestNameWithNameAndSpaceWidth1(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -445,8 +429,7 @@ func TestNameWithNameAndSpaceWidth2(t *testing.T) {
 		SpaceWidth: 2,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -484,8 +467,7 @@ func TestNameWithFirstName(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -523,8 +505,7 @@ func TestNameWithLastName(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -562,8 +543,7 @@ func TestNameWithKanaAndSpaceWidth1(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -598,8 +578,7 @@ func TestNameWithKanaAndSpaceWidth2(t *testing.T) {
 		SpaceWidth: 2,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -634,8 +613,7 @@ func TestNameWithFirstKana(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -670,8 +648,7 @@ func TestNameWithLastKana(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -707,8 +684,7 @@ func TestNameWithKanaAndHiraganaAndSpaceWidth1(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -744,8 +720,7 @@ func TestNameWithKanaAndHiraganaAndSpaceWidth2(t *testing.T) {
 		SpaceWidth: 2,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -781,8 +756,7 @@ func TestNameWithFirstKanaAndHiragana(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -818,8 +792,7 @@ func TestNameWithLastKanaAndHiragana(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -856,8 +829,7 @@ func TestNameWithGender(t *testing.T) {
 			SpaceWidth:   1,
 		}
 
-		err := Name(r, w, o)
-		if err != nil {
+		if err := Name(r, w, o); err != nil {
 			t.Error(err)
 		}
 
@@ -890,8 +862,7 @@ func TestNameWithGenderMaleRate100(t *testing.T) {
 		SpaceWidth:   1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -922,8 +893,7 @@ func TestNameWithGenderMaleRate0(t *testing.T) {
 		SpaceWidth:   1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -953,8 +923,7 @@ func TestNameWithReference(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -984,8 +953,7 @@ func TestNameWithReferenceFullSpace(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -1015,8 +983,7 @@ func TestNameWithReferenceLastNameOnly(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -1049,8 +1016,7 @@ func TestNameWithReferenceAndMaleRate100(t *testing.T) {
 		SpaceWidth:   1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -1086,8 +1052,7 @@ func TestNameWithReferenceAndMaleRate0(t *testing.T) {
 		SpaceWidth:   1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -1120,8 +1085,7 @@ func TestNameWithReferenceOnReferenceFail(t *testing.T) {
 		SpaceWidth: 1,
 	}
 
-	err := Name(r, w, o)
-	if err != nil {
+	if err := Name(r, w, o); err != nil {
 		t.Error(err)
 	}
 
@@ -1152,8 +1116,7 @@ func TestNameWithRistrictReferenceOnReferenceFail(t *testing.T) {
 		SpaceWidth:        1,
 	}
 
-	err := Name(r, w, o)
-	if err == nil {
+	if err := Name(r, w, o); err == nil {
 		t.Error("Name with ristrict reference should raise error on reference failed.")
 	}
 }

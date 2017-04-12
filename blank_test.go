@@ -10,8 +10,7 @@ func TestBlankWithEmptyColumn(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := BlankOption{}
 
-	err := Blank(r, w, o)
-	if err == nil {
+	if err := Blank(r, w, o); err == nil {
 		t.Error("Blank with empty column should raise error.")
 	}
 }
@@ -24,8 +23,7 @@ func TestBlankWithNoHeaderAndNoDigitColumn(t *testing.T) {
 		ColumnSyms: []string{"foo"},
 	}
 
-	err := Blank(r, w, o)
-	if err == nil {
+	if err := Blank(r, w, o); err == nil {
 		t.Error("Blank with no header and no digit column symbol should raise error.")
 	}
 }
@@ -37,8 +35,8 @@ func TestBlankWithNegativeSpaceWidth(t *testing.T) {
 		ColumnSyms: []string{"1"},
 		SpaceWidth: -1,
 	}
-	err := Blank(r, w, o)
-	if err == nil {
+
+	if err := Blank(r, w, o); err == nil {
 		t.Error("Blank with negative width should raise error.")
 	}
 }
@@ -50,8 +48,8 @@ func TestBlankWithOver2SpaceWidth(t *testing.T) {
 		ColumnSyms: []string{"1"},
 		SpaceWidth: 3,
 	}
-	err := Blank(r, w, o)
-	if err == nil {
+
+	if err := Blank(r, w, o); err == nil {
 		t.Error("Blank with over 2 width should raise error.")
 	}
 }
@@ -63,8 +61,8 @@ func TestBlankWithNegativeSpaceSize(t *testing.T) {
 		ColumnSyms: []string{"1"},
 		SpaceSize:  -1,
 	}
-	err := Blank(r, w, o)
-	if err == nil {
+
+	if err := Blank(r, w, o); err == nil {
 		t.Error("Blank with negative size should raise error.")
 	}
 }
@@ -76,8 +74,8 @@ func TestBlankWithNegativeRate(t *testing.T) {
 		ColumnSyms: []string{"1"},
 		Rate:       -1,
 	}
-	err := Blank(r, w, o)
-	if err == nil {
+
+	if err := Blank(r, w, o); err == nil {
 		t.Error("Blank with negative rate should raise error.")
 	}
 }
@@ -89,8 +87,8 @@ func TestBlankWithOver101Rate(t *testing.T) {
 		ColumnSyms: []string{"1"},
 		Rate:       101,
 	}
-	err := Blank(r, w, o)
-	if err == nil {
+
+	if err := Blank(r, w, o); err == nil {
 		t.Error("Blank with over 101 rate should raise error.")
 	}
 }
@@ -107,8 +105,8 @@ func TestBlankWithSymbolColumnButNoHeader(t *testing.T) {
 		ColumnSyms: []string{"aaa"},
 		Rate:       100,
 	}
-	err := Blank(r, w, o)
-	if err == nil {
+
+	if err := Blank(r, w, o); err == nil {
 		t.Error("When given header text as column symbol but CSV does not have header, Blank should raise error.")
 	}
 }
@@ -125,8 +123,8 @@ func TestBlankWithUnknownHeaderSymbol(t *testing.T) {
 		ColumnSyms: []string{"ddd"},
 		Rate:       100,
 	}
-	err := Blank(r, w, o)
-	if err == nil {
+
+	if err := Blank(r, w, o); err == nil {
 		t.Error("Blank with unknown header symbol should raise error.")
 	}
 }
@@ -161,8 +159,8 @@ func TestBlankWhenColumnIsHeaderText(t *testing.T) {
 		ColumnSyms: []string{"bbb"},
 		Rate:       100,
 	}
-	err := Blank(r, w, o)
-	if err != nil {
+
+	if err := Blank(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `aaa,bbb,ccc
@@ -187,8 +185,8 @@ func TestBlankWhenColumnIsIndex(t *testing.T) {
 		ColumnSyms: []string{"1"},
 		Rate:       100,
 	}
-	err := Blank(r, w, o)
-	if err != nil {
+
+	if err := Blank(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `aaa,bbb,ccc
@@ -213,8 +211,8 @@ func TestBlankWhenColumnIsIndexAndNoHeader(t *testing.T) {
 		ColumnSyms: []string{"1"},
 		Rate:       100,
 	}
-	err := Blank(r, w, o)
-	if err != nil {
+
+	if err := Blank(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `1,,3
@@ -240,8 +238,8 @@ func TestBlankWhenSpaceWidthIs1AndSpaceSizeIs1(t *testing.T) {
 		SpaceSize:  1,
 		Rate:       100,
 	}
-	err := Blank(r, w, o)
-	if err != nil {
+
+	if err := Blank(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `aaa,bbb,ccc
@@ -268,8 +266,8 @@ func TestBlankWhenSpaceWidthIs2AndSpaceSizeIs3(t *testing.T) {
 		SpaceSize:  3,
 		Rate:       100,
 	}
-	err := Blank(r, w, o)
-	if err != nil {
+
+	if err := Blank(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `aaa,bbb,ccc
@@ -295,8 +293,8 @@ func TestBlankWhenColumnIsMultiColumn(t *testing.T) {
 		ColumnSyms: []string{"aaa", "bbb"},
 		Rate:       100,
 	}
-	err := Blank(r, w, o)
-	if err != nil {
+
+	if err := Blank(r, w, o); err != nil {
 		t.Error(err)
 	}
 	expected := `aaa,bbb,ccc
