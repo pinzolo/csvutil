@@ -112,6 +112,29 @@ func TestTelWithBrokenCSV(t *testing.T) {
 	}
 }
 
+func TestTelWitNoHeader(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := TelOption{
+		Column:   "0",
+		NoHeader: true,
+	}
+
+	if err := Tel(r, w, o); err != nil {
+		t.Error(err)
+	}
+
+	data := readCSV(w.String())
+	if ok := allOKNoHeader(data, 0, isTelNumber); !ok {
+		t.Errorf("Tel failed updating on tel number. %+v", data)
+	}
+}
+
 func TestTelWitColumn(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

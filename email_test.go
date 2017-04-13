@@ -154,6 +154,29 @@ func TestEmailMobile(t *testing.T) {
 	}
 }
 
+func TestEmailWithNoHeader(t *testing.T) {
+	s := `1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := EmailOption{
+		Column:     "0",
+		MobileRate: 100,
+		NoHeader:   true,
+	}
+
+	if err := Email(r, w, o); err != nil {
+		t.Error(err)
+	}
+
+	data := readCSV(w.String())
+	if ok := allOKNoHeader(data, 0, isMobileEmailNumber); !ok {
+		t.Errorf("Email failed updating on mobile email address. %+v", data)
+	}
+}
+
 func isEmail(s string) bool {
 	return strings.Contains(s, "@")
 }

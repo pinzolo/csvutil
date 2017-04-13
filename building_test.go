@@ -140,6 +140,29 @@ func TestBuildingOnApartment(t *testing.T) {
 	}
 }
 
+func TestBuildingWithNoHeader(t *testing.T) {
+	s := `1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := BuildingOption{
+		Column:      "0",
+		NumberWidth: 1,
+		NoHeader:    true,
+	}
+
+	if err := Building(r, w, o); err != nil {
+		t.Error(err)
+	}
+
+	data := readCSV(w.String())
+	if ok := allOKNoHeader(data, 0, isHalfApartment); !ok {
+		t.Errorf("Building failed updating on apartment. %+v", data)
+	}
+}
+
 func TestBuildingWithBrokenCSV(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

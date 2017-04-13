@@ -196,6 +196,32 @@ func TestAddressWithBrokenCSV(t *testing.T) {
 	}
 }
 
+func TestAddressWithNoHeader(t *testing.T) {
+	s := `1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := AddressOption{
+		ZipCode:     "0",
+		NumberWidth: 1,
+		NoHeader:    true,
+	}
+
+	if err := Address(r, w, o); err != nil {
+		t.Error(err)
+	}
+
+	rgx := regexp.MustCompile(`\d{3}-\d{4}`)
+	actual := readCSV(w.String())
+	for i, rec := range actual {
+		if !rgx.MatchString(rec[0]) {
+			t.Errorf("Zip code not found: %s, line: %d", rec[0], i)
+		}
+	}
+}
+
 func TestAddressWithZipCode(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

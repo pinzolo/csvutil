@@ -344,6 +344,37 @@ func TestNameWithBrokenCSV(t *testing.T) {
 	}
 }
 
+func TestNameWithNoHeader(t *testing.T) {
+	s := `1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := NameOption{
+		Name:     "0",
+		NoHeader: true,
+	}
+
+	if err := Name(r, w, o); err != nil {
+		t.Error(err)
+	}
+
+	actual := readCSV(w.String())
+	for _, rec := range actual {
+		s := rec[0]
+		if isHiraganaOrSpace(s) {
+			t.Errorf("name %s is hiragana", s)
+		}
+		if isKatakanaOrSpace(s) {
+			t.Errorf("name %s is katakana", s)
+		}
+		if !isMultibyte(s) {
+			t.Errorf("name %s is not multibyte", s)
+		}
+	}
+}
+
 func TestNameWithName(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3

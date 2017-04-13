@@ -13,7 +13,6 @@ func TestCombineWithEmptySource(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := CombineOption{
-		SourceSyms:  []string{"aaa", "bbb"},
 		Destination: "ccc",
 	}
 
