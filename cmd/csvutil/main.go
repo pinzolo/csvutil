@@ -71,6 +71,7 @@ var commands = []*Command{
 	cmdSize,
 	//cmdSort,
 	//cmdStruct,
+	cmdSubstitute,
 	cmdTel,
 }
 
