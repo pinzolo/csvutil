@@ -112,7 +112,7 @@ func TestTelWithBrokenCSV(t *testing.T) {
 	}
 }
 
-func TestTelWitNoHeader(t *testing.T) {
+func TestTelWithNoHeader(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3
 4,5,6
