@@ -44,23 +44,11 @@ func (c *column) findIndex(hdr []string) error {
 	return errors.Errorf("column %s not found", c.symbol)
 }
 
-func newColumn(sym string) *column {
-	return &column{
+func newColumnWithIndex(sym string, hdr []string) *column {
+	col := &column{
 		symbol: sym,
 		index:  -1,
 	}
-}
-
-func newColumns(syms []string) []*column {
-	cols := make([]*column, len(syms))
-	for i, sym := range syms {
-		cols[i] = newColumn(sym)
-	}
-	return cols
-}
-
-func newColumnWithIndex(sym string, hdr []string) *column {
-	col := newColumn(sym)
 	err := col.findIndex(hdr)
 	if err != nil {
 		col.err = err
