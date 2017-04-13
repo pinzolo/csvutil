@@ -85,17 +85,16 @@ type AddressOption struct {
 }
 
 func (o AddressOption) hasTargetColumn() bool {
-	if o.ZipCode != "" {
-		return true
+	syms := []string{
+		o.ZipCode,
+		o.Prefecture,
+		o.City,
+		o.Town,
 	}
-	if o.Prefecture != "" {
-		return true
-	}
-	if o.City != "" {
-		return true
-	}
-	if o.Town != "" {
-		return true
+	for _, s := range syms {
+		if s != "" {
+			return true
+		}
 	}
 	return false
 }
@@ -143,7 +142,22 @@ type addrCols struct {
 	town       *column
 }
 
-func (c addrCols) indexes() []int {
+func (c *addrCols) err() error {
+	cols := []*column{
+		c.zipCode,
+		c.prefecture,
+		c.city,
+		c.town,
+	}
+	for _, c := range cols {
+		if c.err != nil {
+			return c.err
+		}
+	}
+	return nil
+}
+
+func (c *addrCols) indexes() []int {
 	return []int{
 		c.zipCode.index,
 		c.prefecture.index,
@@ -163,25 +177,21 @@ func Address(r io.Reader, w io.Writer, o AddressOption) error {
 	defer cw.Flush()
 
 	var cols *addrCols
-	var hdr []string
-	for {
-		rec, err := cr.Read()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			return errors.Wrap(err, "cannot read csv line")
-		}
-		if hdr == nil && !o.NoHeader {
-			hdr = rec
-			cw.Write(rec)
-			continue
-		}
-		if cols == nil {
-			cols, err = setupAddressCols(o, hdr)
-			if err != nil {
-				return errors.Wrap(err, "column not found")
-			}
+	csvp := NewCSVProcessor(cr, cw)
+	if o.NoHeader {
+		csvp.SetPreBodyRead(func() error {
+			cols = setupAddressCols(o, nil)
+			return nil
+		})
+	} else {
+		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
+			cols = setupAddressCols(o, hdr)
+			return hdr, nil
+		})
+	}
+	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
+		if err := cols.err(); err != nil {
+			return nil, err
 		}
 		newRec := make([]string, len(rec))
 		for i, s := range rec {
@@ -211,32 +221,19 @@ func Address(r io.Reader, w io.Writer, o AddressOption) error {
 				}
 			}
 		}
-		cw.Write(newRec)
-	}
+		return newRec, nil
+	})
 
-	return nil
+	return csvp.Process()
 }
 
-func setupAddressCols(o AddressOption, hdr []string) (*addrCols, error) {
+func setupAddressCols(o AddressOption, hdr []string) *addrCols {
 	cols := &addrCols{}
-	var err error
-	cols.zipCode, err = newColumnWithIndex(o.ZipCode, hdr)
-	if err != nil {
-		return nil, err
-	}
-	cols.prefecture, err = newColumnWithIndex(o.Prefecture, hdr)
-	if err != nil {
-		return nil, err
-	}
-	cols.town, err = newColumnWithIndex(o.Town, hdr)
-	if err != nil {
-		return nil, err
-	}
-	cols.city, err = newColumnWithIndex(o.City, hdr)
-	if err != nil {
-		return nil, err
-	}
-	return cols, nil
+	cols.zipCode = newColumnWithIndex(o.ZipCode, hdr)
+	cols.prefecture = newColumnWithIndex(o.Prefecture, hdr)
+	cols.town = newColumnWithIndex(o.Town, hdr)
+	cols.city = newColumnWithIndex(o.City, hdr)
+	return cols
 }
 
 func fakeZipCode() string {

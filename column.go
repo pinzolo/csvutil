@@ -9,6 +9,18 @@ import (
 type column struct {
 	symbol string
 	index  int
+	err    error
+}
+
+type columns []*column
+
+func (cs columns) err() error {
+	for _, c := range cs {
+		if c.err != nil {
+			return c.err
+		}
+	}
+	return nil
 }
 
 func (c *column) findIndex(hdr []string) error {
@@ -47,45 +59,39 @@ func newColumns(syms []string) []*column {
 	return cols
 }
 
-func newColumnWithIndex(sym string, hdr []string) (*column, error) {
+func newColumnWithIndex(sym string, hdr []string) *column {
 	col := newColumn(sym)
 	err := col.findIndex(hdr)
 	if err != nil {
-		return nil, err
+		col.err = err
 	}
-	return col, nil
+	return col
 }
 
-func newColumnsWithIndexes(syms []string, hdr []string) ([]*column, error) {
-	cols := newColumns(syms)
-	for _, col := range cols {
-		err := col.findIndex(hdr)
-		if err != nil {
-			return nil, err
-		}
+func newColumnsWithIndexes(syms []string, hdr []string) columns {
+	cols := make([]*column, len(syms))
+	for i, sym := range syms {
+		cols[i] = newColumnWithIndex(sym, hdr)
 	}
-	return cols, nil
+	return cols
 }
 
-func newUniqueColumns(syms []string, hdr []string) ([]*column, error) {
-	cols, err := newColumnsWithIndexes(syms, hdr)
-	if err != nil {
-		return nil, err
-	}
-	return uniqColumns(cols), nil
+func newUniqueColumns(syms []string, hdr []string) columns {
+	cols := newColumnsWithIndexes(syms, hdr)
+	return uniqColumns(cols)
 }
 
-func uniqColumns(cols []*column) []*column {
+func uniqColumns(cols columns) columns {
 	var newCols []*column
 	for _, col := range cols {
 		exists := false
 		for _, newCol := range newCols {
-			if newCol.index == col.index {
+			if col.index != -1 && newCol.index == col.index {
 				exists = true
 				break
 			}
 		}
-		if col.index != -1 && !exists {
+		if !exists {
 			newCols = append(newCols, col)
 		}
 	}

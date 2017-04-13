@@ -78,10 +78,10 @@ func Tel(r io.Reader, w io.Writer, o TelOption) error {
 			continue
 		}
 		if col == nil {
-			col, err = newColumnWithIndex(o.Column, hdr)
-			if err != nil {
-				return errors.Wrap(err, "column not found")
-			}
+			col = newColumnWithIndex(o.Column, hdr)
+		}
+		if col.err != nil {
+			return col.err
 		}
 		newRec := make([]string, len(rec))
 		for i, s := range rec {

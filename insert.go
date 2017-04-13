@@ -73,9 +73,9 @@ func Insert(r io.Reader, w io.Writer, o InsertOption) error {
 		}
 		if col == nil {
 			if o.Before == "" {
-				col, err = newColumnWithIndex("0", rec)
+				col = newColumnWithIndex("0", rec)
 			} else {
-				col, err = newColumnWithIndex(o.Before, rec)
+				col = newColumnWithIndex(o.Before, rec)
 			}
 			if err != nil {
 				return errors.Wrap(err, "column not found")
@@ -85,6 +85,9 @@ func Insert(r io.Reader, w io.Writer, o InsertOption) error {
 			hdr = insertTo(rec, col, o.Size, o.headers())
 			cw.Write(hdr)
 			continue
+		}
+		if col.err != nil {
+			return col.err
 		}
 		newRec := insertTo(rec, col, o.Size, vals)
 		cw.Write(newRec)

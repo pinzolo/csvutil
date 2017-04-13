@@ -143,7 +143,26 @@ type nameCols struct {
 	reference *column
 }
 
-func (c nameCols) indexes() []int {
+func (c *nameCols) err() error {
+	cols := []*column{
+		c.name,
+		c.firstName,
+		c.lastName,
+		c.kana,
+		c.firstKana,
+		c.lastKana,
+		c.gender,
+		c.reference,
+	}
+	for _, col := range cols {
+		if col.err != nil {
+			return col.err
+		}
+	}
+	return nil
+}
+
+func (c *nameCols) indexes() []int {
 	return []int{
 		c.name.index,
 		c.firstName.index,
@@ -181,10 +200,13 @@ func Name(r io.Reader, w io.Writer, o NameOption) error {
 			continue
 		}
 		if cols == nil {
-			cols, err = setupNameCols(o, hdr)
+			cols = setupNameCols(o, hdr)
 			if err != nil {
 				return errors.Wrap(err, "column not found")
 			}
+		}
+		if err = cols.err(); err != nil {
+			return err
 		}
 		name, err := fakeName(rec, o, cols)
 		if err != nil {
@@ -246,42 +268,17 @@ func Name(r io.Reader, w io.Writer, o NameOption) error {
 	return nil
 }
 
-func setupNameCols(o NameOption, hdr []string) (*nameCols, error) {
+func setupNameCols(o NameOption, hdr []string) *nameCols {
 	cols := &nameCols{}
-	var err error
-	cols.name, err = newColumnWithIndex(o.Name, hdr)
-	if err != nil {
-		return nil, err
-	}
-	cols.firstName, err = newColumnWithIndex(o.FirstName, hdr)
-	if err != nil {
-		return nil, err
-	}
-	cols.lastName, err = newColumnWithIndex(o.LastName, hdr)
-	if err != nil {
-		return nil, err
-	}
-	cols.kana, err = newColumnWithIndex(o.Kana, hdr)
-	if err != nil {
-		return nil, err
-	}
-	cols.firstKana, err = newColumnWithIndex(o.FirstKana, hdr)
-	if err != nil {
-		return nil, err
-	}
-	cols.lastKana, err = newColumnWithIndex(o.LastKana, hdr)
-	if err != nil {
-		return nil, err
-	}
-	cols.gender, err = newColumnWithIndex(o.Gender, hdr)
-	if err != nil {
-		return nil, err
-	}
-	cols.reference, err = newColumnWithIndex(o.Reference, hdr)
-	if err != nil {
-		return nil, err
-	}
-	return cols, nil
+	cols.name = newColumnWithIndex(o.Name, hdr)
+	cols.firstName = newColumnWithIndex(o.FirstName, hdr)
+	cols.lastName = newColumnWithIndex(o.LastName, hdr)
+	cols.kana = newColumnWithIndex(o.Kana, hdr)
+	cols.firstKana = newColumnWithIndex(o.FirstKana, hdr)
+	cols.lastKana = newColumnWithIndex(o.LastKana, hdr)
+	cols.gender = newColumnWithIndex(o.Gender, hdr)
+	cols.reference = newColumnWithIndex(o.Reference, hdr)
+	return cols
 }
 
 func fakeName(rec []string, o NameOption, cols *nameCols) (*gimei.Name, error) {

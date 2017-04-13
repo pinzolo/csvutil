@@ -49,7 +49,7 @@ func Remove(r io.Reader, w io.Writer, o RemoveOption) error {
 	cw := writer(w, bom, o.outputEncoding())
 	defer cw.Flush()
 
-	var cols []*column
+	var cols columns
 	var hdr []string
 	for {
 		rec, err := cr.Read()
@@ -63,10 +63,10 @@ func Remove(r io.Reader, w io.Writer, o RemoveOption) error {
 			hdr = rec
 		}
 		if cols == nil {
-			cols, err = newUniqueColumns(o.ColumnSyms, hdr)
-			if err != nil {
-				return errors.Wrap(err, "column not found")
-			}
+			cols = newUniqueColumns(o.ColumnSyms, hdr)
+		}
+		if err := cols.err(); err != nil {
+			return err
 		}
 		var newRec []string
 		for i, s := range rec {

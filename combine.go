@@ -54,7 +54,7 @@ func Combine(r io.Reader, w io.Writer, o CombineOption) error {
 	cw := writer(w, bom, o.outputEncoding())
 	defer cw.Flush()
 
-	var srcs []*column
+	var srcs columns
 	var dst *column
 	var hdr []string
 	for {
@@ -71,16 +71,16 @@ func Combine(r io.Reader, w io.Writer, o CombineOption) error {
 			continue
 		}
 		if srcs == nil {
-			srcs, err = newUniqueColumns(o.SourceSyms, hdr)
-			if err != nil {
-				return errors.Wrap(err, "column not found")
-			}
+			srcs = newUniqueColumns(o.SourceSyms, hdr)
 		}
 		if dst == nil {
-			dst, err = newColumnWithIndex(o.Destination, hdr)
-			if err != nil {
-				return errors.Wrap(err, "column not found")
-			}
+			dst = newColumnWithIndex(o.Destination, hdr)
+		}
+		if err := srcs.err(); err != nil {
+			return err
+		}
+		if err := dst.err; err != nil {
+			return err
 		}
 		newRec := make([]string, len(rec))
 		vals := make([]string, len(srcs))

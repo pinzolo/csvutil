@@ -82,29 +82,24 @@ func Blank(r io.Reader, w io.Writer, o BlankOption) error {
 	cr, bom := reader(r, o.Encoding)
 	cw := writer(w, bom, o.outputEncoding())
 	defer cw.Flush()
-	var cols []*column
+	var cols columns
 
 	csvp := NewCSVProcessor(cr, cw)
 	if o.NoHeader {
 		csvp.SetPreBodyRead(func() error {
-			cs, err := newUniqueColumns(o.ColumnSyms, nil)
-			if err != nil {
-				return errors.Wrap(err, "column not found")
-			}
-			cols = cs
+			cols = newUniqueColumns(o.ColumnSyms, nil)
 			return nil
 		})
 	} else {
 		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
-			cs, err := newUniqueColumns(o.ColumnSyms, hdr)
-			if err != nil {
-				return nil, errors.Wrap(err, "column not found")
-			}
-			cols = cs
+			cols = newUniqueColumns(o.ColumnSyms, hdr)
 			return hdr, nil
 		})
 	}
 	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
+		if err := cols.err(); err != nil {
+			return nil, err
+		}
 		newRec := make([]string, len(rec))
 		for i, s := range rec {
 			newRec[i] = s
