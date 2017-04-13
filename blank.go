@@ -9,13 +9,13 @@ import (
 
 // BlankOption is option holder for Blank.
 type BlankOption struct {
-	// Source file does not have header line. (default false)
+	// Source file does not have hdr line. (default false)
 	NoHeader bool
 	// Encoding of source file. (default utf8)
 	Encoding string
 	// Encoding for output.
 	OutputEncoding string
-	// ColumnSyms header or column index list.
+	// ColumnSyms hdr or column index list.
 	ColumnSyms []string
 	// Rate of fill
 	Rate int
@@ -51,6 +51,21 @@ func (o BlankOption) validate() error {
 	return nil
 }
 
+func (o BlankOption) space() string {
+	sp := ""
+	if o.SpaceWidth == 1 {
+		sp = " "
+	} else if o.SpaceWidth == 2 {
+		sp = "　"
+	}
+	if o.SpaceSize == 0 {
+		sp = ""
+	} else {
+		sp = strings.Repeat(sp, o.SpaceSize)
+	}
+	return sp
+}
+
 func (o BlankOption) outputEncoding() string {
 	if o.OutputEncoding != "" {
 		return o.OutputEncoding
@@ -67,54 +82,40 @@ func Blank(r io.Reader, w io.Writer, o BlankOption) error {
 	cr, bom := reader(r, o.Encoding)
 	cw := writer(w, bom, o.outputEncoding())
 	defer cw.Flush()
-
 	var cols []*column
-	var hdr []string
-	for {
-		rec, err := cr.Read()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			return errors.Wrap(err, "cannot read csv line")
-		}
-		if hdr == nil && !o.NoHeader {
-			hdr = rec
-			cw.Write(rec)
-			continue
-		}
-		if cols == nil {
-			cols, err = newUniqueColumns(o.ColumnSyms, hdr)
+
+	csvp := NewCSVProcessor(cr, cw)
+	if o.NoHeader {
+		csvp.SetPreBodyRead(func() error {
+			cs, err := newUniqueColumns(o.ColumnSyms, nil)
 			if err != nil {
 				return errors.Wrap(err, "column not found")
 			}
-		}
+			cols = cs
+			return nil
+		})
+	} else {
+		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
+			cs, err := newUniqueColumns(o.ColumnSyms, hdr)
+			if err != nil {
+				return nil, errors.Wrap(err, "column not found")
+			}
+			cols = cs
+			return hdr, nil
+		})
+	}
+	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
 		newRec := make([]string, len(rec))
 		for i, s := range rec {
 			newRec[i] = s
 			for _, col := range cols {
 				if i == col.index && lot(o.Rate) {
-					newRec[i] = getSpace(o)
+					newRec[i] = o.space()
 				}
 			}
 		}
-		cw.Write(newRec)
-	}
+		return newRec, nil
+	})
 
-	return nil
-}
-
-func getSpace(o BlankOption) string {
-	sp := ""
-	if o.SpaceWidth == 1 {
-		sp = " "
-	} else if o.SpaceWidth == 2 {
-		sp = "　"
-	}
-	if o.SpaceSize == 0 {
-		sp = ""
-	} else {
-		sp = strings.Repeat(sp, o.SpaceSize)
-	}
-	return sp
+	return csvp.Process()
 }
