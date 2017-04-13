@@ -50,35 +50,37 @@ func Extract(r io.Reader, w io.Writer, o ExtractOption) error {
 	defer cw.Flush()
 
 	var cols columns
-	var hdr []string
-	for {
-		rec, err := cr.Read()
-		if err != nil {
-			if err == io.EOF {
+	csvp := NewCSVProcessor(cr, cw)
+	if o.NoHeader {
+		csvp.SetPreBodyRead(func() error {
+			cols = newUniqueColumns(o.ColumnSyms, nil)
+			return cols.err()
+		})
+	} else {
+		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
+			cols = newUniqueColumns(o.ColumnSyms, hdr)
+			if err := cols.err(); err != nil {
+				return nil, err
+			}
+			return extractFromRecord(hdr, cols), nil
+		})
+	}
+	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
+		return extractFromRecord(rec, cols), nil
+	})
+
+	return csvp.Process()
+}
+
+func extractFromRecord(rec []string, cols columns) []string {
+	newRec := make([]string, len(cols))
+	for n, col := range cols {
+		for i, s := range rec {
+			if i == col.index {
+				newRec[n] = s
 				break
 			}
-			return errors.Wrap(err, "cannot read line")
 		}
-		if hdr == nil && !o.NoHeader {
-			hdr = rec
-		}
-		if cols == nil {
-			cols = newUniqueColumns(o.ColumnSyms, hdr)
-		}
-		if err := cols.err(); err != nil {
-			return err
-		}
-		newRec := make([]string, len(cols))
-		for n, col := range cols {
-			for i, s := range rec {
-				if i == col.index {
-					newRec[n] = s
-					break
-				}
-			}
-		}
-		cw.Write(newRec)
 	}
-
-	return nil
+	return newRec
 }

@@ -50,38 +50,38 @@ func Remove(r io.Reader, w io.Writer, o RemoveOption) error {
 	defer cw.Flush()
 
 	var cols columns
-	var hdr []string
-	for {
-		rec, err := cr.Read()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			return errors.Wrap(err, "cannot read line")
-		}
-		if hdr == nil && !o.NoHeader {
-			hdr = rec
-		}
-		if cols == nil {
+	csvp := NewCSVProcessor(cr, cw)
+	if o.NoHeader {
+		csvp.SetPreBodyRead(func() error {
+			cols = newUniqueColumns(o.ColumnSyms, nil)
+			return cols.err()
+		})
+	} else {
+		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
 			cols = newUniqueColumns(o.ColumnSyms, hdr)
-		}
-		if err := cols.err(); err != nil {
-			return err
-		}
-		var newRec []string
-		for i, s := range rec {
-			rm := false
-			for _, col := range cols {
-				if i == col.index {
-					rm = true
-				}
-			}
-			if !rm {
-				newRec = append(newRec, s)
-			}
-		}
-		cw.Write(newRec)
+			return removeFromRecord(hdr, cols), cols.err()
+		})
 	}
+	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
+		return removeFromRecord(rec, cols), nil
+	})
 
-	return nil
+	return csvp.Process()
+}
+
+func removeFromRecord(rec []string, cols columns) []string {
+	var newRec []string
+	for i, s := range rec {
+		rm := false
+		for _, col := range cols {
+			if i == col.index {
+				rm = true
+			}
+		}
+		if !rm {
+			newRec = append(newRec, s)
+		}
+	}
+	return newRec
+
 }

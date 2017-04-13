@@ -82,24 +82,21 @@ func Blank(r io.Reader, w io.Writer, o BlankOption) error {
 	cr, bom := reader(r, o.Encoding)
 	cw := writer(w, bom, o.outputEncoding())
 	defer cw.Flush()
-	var cols columns
 
+	var cols columns
 	csvp := NewCSVProcessor(cr, cw)
 	if o.NoHeader {
 		csvp.SetPreBodyRead(func() error {
 			cols = newUniqueColumns(o.ColumnSyms, nil)
-			return nil
+			return cols.err()
 		})
 	} else {
 		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
 			cols = newUniqueColumns(o.ColumnSyms, hdr)
-			return hdr, nil
+			return hdr, cols.err()
 		})
 	}
 	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
-		if err := cols.err(); err != nil {
-			return nil, err
-		}
 		newRec := make([]string, len(rec))
 		for i, s := range rec {
 			newRec[i] = s

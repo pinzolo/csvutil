@@ -65,26 +65,19 @@ func Building(r io.Reader, w io.Writer, o BuildingOption) error {
 	defer cw.Flush()
 
 	var col *column
-	var hdr []string
-	for {
-		rec, err := cr.Read()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			return errors.Wrap(err, "cannot read csv line")
-		}
-		if hdr == nil && !o.NoHeader {
-			hdr = rec
-			cw.Write(rec)
-			continue
-		}
-		if col == nil {
-			col = newColumnWithIndex(o.Column, hdr)
-		}
-		if col.err != nil {
+	csvp := NewCSVProcessor(cr, cw)
+	if o.NoHeader {
+		csvp.SetPreBodyRead(func() error {
+			col = newColumnWithIndex(o.Column, nil)
 			return col.err
-		}
+		})
+	} else {
+		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
+			col = newColumnWithIndex(o.Column, hdr)
+			return hdr, col.err
+		})
+	}
+	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
 		newRec := make([]string, len(rec))
 		for i, s := range rec {
 			if i == col.index {
@@ -100,8 +93,8 @@ func Building(r io.Reader, w io.Writer, o BuildingOption) error {
 				newRec[i] = s
 			}
 		}
-		cw.Write(newRec)
-	}
+		return newRec, nil
+	})
 
-	return nil
+	return csvp.Process()
 }

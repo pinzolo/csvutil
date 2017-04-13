@@ -185,36 +185,25 @@ func Name(r io.Reader, w io.Writer, o NameOption) error {
 	defer cw.Flush()
 
 	var cols *nameCols
-	var hdr []string
-	for {
-		rec, err := cr.Read()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			return errors.Wrap(err, "cannot read csv line")
-		}
-		if hdr == nil && !o.NoHeader {
-			hdr = rec
-			cw.Write(rec)
-			continue
-		}
-		if cols == nil {
+	csvp := NewCSVProcessor(cr, cw)
+	if o.NoHeader {
+		csvp.SetPreBodyRead(func() error {
+			cols = setupNameCols(o, nil)
+			return cols.err()
+		})
+	} else {
+		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
 			cols = setupNameCols(o, hdr)
-			if err != nil {
-				return errors.Wrap(err, "column not found")
-			}
-		}
-		if err = cols.err(); err != nil {
-			return err
-		}
+			return hdr, cols.err()
+		})
+	}
+	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
 		name, err := fakeName(rec, o, cols)
 		if err != nil {
 			if o.RistrictReference {
-				return errors.Wrap(err, "failed dummy name")
+				return nil, err
 			}
 		}
-
 		newRec := make([]string, len(rec))
 		for i, s := range rec {
 			if !containsInt(cols.indexes(), i) {
@@ -262,10 +251,10 @@ func Name(r io.Reader, w io.Writer, o NameOption) error {
 				}
 			}
 		}
-		cw.Write(newRec)
-	}
+		return newRec, nil
+	})
 
-	return nil
+	return csvp.Process()
 }
 
 func setupNameCols(o NameOption, hdr []string) *nameCols {

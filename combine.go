@@ -56,32 +56,27 @@ func Combine(r io.Reader, w io.Writer, o CombineOption) error {
 
 	var srcs columns
 	var dst *column
-	var hdr []string
-	for {
-		rec, err := cr.Read()
-		if err != nil {
-			if err == io.EOF {
-				break
+	csvp := NewCSVProcessor(cr, cw)
+	if o.NoHeader {
+		csvp.SetPreBodyRead(func() error {
+			srcs = newUniqueColumns(o.SourceSyms, nil)
+			dst = newColumnWithIndex(o.Destination, nil)
+			if err := srcs.err(); err != nil {
+				return err
 			}
-			return errors.Wrap(err, "cannot read line")
-		}
-		if hdr == nil && !o.NoHeader {
-			hdr = rec
-			cw.Write(rec)
-			continue
-		}
-		if srcs == nil {
+			return dst.err
+		})
+	} else {
+		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
 			srcs = newUniqueColumns(o.SourceSyms, hdr)
-		}
-		if dst == nil {
 			dst = newColumnWithIndex(o.Destination, hdr)
-		}
-		if err := srcs.err(); err != nil {
-			return err
-		}
-		if err := dst.err; err != nil {
-			return err
-		}
+			if err := srcs.err(); err != nil {
+				return hdr, err
+			}
+			return hdr, dst.err
+		})
+	}
+	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
 		newRec := make([]string, len(rec))
 		vals := make([]string, len(srcs))
 		for i, src := range srcs {
@@ -94,8 +89,8 @@ func Combine(r io.Reader, w io.Writer, o CombineOption) error {
 				newRec[i] = s
 			}
 		}
-		cw.Write(newRec)
-	}
+		return newRec, nil
+	})
 
-	return nil
+	return csvp.Process()
 }

@@ -23,6 +23,13 @@ type InsertOption struct {
 	Before string
 }
 
+func (o InsertOption) before() string {
+	if o.Before == "" {
+		return "0"
+	}
+	return o.Before
+}
+
 func (o InsertOption) outputEncoding() string {
 	if o.OutputEncoding != "" {
 		return o.OutputEncoding
@@ -60,40 +67,28 @@ func Insert(r io.Reader, w io.Writer, o InsertOption) error {
 	cw := writer(w, bom, o.outputEncoding())
 	defer cw.Flush()
 
-	var hdr []string
 	var col *column
 	vals := make([]string, o.Size)
-	for {
-		rec, err := cr.Read()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			return errors.Wrap(err, "cannot read csv line")
-		}
-		if col == nil {
-			if o.Before == "" {
-				col = newColumnWithIndex("0", rec)
-			} else {
-				col = newColumnWithIndex(o.Before, rec)
-			}
-			if err != nil {
-				return errors.Wrap(err, "column not found")
-			}
-		}
-		if hdr == nil && !o.NoHeader {
-			hdr = insertTo(rec, col, o.Size, o.headers())
-			cw.Write(hdr)
-			continue
-		}
-		if col.err != nil {
+	csvp := NewCSVProcessor(cr, cw)
+	if o.NoHeader {
+		csvp.SetPreBodyRead(func() error {
+			col = newColumnWithIndex(o.before(), nil)
 			return col.err
-		}
-		newRec := insertTo(rec, col, o.Size, vals)
-		cw.Write(newRec)
+		})
+	} else {
+		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
+			col = newColumnWithIndex(o.before(), hdr)
+			if col.err != nil {
+				return nil, col.err
+			}
+			return insertTo(hdr, col, o.Size, o.headers()), nil
+		})
 	}
+	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
+		return insertTo(rec, col, o.Size, vals), nil
+	})
 
-	return nil
+	return csvp.Process()
 }
 
 func insertTo(rec []string, col *column, size int, ss []string) []string {

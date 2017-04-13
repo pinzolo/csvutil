@@ -58,28 +58,20 @@ func Append(r io.Reader, w io.Writer, o AppendOption) error {
 	cw := writer(w, bom, o.outputEncoding())
 	defer cw.Flush()
 
-	var hdr []string
-	for {
-		rec, err := cr.Read()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			return errors.Wrap(err, "cannot read csv line")
-		}
-		if hdr == nil && !o.NoHeader {
-			hdr = rec
+	csvp := NewCSVProcessor(cr, cw)
+	if !o.NoHeader {
+		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
 			for _, h := range o.appendingHeaders() {
 				hdr = append(hdr, h)
 			}
-			cw.Write(hdr)
-			continue
-		}
-		for i := 0; i < o.Size; i++ {
-			rec = append(rec, "")
-		}
-		cw.Write(rec)
+			return hdr, nil
+		})
 	}
+	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
+		newRec := make([]string, len(rec)+o.Size)
+		copy(newRec, rec)
+		return newRec, nil
+	})
 
-	return nil
+	return csvp.Process()
 }

@@ -477,9 +477,6 @@ func TestNameWithFirstName(t *testing.T) {
 			continue
 		}
 		s := rec[0]
-		if isHiraganaOrSpace(s) {
-			t.Errorf("first name %s is hiragana", s)
-		}
 		if isKatakanaOrSpace(s) {
 			t.Errorf("first name %s is katakana", s)
 		}

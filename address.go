@@ -181,18 +181,15 @@ func Address(r io.Reader, w io.Writer, o AddressOption) error {
 	if o.NoHeader {
 		csvp.SetPreBodyRead(func() error {
 			cols = setupAddressCols(o, nil)
-			return nil
+			return cols.err()
 		})
 	} else {
 		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
 			cols = setupAddressCols(o, hdr)
-			return hdr, nil
+			return hdr, cols.err()
 		})
 	}
 	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
-		if err := cols.err(); err != nil {
-			return nil, err
-		}
 		newRec := make([]string, len(rec))
 		for i, s := range rec {
 			if !containsInt(cols.indexes(), i) {
