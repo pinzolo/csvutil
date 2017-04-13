@@ -35,7 +35,7 @@ func (o AppendOption) validate() error {
 	return nil
 }
 
-func (o AppendOption) appendingHeaders() []string {
+func (o AppendOption) headers() []string {
 	hdr := make([]string, o.Size)
 	hl := len(o.Headers)
 	for i := 0; i < o.Size; i++ {
@@ -61,7 +61,7 @@ func Append(r io.Reader, w io.Writer, o AppendOption) error {
 	csvp := NewCSVProcessor(cr, cw)
 	if !o.NoHeader {
 		csvp.SetHeaderHanlder(func(hdr []string) ([]string, error) {
-			for _, h := range o.appendingHeaders() {
+			for _, h := range o.headers() {
 				hdr = append(hdr, h)
 			}
 			return hdr, nil

@@ -45,7 +45,7 @@ func (o GenerateOption) validate() error {
 	return nil
 }
 
-func (o GenerateOption) actualHeaders() []string {
+func (o GenerateOption) headers() []string {
 	hdr := make([]string, o.Size)
 	hl := len(o.Headers)
 	for i := 0; i < o.Size; i++ {
@@ -67,7 +67,7 @@ func Generate(w io.Writer, o GenerateOption) error {
 	cw := writer(w, o.dom(), o.outputEncoding())
 	defer cw.Flush()
 	if !o.NoHeader {
-		cw.Write(o.actualHeaders())
+		cw.Write(o.headers())
 	}
 	for i := 0; i < o.Count; i++ {
 		rec := make([]string, o.Size)
