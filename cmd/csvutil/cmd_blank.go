@@ -62,11 +62,10 @@ OPTIONS
                 2: 全角スペース [0xE3 0x80 0x80]
 
         --ss, --space-size NUMBER
-            空白化する際に --space-width で指定した文字を何回繰り返すかを指定します。
-            初期値が0なので --space-width も指定しないと必ず空文字での空白可を行います。
+            空白化する際に --space-width で指定した文字を何回繰り返すかを指定します。初期値は 1 です。
             例:
-                --space-size が 0 で --space-width が 1 ならば空文字
                 --space-size が 1 で --space-width が 0 ならば空文字
+                --space-size が 1 で --space-width が 1 ならば " " (半角スペース1つ）
                 --space-size が 2 で --space-width が 1 ならば "  " (半角スペース2つ）
                 --space-size が 3 で --space-width が 2 ならば "　　　" (全角スペース3つ）
 	`,
@@ -101,8 +100,8 @@ func init() {
 	cmdBlank.Flag.IntVar(&blankOpt.Rate, "r", 100, "Filling rate")
 	cmdBlank.Flag.IntVar(&blankOpt.SpaceWidth, "space-width", 0, "Space character width")
 	cmdBlank.Flag.IntVar(&blankOpt.SpaceWidth, "sw", 0, "Space character width")
-	cmdBlank.Flag.IntVar(&blankOpt.SpaceSize, "space-size", 0, "Space character count")
-	cmdBlank.Flag.IntVar(&blankOpt.SpaceSize, "ss", 0, "Space character count")
+	cmdBlank.Flag.IntVar(&blankOpt.SpaceSize, "space-size", 1, "Space character count")
+	cmdBlank.Flag.IntVar(&blankOpt.SpaceSize, "ss", 1, "Space character count")
 }
 
 // runBlank executes blank command and return exit code.

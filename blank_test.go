@@ -8,7 +8,10 @@ import (
 func TestBlankWithEmptyColumn(t *testing.T) {
 	r := &bytes.Buffer{}
 	w := &bytes.Buffer{}
-	o := BlankOption{}
+	o := BlankOption{
+		SpaceSize: 1,
+		Rate:      100,
+	}
 
 	if err := Blank(r, w, o); err == nil {
 		t.Error("Blank with empty column should raise error.")
@@ -21,6 +24,8 @@ func TestBlankWithNoHeaderAndNoDigitColumn(t *testing.T) {
 	o := BlankOption{
 		NoHeader:   true,
 		ColumnSyms: []string{"foo"},
+		SpaceSize:  1,
+		Rate:       100,
 	}
 
 	if err := Blank(r, w, o); err == nil {
@@ -34,6 +39,8 @@ func TestBlankWithNegativeSpaceWidth(t *testing.T) {
 	o := BlankOption{
 		ColumnSyms: []string{"1"},
 		SpaceWidth: -1,
+		SpaceSize:  1,
+		Rate:       100,
 	}
 
 	if err := Blank(r, w, o); err == nil {
@@ -47,6 +54,8 @@ func TestBlankWithOver2SpaceWidth(t *testing.T) {
 	o := BlankOption{
 		ColumnSyms: []string{"1"},
 		SpaceWidth: 3,
+		SpaceSize:  1,
+		Rate:       100,
 	}
 
 	if err := Blank(r, w, o); err == nil {
@@ -60,10 +69,25 @@ func TestBlankWithNegativeSpaceSize(t *testing.T) {
 	o := BlankOption{
 		ColumnSyms: []string{"1"},
 		SpaceSize:  -1,
+		Rate:       100,
 	}
 
 	if err := Blank(r, w, o); err == nil {
 		t.Error("Blank with negative size should raise error.")
+	}
+}
+
+func TestBlankWithZeroSpaceSize(t *testing.T) {
+	r := &bytes.Buffer{}
+	w := &bytes.Buffer{}
+	o := BlankOption{
+		ColumnSyms: []string{"1"},
+		SpaceSize:  0,
+		Rate:       100,
+	}
+
+	if err := Blank(r, w, o); err == nil {
+		t.Error("Blank with zero size should raise error.")
 	}
 }
 
@@ -72,6 +96,7 @@ func TestBlankWithNegativeRate(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"1"},
+		SpaceSize:  1,
 		Rate:       -1,
 	}
 
@@ -85,6 +110,7 @@ func TestBlankWithOver101Rate(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"1"},
+		SpaceSize:  1,
 		Rate:       101,
 	}
 
@@ -103,6 +129,7 @@ func TestBlankWithSymbolColumnButNoHeader(t *testing.T) {
 	o := BlankOption{
 		NoHeader:   true,
 		ColumnSyms: []string{"aaa"},
+		SpaceSize:  1,
 		Rate:       100,
 	}
 
@@ -121,6 +148,7 @@ func TestBlankWithUnknownHeaderSymbol(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"ddd"},
+		SpaceSize:  1,
 		Rate:       100,
 	}
 
@@ -139,6 +167,7 @@ func TestBlankWithBrokenCSV(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"ddd"},
+		SpaceSize:  1,
 		Rate:       100,
 	}
 
@@ -157,6 +186,7 @@ func TestBlankWhenColumnIsHeaderText(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"bbb"},
+		SpaceSize:  1,
 		Rate:       100,
 	}
 
@@ -183,6 +213,7 @@ func TestBlankWhenColumnIsIndex(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"1"},
+		SpaceSize:  1,
 		Rate:       100,
 	}
 
@@ -209,6 +240,7 @@ func TestBlankWhenColumnIsIndexAndNoHeader(t *testing.T) {
 	o := BlankOption{
 		NoHeader:   true,
 		ColumnSyms: []string{"1"},
+		SpaceSize:  1,
 		Rate:       100,
 	}
 
@@ -291,6 +323,7 @@ func TestBlankWhenColumnIsMultiColumn(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := BlankOption{
 		ColumnSyms: []string{"aaa", "bbb"},
+		SpaceSize:  1,
 		Rate:       100,
 	}
 

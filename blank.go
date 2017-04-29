@@ -42,7 +42,7 @@ func (o BlankOption) validate() error {
 	if o.SpaceWidth < 0 || 2 < o.SpaceWidth {
 		return errors.New("invalid space width")
 	}
-	if o.SpaceSize < 0 {
+	if o.SpaceSize <= 0 {
 		return errors.New("invalid space size")
 	}
 	if o.Rate < 0 || 100 < o.Rate {
