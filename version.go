@@ -6,5 +6,5 @@ import "github.com/coreos/go-semver/semver"
 var Version = semver.Version{
 	Major: 0,
 	Minor: 16,
-	Patch: 0,
+	Patch: 2,
 }
