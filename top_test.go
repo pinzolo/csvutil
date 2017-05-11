@@ -37,6 +37,58 @@ func TestTopWithNegativeCount(t *testing.T) {
 	}
 }
 
+func TestTopWithBrokenCSV(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := TopOption{
+		Count: 2,
+	}
+
+	if err := Top(r, w, o); err == nil {
+		t.Error("Top with broken csv should raise error.")
+	}
+}
+
+func TestTopWithBrokenheaderCSV(t *testing.T) {
+	s := `a"aa",bbb,ccc
+1,2,3
+4,5,6
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := TopOption{
+		Count: 2,
+	}
+
+	if err := Top(r, w, o); err == nil {
+		t.Error("Top with broken header csv should raise error.")
+	}
+}
+
+func TestTopWithEmptyCSV(t *testing.T) {
+	r := bytes.NewBufferString("")
+	w := &bytes.Buffer{}
+	o := TopOption{
+		Count: 2,
+	}
+
+	expected := ""
+
+	if err := Top(r, w, o); err != nil {
+		t.Error(err)
+	}
+
+	if actual := w.String(); actual != expected {
+		t.Errorf("Expectd: %s, but got %s", expected, actual)
+	}
+}
+
 func TestTopWithLessCountThanLineCount(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3
