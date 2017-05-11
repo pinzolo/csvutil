@@ -4,8 +4,8 @@ import "github.com/pinzolo/csvutil"
 
 var cmdTail = &Command{
 	Run:       runTail,
-	UsageLine: "Tail [OPTIONS...]",
-	Short:     "CSVの末尾取得",
+	UsageLine: "tail [OPTIONS...]",
+	Short:     "末尾取得",
 	Long: `DESCRIPTION
         末尾から指定した数の行だけを抽出したCSVを作成します。
 

@@ -4,8 +4,8 @@ import "github.com/pinzolo/csvutil"
 
 var cmdTop = &Command{
 	Run:       runTop,
-	UsageLine: "Top [OPTIONS...]",
-	Short:     "CSVの先頭取得",
+	UsageLine: "top [OPTIONS...]",
+	Short:     "先頭取得",
 	Long: `DESCRIPTION
         先頭から指定した数の行だけを抽出したCSVを作成します。
 

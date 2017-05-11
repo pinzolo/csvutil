@@ -9,7 +9,7 @@ import (
 var cmdGenerate = &Command{
 	Run:       runGenerate,
 	UsageLine: "generate [OPTIONS...]",
-	Short:     "CSVの新規生成",
+	Short:     "新規生成",
 	Long: `DESCRIPTION
         全ての値が空のCSVを新規に出力します。
 
