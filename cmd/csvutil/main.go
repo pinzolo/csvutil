@@ -73,6 +73,7 @@ var commands = []*Command{
 	//cmdStruct,
 	cmdSubstitute,
 	cmdTel,
+	cmdTop,
 }
 
 func main() {
