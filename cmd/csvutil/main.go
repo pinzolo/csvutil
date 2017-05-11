@@ -69,8 +69,6 @@ var commands = []*Command{
 	cmdName,
 	cmdRemove,
 	cmdSize,
-	//cmdSort,
-	//cmdStruct,
 	cmdSubstitute,
 	cmdTail,
 	cmdTel,
