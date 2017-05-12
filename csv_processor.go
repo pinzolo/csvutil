@@ -22,6 +22,12 @@ func NewCSVProcessor(r *csv.Reader, w *csv.Writer) *CSVProcessor {
 	}
 }
 
+// NewReadOnlyCSVProcessor returns new processor from reader.
+// Processor does not write to CSV.
+func NewReadOnlyCSVProcessor(r *csv.Reader) *CSVProcessor {
+	return &CSVProcessor{reader: r}
+}
+
 // SetHeaderHanlder set function for calling on header line read.
 func (csvp *CSVProcessor) SetHeaderHanlder(f func([]string) ([]string, error)) {
 	csvp.headerHandler = f
@@ -52,7 +58,9 @@ func (csvp *CSVProcessor) Process() error {
 		if err != nil {
 			return err
 		}
-		csvp.writer.Write(pHdr)
+		if csvp.writer != nil {
+			csvp.writer.Write(pHdr)
+		}
 	}
 
 	if csvp.preBodyRead != nil {
@@ -74,7 +82,9 @@ func (csvp *CSVProcessor) Process() error {
 		if err != nil {
 			return err
 		}
-		csvp.writer.Write(pRec)
+		if csvp.writer != nil {
+			csvp.writer.Write(pRec)
+		}
 	}
 
 	return nil
