@@ -76,8 +76,8 @@ OPTIONS
                  code     | 1    | 2
                  en_short | M    | F
                  en_long  | Male | Female
-                 ja_short | 男   | 女
-                 ja_long  | 男性 | 女性
+                 jp_short | 男   | 女
+                 jp_long  | 男性 | 女性
                  symbol   | ♂   | ♀
 
         -mr, --male-rate PERCENTAGE
