@@ -82,7 +82,7 @@ func init() {
 	cmdSubstitute.Flag.StringVar(&substituteOpt.Encoding, "e", "utf8", "Encoding of source file")
 	cmdSubstitute.Flag.StringVar(&substituteOpt.OutputEncoding, "output-encoding", "", "Encoding for output")
 	cmdSubstitute.Flag.StringVar(&substituteOpt.OutputEncoding, "oe", "", "Encoding for output")
-	cmdSubstitute.Flag.StringVar(&substituteOpt.Column, "column", "", "Home column symbol")
+	cmdSubstitute.Flag.StringVar(&substituteOpt.Column, "column", "", "Target column symbol")
 	cmdSubstitute.Flag.StringVar(&substituteOpt.Column, "c", "", "Home column symbol")
 	cmdSubstitute.Flag.StringVar(&substituteOpt.Pattern, "pattern", "", "Pattern")
 	cmdSubstitute.Flag.StringVar(&substituteOpt.Pattern, "p", "", "Pattern")
