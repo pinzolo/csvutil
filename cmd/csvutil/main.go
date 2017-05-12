@@ -122,6 +122,7 @@ Usage:
 The commands are:
 {{range .}}
 	{{.Name | printf "%-11s"}} {{.Short}}{{end}}
+	{{"version" | printf "%-11s"}} バージョン表示
 
 Use "csvutil help [command]" for more information about a command.
 
