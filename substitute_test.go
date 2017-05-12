@@ -18,7 +18,7 @@ func TestSubstituteWithoutColumn(t *testing.T) {
 	}
 
 	if err := Substitute(r, w, o); err == nil {
-		t.Error("Email without column symbol should raise error.")
+		t.Error("Substitute without column symbol should raise error.")
 	}
 }
 
@@ -36,7 +36,7 @@ func TestSubstituteWithNoHeaderButColumnNotNumber(t *testing.T) {
 	}
 
 	if err := Substitute(r, w, o); err == nil {
-		t.Error("Email with not number column symbol for no header CSV should raise error.")
+		t.Error("Substitute with not number column symbol for no header CSV should raise error.")
 	}
 
 }
