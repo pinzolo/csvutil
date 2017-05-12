@@ -46,7 +46,7 @@ $ csvutil generate --size 5 --count 10 --header 氏名:郵便番号:住所:建�
 
 [Releases · pinzolo/csvutil](https://github.com/pinzolo/csvutil/releases) から最新の自分の環境にあったバイナリをダウンロードしてお使いください。
 
-また、Go環境がある場合 `go get` でインストールできます。
+また、Go環境がある場合 `go get` でインストールできます。（Go 1.8以上）
 
 ```bash
 $ go get github.com/pinzolo/csvutil/cmd/csvutil
