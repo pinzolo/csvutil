@@ -11,8 +11,6 @@ import (
 	"strings"
 	"text/template"
 	"time"
-
-	"github.com/pinzolo/csvutil"
 )
 
 // A Command is an implementation of a csvutil command
@@ -74,6 +72,7 @@ var commands = []*Command{
 	cmdTail,
 	cmdTel,
 	cmdTop,
+	cmdVersion,
 }
 
 func main() {
@@ -90,11 +89,6 @@ func main() {
 
 	if args[0] == "help" {
 		help(args[1:])
-		return
-	}
-
-	if args[0] == "version" {
-		fmt.Fprintf(os.Stdout, "csvutil version %s\n", csvutil.Version)
 		return
 	}
 
@@ -122,7 +116,6 @@ Usage:
 The commands are:
 {{range .}}
 	{{.Name | printf "%-11s"}} {{.Short}}{{end}}
-	{{"version" | printf "%-11s"}} バージョン表示
 
 Use "csvutil help [command]" for more information about a command.
 
