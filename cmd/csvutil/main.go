@@ -59,6 +59,7 @@ var commands = []*Command{
 	cmdAppend,
 	cmdBlank,
 	cmdBuilding,
+	cmdCollect,
 	cmdCombine,
 	cmdCount,
 	cmdEmail,

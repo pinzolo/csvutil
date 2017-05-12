@@ -76,8 +76,8 @@ OPTIONS
                  code     | 1    | 2
                  en_short | M    | F
                  en_long  | Male | Female
-                 ja_short | 男   | 女
-                 ja_long  | 男性 | 女性
+                 jp_short | 男   | 女
+                 jp_long  | 男性 | 女性
                  symbol   | ♂   | ♀
 
         -mr, --male-rate PERCENTAGE
@@ -86,7 +86,7 @@ OPTIONS
         -r, --reference COLUMN_SYMBOL
             保護者・家族として出力するために参照する列のシンボルを指定します。
             この列は漢字・ひらがな・カタカナで出力されている必要があります。
-            また、姓と名の間は半角スペースから全角スペースで区切られている必要があります。
+            また、姓と名の間は半角スペースか全角スペースで区切られている必要があります。
             スペースで区切られていない場合、列の値全体が姓として扱われます。
 
         -rr, --ristrict-reference
