@@ -66,6 +66,7 @@ var commands = []*Command{
 	cmdHeader,
 	cmdInsert,
 	cmdName,
+	cmdPassword,
 	cmdRemove,
 	cmdSize,
 	cmdSubstitute,

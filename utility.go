@@ -81,6 +81,15 @@ func containsInt(is []int, i int) bool {
 	return false
 }
 
+func containsRune(rs []rune, r rune) bool {
+	for _, r2 := range rs {
+		if r2 == r {
+			return true
+		}
+	}
+	return false
+}
+
 func toFullWidthNum(s string) string {
 	fs := s
 	for i, hn := range halfWidthNums {
