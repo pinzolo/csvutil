@@ -1,0 +1,5 @@
+[
+{{- range $di, $d := .Data}}
+  {{"{"}} {{range $hi, $h := $.Headers}}{{if ne $hi 0}}, {{end}}'{{$h}}' => '{{index $d $hi}}'{{end}} {{"}"}}
+{{- end}}
+]

@@ -14,8 +14,6 @@ type TailOption struct {
 	Encoding string
 	// Encoding for output.
 	OutputEncoding string
-	// Headers is appending header list.
-	Headers []string
 	// Count is reading line count.
 	Count int
 }
