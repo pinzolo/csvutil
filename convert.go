@@ -137,7 +137,7 @@ func Convert(r io.Reader, w io.Writer, o ConvertOption) error {
 	if err != nil {
 		return err
 	}
-	_, err = bw.Write(p)
+	_, err = bw.Write(appendLastNewLine(p))
 	return err
 }
 
@@ -173,4 +173,16 @@ func marshalee(ctx convertContext) []map[string]string {
 		ret[i] = m
 	}
 	return ret
+}
+
+func appendLastNewLine(p []byte) []byte {
+	if p == nil {
+		return p
+	}
+
+	if p[len(p)-1] == 10 {
+		return p
+	}
+
+	return append(p, 10)
 }

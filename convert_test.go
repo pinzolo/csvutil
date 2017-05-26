@@ -177,7 +177,8 @@ func TestConvertToJSON(t *testing.T) {
 		"bbb": "8",
 		"ccc": "9"
 	}
-]`
+]
+`
 	if actual := w.String(); actual != expected {
 		t.Errorf("Expectd: %s, but got %s", expected, actual)
 	}
@@ -215,7 +216,8 @@ func TestConvertToJSONWithNoHeader(t *testing.T) {
 		"column2": "8",
 		"column3": "9"
 	}
-]`
+]
+`
 	if actual := w.String(); actual != expected {
 		t.Errorf("Expectd: %s, but got %s", expected, actual)
 	}
@@ -411,7 +413,8 @@ func TestConvertToXML(t *testing.T) {
 		<bbb>8</bbb>
 		<ccc>9</ccc>
 	</data>
-</csv>`
+</csv>
+`
 	if actual := w.String(); actual != expected {
 		t.Errorf("Expectd: %s, but got %s", expected, actual)
 	}
@@ -449,7 +452,8 @@ func TestConvertToXMLWithNoHeader(t *testing.T) {
 		<column2>8</column2>
 		<column3>9</column3>
 	</data>
-</csv>`
+</csv>
+`
 	if actual := w.String(); actual != expected {
 		t.Errorf("Expectd: %s, but got %s", expected, actual)
 	}
