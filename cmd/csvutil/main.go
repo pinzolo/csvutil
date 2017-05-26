@@ -63,6 +63,7 @@ var commands = []*Command{
 	cmdCount,
 	cmdEmail,
 	cmdExtract,
+	cmdFilter,
 	cmdGenerate,
 	cmdHeader,
 	cmdInsert,

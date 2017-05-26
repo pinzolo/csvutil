@@ -38,7 +38,6 @@ func TestSubstituteWithNoHeaderButColumnNotNumber(t *testing.T) {
 	if err := Substitute(r, w, o); err == nil {
 		t.Error("Substitute with not number column symbol for no header CSV should raise error.")
 	}
-
 }
 
 func TestSubstituteWithoutPattern(t *testing.T) {
@@ -54,7 +53,7 @@ func TestSubstituteWithoutPattern(t *testing.T) {
 	}
 
 	if err := Substitute(r, w, o); err == nil {
-		t.Error("Substitute with negative mobile rate should raise error.")
+		t.Error("Substitute without pattern should raise error.")
 	}
 }
 
@@ -91,6 +90,25 @@ func TestSubstituteWithBrokenCSV(t *testing.T) {
 
 	if err := Substitute(r, w, o); err == nil {
 		t.Error("Substitute with broken csv should raise error.")
+	}
+}
+
+func TestSubstituteWithBrokenRegexp(t *testing.T) {
+	s := `aaa,bbb,ccc
+1,2,3
+4,5
+7,8,9
+`
+	r := bytes.NewBufferString(s)
+	w := &bytes.Buffer{}
+	o := SubstituteOption{
+		Column:  "aaa",
+		Pattern: "[1-4",
+		Regexp:  true,
+	}
+
+	if err := Substitute(r, w, o); err == nil {
+		t.Error("Substitute with broken regexp should raise error.")
 	}
 }
 
