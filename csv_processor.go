@@ -58,7 +58,7 @@ func (csvp *CSVProcessor) Process() error {
 		if err != nil {
 			return err
 		}
-		if csvp.writer != nil {
+		if csvp.writer != nil && pHdr != nil {
 			csvp.writer.Write(pHdr)
 		}
 	}
@@ -82,7 +82,7 @@ func (csvp *CSVProcessor) Process() error {
 		if err != nil {
 			return err
 		}
-		if csvp.writer != nil {
+		if csvp.writer != nil && pRec != nil {
 			csvp.writer.Write(pRec)
 		}
 	}
