@@ -2,10 +2,30 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"strings"
 	"testing"
 	"unicode"
 )
+
+func BenchmarkName(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := NameOption{
+			LastName:  "姓",
+			FirstName: "名",
+			LastKana:  "姓カナ",
+			FirstKana: "名カナ",
+			Gender:    "性別",
+		}
+		Name(r, w, o)
+	}
+}
 
 func TestNameWithoutTargetColumns(t *testing.T) {
 	r := &bytes.Buffer{}

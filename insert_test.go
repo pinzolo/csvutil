@@ -2,8 +2,25 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 )
+
+func BenchmarkInsert(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := InsertOption{
+			Size:   100,
+			Before: "都道府県",
+		}
+		Insert(r, w, o)
+	}
+}
 
 func TestInsertWithoutSize(t *testing.T) {
 	r := &bytes.Buffer{}

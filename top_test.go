@@ -2,8 +2,24 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 )
+
+func BenchmarkTop(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := TopOption{
+			Count: 100,
+		}
+		Top(r, w, o)
+	}
+}
 
 func TestTopWithZeroCount(t *testing.T) {
 	s := `aaa,bbb,ccc

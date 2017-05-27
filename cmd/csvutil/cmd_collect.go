@@ -62,13 +62,13 @@ OPTIONS
         -sk, --sort-key KEY
             ソートする際に、値と出現数のどちらをキーにしてソートするかを指定します。
             対応している値:
-                value : 値をキーにしてソートします
+                value : 値をキーにしてソートします（初期値）
                 count : 出現数をキーにしてソートします
 
         -sd, --sort-direction DIRECTION
             ソートする際の昇順・降順を指定します。
             対応している値:
-                asc  : 昇順でソートします
+                asc  : 昇順でソートします（初期値）
                 desc : 降順でソートします
 	`,
 }
@@ -96,6 +96,14 @@ func init() {
 	cmdCollect.Flag.StringVar(&collectOpt.Column, "c", "", "Home column symbol")
 	cmdCollect.Flag.BoolVar(&collectOpt.AllowEmpty, "allow-empty", false, "Allow empty")
 	cmdCollect.Flag.BoolVar(&collectOpt.AllowEmpty, "ae", false, "Allow empty")
+	cmdCollect.Flag.BoolVar(&collectOpt.PrintCount, "print-count", false, "Print count")
+	cmdCollect.Flag.BoolVar(&collectOpt.PrintCount, "pc", false, "Print count")
+	cmdCollect.Flag.BoolVar(&collectOpt.Sort, "sort", false, "Sort")
+	cmdCollect.Flag.BoolVar(&collectOpt.Sort, "s", false, "Sort")
+	cmdCollect.Flag.StringVar(&collectOpt.SortKey, "sort-key", "value", "Sort key")
+	cmdCollect.Flag.StringVar(&collectOpt.SortKey, "sk", "value", "Sort key")
+	cmdCollect.Flag.StringVar(&collectOpt.SortDirection, "sort-direction", "asc", "Sort direction")
+	cmdCollect.Flag.StringVar(&collectOpt.SortDirection, "sd", "asc", "Sort direction")
 }
 
 // runCollect executes collect command and return exit code.

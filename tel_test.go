@@ -2,12 +2,29 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"regexp"
 	"strings"
 	"testing"
 )
 
 var telNumRegex = regexp.MustCompile(`\d+-\d+-\d`)
+
+func BenchmarkTel(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := TelOption{
+			Column:     "電話番号",
+			MobileRate: 20,
+		}
+		Tel(r, w, o)
+	}
+}
 
 func TestTelWithoutColumn(t *testing.T) {
 	s := `aaa,bbb,ccc

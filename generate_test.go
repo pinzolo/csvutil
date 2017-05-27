@@ -5,6 +5,17 @@ import (
 	"testing"
 )
 
+func BenchmarkGenerate(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		w := &bytes.Buffer{}
+		o := GenerateOption{
+			Size:  100,
+			Count: 1000,
+		}
+		Generate(w, o)
+	}
+}
+
 func TestGenerateWithoutSize(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := GenerateOption{

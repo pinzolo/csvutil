@@ -2,9 +2,26 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"strings"
 	"testing"
 )
+
+func BenchmarkEmail(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := EmailOption{
+			Column:     "メールアドレス",
+			MobileRate: 20,
+		}
+		Email(r, w, o)
+	}
+}
 
 func TestEmailWithoutColumn(t *testing.T) {
 	s := `aaa,bbb,ccc

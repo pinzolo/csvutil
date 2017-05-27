@@ -2,8 +2,21 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 )
+
+func BenchmarkCount(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		o := CountOption{}
+		Count(r, o)
+	}
+}
 
 func TestCountWithBrokenCSV(t *testing.T) {
 	s := `aaa,bbb,ccc
