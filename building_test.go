@@ -3,9 +3,25 @@ package csvutil
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"strings"
 	"testing"
 )
+
+func BenchmarkBuilding(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := BuildingOption{
+			Column: "建物",
+		}
+		Building(r, w, o)
+	}
+}
 
 func TestBuildingWithoutColumn(t *testing.T) {
 	s := `aaa,bbb,ccc

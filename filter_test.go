@@ -2,8 +2,40 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 )
+
+func BenchmarkFilter(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := FilterOption{
+			Pattern: "京都府",
+		}
+		Filter(r, w, o)
+	}
+}
+
+func BenchmarkFilterWithRegexp(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := FilterOption{
+			Pattern: "\\d+-\\d+",
+			Regexp:  true,
+		}
+		Filter(r, w, o)
+	}
+}
 
 func TestFilterWithNoHeaderButColumnNotNumber(t *testing.T) {
 	s := `A1,B2,C3

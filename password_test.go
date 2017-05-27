@@ -2,6 +2,7 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 )
 
@@ -9,6 +10,23 @@ var lowerLetters = []rune("abcdefghijklmnopqrstuvwxyz")
 var upperLetters = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 var numeric = []rune("0123456789")
 var specialChars = []rune(`!'@#$%^&*()_+-=[]{};:",./?`)
+
+func BenchmarkPassword(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := PasswordOption{
+			MinLength: 8,
+			MaxLength: 16,
+			Column:    "パスワード",
+		}
+		Password(r, w, o)
+	}
+}
 
 func TestPasswordWithoutColumn(t *testing.T) {
 	s := `aaa,bbb,ccc

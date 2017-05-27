@@ -2,8 +2,84 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 )
+
+func BenchmarkConvertOnMarkdown(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := ConvertOption{
+			Format: "markdown",
+		}
+		Convert(r, w, o)
+	}
+}
+
+func BenchmarkConvertOnJSON(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := ConvertOption{
+			Format: "json",
+		}
+		Convert(r, w, o)
+	}
+}
+
+func BenchmarkConvertOnYAML(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := ConvertOption{
+			Format: "yaml",
+		}
+		Convert(r, w, o)
+	}
+}
+
+func BenchmarkConvertOnHTML(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := ConvertOption{
+			Format: "html",
+		}
+		Convert(r, w, o)
+	}
+}
+
+func BenchmarkConvertOnXML(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := ConvertOption{
+			Format: "xml",
+		}
+		Convert(r, w, o)
+	}
+}
 
 func TestConvertWithoutFormatAndTemplate(t *testing.T) {
 	s := `aaa,bbb,ccc

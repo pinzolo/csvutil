@@ -2,8 +2,24 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 )
+
+func BenchmarkHeader(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := HeaderOption{
+			Index: true,
+		}
+		Header(r, w, o)
+	}
+}
 
 func TestHeaderWithBrokenCSV(t *testing.T) {
 	s := `a"aa,bbb,ccc

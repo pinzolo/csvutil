@@ -2,8 +2,21 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 )
+
+func BenchmarkSize(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		o := SizeOption{}
+		Size(r, o)
+	}
+}
 
 func TestSizeWithEmptyCSV(t *testing.T) {
 	s := ""

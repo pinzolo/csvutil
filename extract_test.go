@@ -2,8 +2,24 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 )
+
+func BenchmarkExtract(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := ExtractOption{
+			ColumnSyms: []string{"1", "3", "5", "7", "9"},
+		}
+		Extract(r, w, o)
+	}
+}
 
 func TestExtractWithEmptyColumn(t *testing.T) {
 	r := &bytes.Buffer{}

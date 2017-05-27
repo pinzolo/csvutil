@@ -2,8 +2,25 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 )
+
+func BenchmarkCombine(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := CombineOption{
+			SourceSyms:  []string{"建物", "住所", "建物"},
+			Destination: "住所",
+		}
+		Combine(r, w, o)
+	}
+}
 
 func TestCombineWithEmptySource(t *testing.T) {
 	s := `1,2,3

@@ -2,8 +2,25 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 )
+
+func BenchmarkBlank(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := BlankOption{
+			Rate:       100,
+			ColumnSyms: []string{"1", "3", "5", "7", "9"},
+		}
+		Blank(r, w, o)
+	}
+}
 
 func TestBlankWithEmptyColumn(t *testing.T) {
 	r := &bytes.Buffer{}

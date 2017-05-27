@@ -2,8 +2,44 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"testing"
 )
+
+func BenchmarkSubstitute(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := SubstituteOption{
+			Column:      "住所",
+			Pattern:     "-",
+			Replacement: "@",
+		}
+		Substitute(r, w, o)
+	}
+}
+
+func BenchmarkSubstituteWithRegexp(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := SubstituteOption{
+			Column:      "住所",
+			Pattern:     "\\d+-\\d+",
+			Replacement: "@",
+			Regexp:      true,
+		}
+		Substitute(r, w, o)
+	}
+}
 
 func TestSubstituteWithoutColumn(t *testing.T) {
 	s := `aaa,bbb,ccc

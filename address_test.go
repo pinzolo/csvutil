@@ -2,11 +2,31 @@ package csvutil
 
 import (
 	"bytes"
+	"io/ioutil"
 	"regexp"
 	"strconv"
 	"strings"
 	"testing"
 )
+
+func BenchmarkAddress(b *testing.B) {
+	p, err := ioutil.ReadFile("testdata/bench.csv")
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		r := bytes.NewBuffer(p)
+		w := &bytes.Buffer{}
+		o := AddressOption{
+			ZipCode:     "郵便番号",
+			Prefecture:  "住所",
+			City:        "住所",
+			Town:        "住所",
+			BlockNumber: true,
+		}
+		Address(r, w, o)
+	}
+}
 
 func TestAddressWithoutTargetColumns(t *testing.T) {
 	r := &bytes.Buffer{}
