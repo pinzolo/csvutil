@@ -74,13 +74,9 @@ func Extract(r io.Reader, w io.Writer, o ExtractOption) error {
 
 func extractFromRecord(rec []string, cols columns) []string {
 	newRec := make([]string, len(cols))
+	copy(newRec, rec)
 	for n, col := range cols {
-		for i, s := range rec {
-			if i == col.index {
-				newRec[n] = s
-				break
-			}
-		}
+		newRec[n] = rec[col.index]
 	}
 	return newRec
 }

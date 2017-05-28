@@ -90,15 +90,8 @@ func Substitute(r io.Reader, w io.Writer, o SubstituteOption) error {
 		})
 	}
 	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
-		newRec := make([]string, len(rec))
-		for i, s := range rec {
-			if i == col.index {
-				newRec[i] = opt.subFunc(s)
-				continue
-			}
-			newRec[i] = s
-		}
-		return newRec, nil
+		rec[col.index] = opt.subFunc(rec[col.index])
+		return rec, nil
 	})
 
 	return csvp.Process()

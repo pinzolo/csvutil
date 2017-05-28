@@ -86,14 +86,18 @@ func Filter(r io.Reader, w io.Writer, o FilterOption) error {
 		})
 	}
 	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
-		for i, s := range rec {
-			if len(cols) == 0 && o.matches(s) {
-				return rec, nil
-			}
-			for _, col := range cols {
-				if i == col.index && o.matches(s) {
+		if len(cols) == 0 {
+			for _, s := range rec {
+				if len(cols) == 0 && o.matches(s) {
 					return rec, nil
 				}
+			}
+			return nil, nil
+		}
+
+		for _, col := range cols {
+			if o.matches(rec[col.index]) {
+				return rec, nil
 			}
 		}
 		return nil, nil

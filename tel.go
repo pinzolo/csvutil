@@ -76,19 +76,12 @@ func Tel(r io.Reader, w io.Writer, o TelOption) error {
 		})
 	}
 	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
-		newRec := make([]string, len(rec))
-		for i, s := range rec {
-			if i == col.index {
-				if lot(o.MobileRate) {
-					newRec[i] = fakeMobileTel()
-				} else {
-					newRec[i] = fakeTel()
-				}
-			} else {
-				newRec[i] = s
-			}
+		if lot(o.MobileRate) {
+			rec[col.index] = fakeMobileTel()
+		} else {
+			rec[col.index] = fakeTel()
 		}
-		return newRec, nil
+		return rec, nil
 	})
 
 	return csvp.Process()

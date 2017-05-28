@@ -78,22 +78,15 @@ func Building(r io.Reader, w io.Writer, o BuildingOption) error {
 		})
 	}
 	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
-		newRec := make([]string, len(rec))
-		for i, s := range rec {
-			if i == col.index {
-				if o.Append {
-					newRec[i] = s
-				}
-				if lot(o.OfficeRate) {
-					newRec[i] += fakeOffice(o.isFullWidth())
-				} else {
-					newRec[i] += fakeApartment(o.isFullWidth())
-				}
-			} else {
-				newRec[i] = s
-			}
+		if !o.Append {
+			rec[col.index] = ""
 		}
-		return newRec, nil
+		if lot(o.OfficeRate) {
+			rec[col.index] += fakeOffice(o.isFullWidth())
+		} else {
+			rec[col.index] += fakeApartment(o.isFullWidth())
+		}
+		return rec, nil
 	})
 
 	return csvp.Process()

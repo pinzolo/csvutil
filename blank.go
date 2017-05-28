@@ -97,16 +97,12 @@ func Blank(r io.Reader, w io.Writer, o BlankOption) error {
 		})
 	}
 	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
-		newRec := make([]string, len(rec))
-		for i, s := range rec {
-			newRec[i] = s
-			for _, col := range cols {
-				if i == col.index && lot(o.Rate) {
-					newRec[i] = o.space()
-				}
+		for _, col := range cols {
+			if lot(o.Rate) {
+				rec[col.index] = o.space()
 			}
 		}
-		return newRec, nil
+		return rec, nil
 	})
 
 	return csvp.Process()

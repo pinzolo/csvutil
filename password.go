@@ -81,15 +81,8 @@ func Password(r io.Reader, w io.Writer, o PasswordOption) error {
 		})
 	}
 	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
-		newRec := make([]string, len(rec))
-		for i, s := range rec {
-			if i == col.index {
-				newRec[i] = fakePassword(o)
-			} else {
-				newRec[i] = s
-			}
-		}
-		return newRec, nil
+		rec[col.index] = fakePassword(o)
+		return rec, nil
 	})
 
 	return csvp.Process()

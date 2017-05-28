@@ -78,19 +78,12 @@ func Email(r io.Reader, w io.Writer, o EmailOption) error {
 		})
 	}
 	csvp.SetRecordHandler(func(rec []string) ([]string, error) {
-		newRec := make([]string, len(rec))
-		for i, s := range rec {
-			if i == col.index {
-				if lot(o.MobileRate) {
-					newRec[i] = fakeMobileEmail()
-				} else {
-					newRec[i] = fakeEmail()
-				}
-			} else {
-				newRec[i] = s
-			}
+		if lot(o.MobileRate) {
+			rec[col.index] = fakeMobileEmail()
+		} else {
+			rec[col.index] = fakeEmail()
 		}
-		return newRec, nil
+		return rec, nil
 	})
 
 	return csvp.Process()
