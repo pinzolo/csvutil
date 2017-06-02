@@ -7,7 +7,7 @@ import (
 var cmdPassword = &Command{
 	Run:       runPassword,
 	UsageLine: "password [OPTIONS...] [FILE]",
-	Short:     "パスワード出力",
+	Short:     "パスワード生成",
 	Long: `DESCRIPTION
         指定した列にダミーのパスワードを出力します。
 
