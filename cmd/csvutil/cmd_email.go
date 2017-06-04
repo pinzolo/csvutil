@@ -7,7 +7,7 @@ import (
 var cmdEmail = &Command{
 	Run:       runEmail,
 	UsageLine: "email [OPTIONS...] [FILE]",
-	Short:     "メールアドレス出力",
+	Short:     "メールアドレス生成",
 	Long: `DESCRIPTION
         指定した列にダミーのメールアドレスを出力します。
 

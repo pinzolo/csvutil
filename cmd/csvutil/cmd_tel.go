@@ -7,7 +7,7 @@ import (
 var cmdTel = &Command{
 	Run:       runTel,
 	UsageLine: "tel [OPTIONS...] [FILE]",
-	Short:     "電話番号出力",
+	Short:     "電話番号生成",
 	Long: `DESCRIPTION
         指定した列にダミーの電話番号を出力します。
 

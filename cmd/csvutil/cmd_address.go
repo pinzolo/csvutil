@@ -7,7 +7,7 @@ import (
 var cmdAddress = &Command{
 	Run:       runAddress,
 	UsageLine: "address [OPTIONS...] [FILE]",
-	Short:     "住所出力",
+	Short:     "住所生成",
 	Long: `DESCRIPTION
         指定した列にダミーの住所を出力します。
         郵便番号、都道府県、都市、町は同じ列を指定すれば追記されます。

@@ -12,7 +12,7 @@ var cmdConvert = &Command{
 	UsageLine: "convert [OPTIONS...] [FILE]",
 	Short:     "形式変換",
 	Long: `DESCRIPTION
-        CSVのデータを特定の形式に変換して出力します。出力エンコードは UTF-8 固定です。
+        CSVのデータを特定の形式に変換して標準出力に出力します。
 
 ARGUMENTS
         FILE
