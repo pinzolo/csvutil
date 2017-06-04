@@ -39,10 +39,10 @@ func (o PasswordOption) validate() error {
 		}
 	}
 	if o.MinLength <= 0 {
-		return errors.New("min length not positive")
+		return errors.New("not positive min length")
 	}
 	if o.MaxLength <= 0 {
-		return errors.New("max length not positive")
+		return errors.New("not positive max length")
 	}
 	if o.MinLength > o.MaxLength {
 		return errors.New("max length less than min length")

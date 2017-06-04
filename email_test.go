@@ -53,7 +53,6 @@ func TestEmailWithNoHeaderButColumnNotNumber(t *testing.T) {
 	if err := Email(r, w, o); err == nil {
 		t.Error("Email with not number column symbol for no header CSV should raise error.")
 	}
-
 }
 
 func TestEmailWithNegativeMobileRate(t *testing.T) {
