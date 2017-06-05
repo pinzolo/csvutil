@@ -28,7 +28,7 @@ func TestCountWithBrokenCSV(t *testing.T) {
 	o := CountOption{}
 
 	if _, err := Count(r, o); err == nil {
-		t.Error("Count with broken csv should raise error.")
+		t.Fatal("Count with broken csv should raise error.")
 	}
 }
 
@@ -44,10 +44,10 @@ func TestCountWithHeader(t *testing.T) {
 
 	i, err := Count(r, o)
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	if i != 3 {
-		t.Errorf("Expected: %d, but got %d", 3, i)
+		t.Fatalf("Expected: %d, but got %d", 3, i)
 	}
 }
 
@@ -65,10 +65,10 @@ func TestCountWithNoHeader(t *testing.T) {
 
 	i, err := Count(r, o)
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	if i != 4 {
-		t.Errorf("Expected: %d, but got %d", 4, i)
+		t.Fatalf("Expected: %d, but got %d", 4, i)
 	}
 }
 
@@ -88,9 +88,9 @@ c"
 
 	i, err := Count(r, o)
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	if i != 3 {
-		t.Errorf("Expected: %d, but got %d", 3, i)
+		t.Fatalf("Expected: %d, but got %d", 3, i)
 	}
 }

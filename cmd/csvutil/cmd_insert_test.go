@@ -11,19 +11,19 @@ func Example_runInsert() {
 
 func Test_runInsert(t *testing.T) {
 	if c := runInsert([]string{testFilePath("utf8.csv")}); c != 0 {
-		t.Errorf("Invalid success exit code: %d", c)
+		t.Fatalf("Invalid success exit code: %d", c)
 	}
 }
 
 func Test_runInsertOnNoFile(t *testing.T) {
 	if c := runInsert([]string{testFilePath("no-file.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 }
 
 func Test_runInsertOnFail(t *testing.T) {
 	if c := runInsert([]string{testFilePath("broken.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 }
 
@@ -31,7 +31,7 @@ func Test_runInsertOnBackup(t *testing.T) {
 	f, err := prepareWritingTest()
 	defer f()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	insertOpt.Overwrite = true
 	insertOpt.Backup = true
@@ -39,7 +39,7 @@ func Test_runInsertOnBackup(t *testing.T) {
 	insertOpt.Backup = false
 	insertOpt.Overwrite = false
 	if b, err := existsBackup(); err != nil || !b {
-		t.Errorf("Failed backup")
+		t.Fatalf("Failed backup")
 	}
 }
 
@@ -47,25 +47,25 @@ func Test_runInsertOnOverwrite(t *testing.T) {
 	f, err := prepareWritingTest()
 	defer f()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	insertOpt.Overwrite = true
 	runInsert([]string{tempFilePath()})
 	insertOpt.Overwrite = false
 	c, err := overwriteContent()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	if len(c[0]) != 3 {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 	if c[0][0] != "column1" || c[0][1] != "名前" || c[0][2] != "個数" {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 	if c[1][0] != "" || c[1][1] != "りんご" || c[1][2] != "1" {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 	if c[2][0] != "" || c[2][1] != "みかん" || c[2][2] != "2" {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 }

@@ -24,12 +24,12 @@ func TestSizeWithEmptyCSV(t *testing.T) {
 	o := SizeOption{}
 	actual, err := Size(r, o)
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := 0
 	if actual != expected {
-		t.Errorf("Expectd: %d, but got %d", expected, actual)
+		t.Fatalf("Expectd: %d, but got %d", expected, actual)
 	}
 }
 
@@ -43,7 +43,7 @@ func TestSizeWithBrokenCSV(t *testing.T) {
 	o := SizeOption{}
 
 	if _, err := Size(r, o); err == nil {
-		t.Error("Size with broken csv should raise error.")
+		t.Fatal("Size with broken csv should raise error.")
 	}
 }
 
@@ -57,11 +57,11 @@ func TestSize(t *testing.T) {
 	o := SizeOption{}
 	actual, err := Size(r, o)
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := 3
 	if actual != expected {
-		t.Errorf("Expectd: %d, but got %d", expected, actual)
+		t.Fatalf("Expectd: %d, but got %d", expected, actual)
 	}
 }

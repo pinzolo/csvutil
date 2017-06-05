@@ -51,7 +51,7 @@ G7,H8,I9
 	}
 
 	if err := Filter(r, w, o); err == nil {
-		t.Error("Filter with not number column symbol for no header CSV should raise error.")
+		t.Fatal("Filter with not number column symbol for no header CSV should raise error.")
 	}
 }
 
@@ -67,7 +67,7 @@ G7,H8,I9
 		ColumnSyms: []string{"aaa"},
 	}
 	if err := Filter(r, w, o); err == nil {
-		t.Error("Filter without pattern should raise error.")
+		t.Fatal("Filter without pattern should raise error.")
 	}
 }
 
@@ -85,7 +85,7 @@ G7,H8,I9
 	}
 
 	if err := Filter(r, w, o); err == nil {
-		t.Error("Filter with unknown column should raise error.")
+		t.Fatal("Filter with unknown column should raise error.")
 	}
 }
 
@@ -103,7 +103,7 @@ G7,H8,I9
 	}
 
 	if err := Filter(r, w, o); err == nil {
-		t.Error("Filter with broken csv should raise error.")
+		t.Fatal("Filter with broken csv should raise error.")
 	}
 }
 
@@ -121,7 +121,7 @@ G7,H8,I9
 	}
 
 	if err := Filter(r, w, o); err == nil {
-		t.Error("Filter with broken regexp should raise error.")
+		t.Fatal("Filter with broken regexp should raise error.")
 	}
 }
 
@@ -146,7 +146,7 @@ D4,E5,F6
 G7,H8,I4
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -170,7 +170,7 @@ G7,H8,I4
 G7,H8,I4
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -196,7 +196,7 @@ A1,B4,C3
 D4,E5,F6
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -222,7 +222,7 @@ A1,B2,C3
 D4,E5,F6
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 
 }

@@ -54,7 +54,7 @@ func TestSubstituteWithoutColumn(t *testing.T) {
 	}
 
 	if err := Substitute(r, w, o); err == nil {
-		t.Error("Substitute without column symbol should raise error.")
+		t.Fatal("Substitute without column symbol should raise error.")
 	}
 }
 
@@ -72,7 +72,7 @@ func TestSubstituteWithNoHeaderButColumnNotNumber(t *testing.T) {
 	}
 
 	if err := Substitute(r, w, o); err == nil {
-		t.Error("Substitute with not number column symbol for no header CSV should raise error.")
+		t.Fatal("Substitute with not number column symbol for no header CSV should raise error.")
 	}
 }
 
@@ -89,7 +89,7 @@ func TestSubstituteWithoutPattern(t *testing.T) {
 	}
 
 	if err := Substitute(r, w, o); err == nil {
-		t.Error("Substitute without pattern should raise error.")
+		t.Fatal("Substitute without pattern should raise error.")
 	}
 }
 
@@ -107,7 +107,7 @@ func TestSubstituteWithUnknownColumn(t *testing.T) {
 	}
 
 	if err := Substitute(r, w, o); err == nil {
-		t.Error("Substitute with unknown column should raise error.")
+		t.Fatal("Substitute with unknown column should raise error.")
 	}
 }
 
@@ -125,7 +125,7 @@ func TestSubstituteWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Substitute(r, w, o); err == nil {
-		t.Error("Substitute with broken csv should raise error.")
+		t.Fatal("Substitute with broken csv should raise error.")
 	}
 }
 
@@ -144,7 +144,7 @@ func TestSubstituteWithBrokenRegexp(t *testing.T) {
 	}
 
 	if err := Substitute(r, w, o); err == nil {
-		t.Error("Substitute with broken regexp should raise error.")
+		t.Fatal("Substitute with broken regexp should raise error.")
 	}
 }
 
@@ -162,14 +162,14 @@ z8z,8,9
 	}
 
 	if err := Substitute(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	expecteds := []string{"xx", "y", "z8z"}
 	for i, expected := range expecteds {
 		if actual := data[i][0]; actual != expected {
-			t.Errorf("Expected %s, but got %s", expected, actual)
+			t.Fatalf("Expected %s, but got %s", expected, actual)
 		}
 	}
 }
@@ -188,14 +188,14 @@ z8z,8,9
 	}
 
 	if err := Substitute(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	expecteds := []string{"aaa", "xx", "y", "z8z"}
 	for i, expected := range expecteds {
 		if actual := data[i][0]; actual != expected {
-			t.Errorf("Expected %s, but got %s", expected, actual)
+			t.Fatalf("Expected %s, but got %s", expected, actual)
 		}
 	}
 }
@@ -215,14 +215,14 @@ z8z,8,9
 	}
 
 	if err := Substitute(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	expecteds := []string{"aaa", "xx", "y", "zz"}
 	for i, expected := range expecteds {
 		if actual := data[i][0]; actual != expected {
-			t.Errorf("Expected %s, but got %s", expected, actual)
+			t.Fatalf("Expected %s, but got %s", expected, actual)
 		}
 	}
 }
@@ -243,14 +243,14 @@ z8z,8,9
 	}
 
 	if err := Substitute(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	expecteds := []string{"aaa", "xFOOx", "FOOyFOO", "zFOOz"}
 	for i, expected := range expecteds {
 		if actual := data[i][0]; actual != expected {
-			t.Errorf("Expected %s, but got %s", expected, actual)
+			t.Fatalf("Expected %s, but got %s", expected, actual)
 		}
 	}
 }

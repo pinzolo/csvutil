@@ -14,20 +14,20 @@ func Example_runBlank() {
 func Test_runBlank(t *testing.T) {
 	blankOpt.Column = "0"
 	if c := runBlank([]string{testFilePath("utf8.csv")}); c != 0 {
-		t.Errorf("Invalid success exit code: %d", c)
+		t.Fatalf("Invalid success exit code: %d", c)
 	}
 	blankOpt.Column = ""
 }
 
 func Test_runBlankOnNoFile(t *testing.T) {
 	if c := runBlank([]string{testFilePath("no-file.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 }
 
 func Test_runBlankOnFail(t *testing.T) {
 	if c := runBlank([]string{testFilePath("broken.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 }
 
@@ -35,7 +35,7 @@ func Test_runBlankOnBackup(t *testing.T) {
 	f, err := prepareWritingTest()
 	defer f()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	blankOpt.Column = "名前"
 	blankOpt.Overwrite = true
@@ -45,7 +45,7 @@ func Test_runBlankOnBackup(t *testing.T) {
 	blankOpt.Overwrite = false
 	blankOpt.Column = ""
 	if b, err := existsBackup(); err != nil || !b {
-		t.Errorf("Failed backup")
+		t.Fatalf("Failed backup")
 	}
 }
 
@@ -53,7 +53,7 @@ func Test_runBlankOnOverwrite(t *testing.T) {
 	f, err := prepareWritingTest()
 	defer f()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	blankOpt.Column = "名前"
 	blankOpt.Overwrite = true
@@ -62,18 +62,18 @@ func Test_runBlankOnOverwrite(t *testing.T) {
 	blankOpt.Column = ""
 	c, err := overwriteContent()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	if len(c[0]) != 2 {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 	if c[0][0] != "名前" || c[0][1] != "個数" {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 	if c[1][0] != "" || c[1][1] != "1" {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 	if c[2][0] != "" || c[2][1] != "2" {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 }

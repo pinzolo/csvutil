@@ -12,7 +12,7 @@ func Example_runGenerate() {
 
 func Test_runGenerate(t *testing.T) {
 	if c := runGenerate([]string{}); c != 0 {
-		t.Errorf("Invalid success exit code: %d", c)
+		t.Fatalf("Invalid success exit code: %d", c)
 	}
 }
 
@@ -20,7 +20,7 @@ func Test_runGenerateOnFail(t *testing.T) {
 	s := generateOpt.Size
 	generateOpt.Size = -1
 	if c := runGenerate([]string{}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 	generateOpt.Size = s
 }

@@ -27,7 +27,7 @@ func TestRemoveWithEmptyColumn(t *testing.T) {
 	o := RemoveOption{}
 
 	if err := Remove(r, w, o); err == nil {
-		t.Error("Remove with empty column should raise error.")
+		t.Fatal("Remove with empty column should raise error.")
 	}
 }
 
@@ -40,7 +40,7 @@ func TestRemoveWithNoHeaderAndNoDigitColumn(t *testing.T) {
 	}
 
 	if err := Remove(r, w, o); err == nil {
-		t.Error("Remove with no header and no digit column symbol should raise error.")
+		t.Fatal("Remove with no header and no digit column symbol should raise error.")
 	}
 }
 
@@ -57,7 +57,7 @@ func TestRemoveWithSymbolColumnButNoHeader(t *testing.T) {
 	}
 
 	if err := Remove(r, w, o); err == nil {
-		t.Error("When given header text as column symbol but CSV does not have header, Remove should raise error.")
+		t.Fatal("When given header text as column symbol but CSV does not have header, Remove should raise error.")
 	}
 }
 
@@ -74,7 +74,7 @@ func TestRemoveWithUnknownHeaderSymbol(t *testing.T) {
 	}
 
 	if err := Remove(r, w, o); err == nil {
-		t.Error("Remove with unknown header symbol should raise error.")
+		t.Fatal("Remove with unknown header symbol should raise error.")
 	}
 }
 
@@ -91,7 +91,7 @@ func TestRemoveWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Remove(r, w, o); err == nil {
-		t.Error("Remove with broken csv should raise error.")
+		t.Fatal("Remove with broken csv should raise error.")
 	}
 }
 
@@ -108,7 +108,7 @@ func TestRemoveWhenColumnIsHeaderText(t *testing.T) {
 	}
 
 	if err := Remove(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `aaa,ccc
 1,3
@@ -116,7 +116,7 @@ func TestRemoveWhenColumnIsHeaderText(t *testing.T) {
 7,9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -133,7 +133,7 @@ func TestRemoveWhenColumnIsIndex(t *testing.T) {
 	}
 
 	if err := Remove(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `aaa,ccc
 1,3
@@ -141,7 +141,7 @@ func TestRemoveWhenColumnIsIndex(t *testing.T) {
 7,9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -158,14 +158,14 @@ func TestRemoveWhenColumnIsIndexAndNoHeader(t *testing.T) {
 	}
 
 	if err := Remove(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `1,3
 4,6
 7,9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -182,7 +182,7 @@ func TestRemoveWhenColumnIsMultiColumn(t *testing.T) {
 	}
 
 	if err := Remove(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `ccc
 3
@@ -190,6 +190,6 @@ func TestRemoveWhenColumnIsMultiColumn(t *testing.T) {
 9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }

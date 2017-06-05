@@ -33,7 +33,7 @@ func TestAddressWithoutTargetColumns(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := AddressOption{}
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address without output target column should raise error.")
+		t.Fatal("Address without output target column should raise error.")
 	}
 }
 
@@ -50,7 +50,7 @@ func TestAddressWithUnsupportedNumberWidth(t *testing.T) {
 		NumberWidth: -1,
 	}
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address with negative number width should raise error.")
+		t.Fatal("Address with negative number width should raise error.")
 	}
 }
 
@@ -68,7 +68,7 @@ func TestAddressWithNoHeaderAndNotDigitZipCode(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address with no header and not digit zip code column symbol should raise error.")
+		t.Fatal("Address with no header and not digit zip code column symbol should raise error.")
 	}
 }
 
@@ -86,7 +86,7 @@ func TestAddressWithNoHeaderAndNotDigitPrefecture(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address with no header and not digit prefecture column symbol should raise error.")
+		t.Fatal("Address with no header and not digit prefecture column symbol should raise error.")
 	}
 }
 
@@ -104,7 +104,7 @@ func TestAddressWithNoHeaderAndNotDigitCity(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address with no header and not digit city column symbol should raise error.")
+		t.Fatal("Address with no header and not digit city column symbol should raise error.")
 	}
 }
 
@@ -122,7 +122,7 @@ func TestAddressWithNoHeaderAndNotDigitTown(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address with no header and not digit town column symbol should raise error.")
+		t.Fatal("Address with no header and not digit town column symbol should raise error.")
 	}
 }
 
@@ -140,7 +140,7 @@ func TestAddressOnZipCodeNotFound(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address with unknown zip code column symbol should raise error.")
+		t.Fatal("Address with unknown zip code column symbol should raise error.")
 	}
 }
 
@@ -158,7 +158,7 @@ func TestAddressOnPrefectureNotFound(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address with unknown prefecture column symbol should raise error.")
+		t.Fatal("Address with unknown prefecture column symbol should raise error.")
 	}
 }
 
@@ -176,7 +176,7 @@ func TestAddressOnCityNotFound(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address with unknown city column symbol should raise error.")
+		t.Fatal("Address with unknown city column symbol should raise error.")
 	}
 }
 
@@ -194,7 +194,7 @@ func TestAddressOnTownNotFound(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address with unknown town column symbol should raise error.")
+		t.Fatal("Address with unknown town column symbol should raise error.")
 	}
 }
 
@@ -212,7 +212,7 @@ func TestAddressWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err == nil {
-		t.Error("Address with broken csv should raise error.")
+		t.Fatal("Address with broken csv should raise error.")
 	}
 }
 
@@ -230,14 +230,14 @@ func TestAddressWithNoHeader(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	rgx := regexp.MustCompile(`\d{3}-\d{4}`)
 	actual := readCSV(w.String())
 	for i, rec := range actual {
 		if !rgx.MatchString(rec[0]) {
-			t.Errorf("Zip code not found: %s, line: %d", rec[0], i)
+			t.Fatalf("Zip code not found: %s, line: %d", rec[0], i)
 		}
 	}
 }
@@ -256,7 +256,7 @@ func TestAddressWithZipCode(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	rgx := regexp.MustCompile(`\d{3}-\d{4}`)
@@ -266,7 +266,7 @@ func TestAddressWithZipCode(t *testing.T) {
 			continue
 		}
 		if !rgx.MatchString(rec[0]) {
-			t.Errorf("Zip code not found: %s, line: %d", rec[0], i)
+			t.Fatalf("Zip code not found: %s, line: %d", rec[0], i)
 		}
 	}
 }
@@ -285,7 +285,7 @@ func TestAddressWithPrefecture(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -294,7 +294,7 @@ func TestAddressWithPrefecture(t *testing.T) {
 			continue
 		}
 		if !containsString(prefs, rec[0]) {
-			t.Errorf("Prefecture not found: %s, line: %d", rec[0], i)
+			t.Fatalf("Prefecture not found: %s, line: %d", rec[0], i)
 		}
 	}
 }
@@ -314,7 +314,7 @@ func TestAddressWithPrefectureCode(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -324,10 +324,10 @@ func TestAddressWithPrefectureCode(t *testing.T) {
 		}
 		c, err := strconv.Atoi(rec[0])
 		if err != nil {
-			t.Errorf("Prefecture should output as code: %s, line: %d", rec[0], i)
+			t.Fatalf("Prefecture should output as code: %s, line: %d", rec[0], i)
 		}
 		if c <= 0 && 48 <= c {
-			t.Errorf("Invalid prefecture code: %s, line: %d", rec[0], i)
+			t.Fatalf("Invalid prefecture code: %s, line: %d", rec[0], i)
 		}
 	}
 }
@@ -346,7 +346,7 @@ func TestAddressWithCity(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -355,7 +355,7 @@ func TestAddressWithCity(t *testing.T) {
 			continue
 		}
 		if _, err := strconv.Atoi(rec[0]); err == nil {
-			t.Errorf("City not found: %s, line: %d", rec[0], i)
+			t.Fatalf("City not found: %s, line: %d", rec[0], i)
 		}
 	}
 }
@@ -374,7 +374,7 @@ func TestAddressWithTown(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -383,11 +383,11 @@ func TestAddressWithTown(t *testing.T) {
 			continue
 		}
 		if _, err := strconv.Atoi(rec[0]); err == nil {
-			t.Errorf("Town not found: %s, line: %d", rec[0], i)
+			t.Fatalf("Town not found: %s, line: %d", rec[0], i)
 		}
 		for _, n := range halfWidthNums {
 			if strings.Contains(rec[0], n) {
-				t.Errorf("Town should not have block number: %s, line: %d", rec[0], i)
+				t.Fatalf("Town should not have block number: %s, line: %d", rec[0], i)
 			}
 		}
 	}
@@ -408,7 +408,7 @@ func TestAddressWithBlockNumber(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -417,7 +417,7 @@ func TestAddressWithBlockNumber(t *testing.T) {
 			continue
 		}
 		if _, err := strconv.Atoi(rec[0]); err == nil {
-			t.Errorf("Town not found: %s, line: %d", rec[0], i)
+			t.Fatalf("Town not found: %s, line: %d", rec[0], i)
 		}
 
 		ok := false
@@ -427,7 +427,7 @@ func TestAddressWithBlockNumber(t *testing.T) {
 			}
 		}
 		if !ok {
-			t.Errorf("Town should have half width block number: %s", rec[0])
+			t.Fatalf("Town should have half width block number: %s", rec[0])
 		}
 	}
 }
@@ -447,7 +447,7 @@ func TestAddressWithFullWidthBlockNumber(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -456,7 +456,7 @@ func TestAddressWithFullWidthBlockNumber(t *testing.T) {
 			continue
 		}
 		if _, err := strconv.Atoi(rec[0]); err == nil {
-			t.Errorf("Town not found: %s, line: %d", rec[0], i)
+			t.Fatalf("Town not found: %s, line: %d", rec[0], i)
 		}
 
 		ok := false
@@ -466,7 +466,7 @@ func TestAddressWithFullWidthBlockNumber(t *testing.T) {
 			}
 		}
 		if !ok {
-			t.Errorf("Town should have full width block number: %s", rec[0])
+			t.Fatalf("Town should have full width block number: %s", rec[0])
 		}
 	}
 }
@@ -489,7 +489,7 @@ func TestAddressWithAppending(t *testing.T) {
 	}
 
 	if err := Address(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -498,10 +498,10 @@ func TestAddressWithAppending(t *testing.T) {
 			continue
 		}
 		if _, err := strconv.Atoi(rec[0]); err == nil {
-			t.Errorf("Invalid town: %s, line: %d", rec[0], i)
+			t.Fatalf("Invalid town: %s, line: %d", rec[0], i)
 		}
 		if !regexp.MustCompile(`^\d{3}-\d{4}`).MatchString(rec[0]) {
-			t.Errorf("Zip code not found: %s", rec[0])
+			t.Fatalf("Zip code not found: %s", rec[0])
 		}
 
 		prefOK := false
@@ -511,7 +511,7 @@ func TestAddressWithAppending(t *testing.T) {
 			}
 		}
 		if !prefOK {
-			t.Errorf("Prefecture not found: %s", rec[0])
+			t.Fatalf("Prefecture not found: %s", rec[0])
 		}
 
 		bnOK := false
@@ -521,7 +521,7 @@ func TestAddressWithAppending(t *testing.T) {
 			}
 		}
 		if !bnOK {
-			t.Errorf("Town should have block number: %s", rec[0])
+			t.Fatalf("Town should have block number: %s", rec[0])
 		}
 	}
 

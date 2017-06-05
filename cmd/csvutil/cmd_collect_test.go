@@ -13,7 +13,7 @@ func Example_runCollect() {
 func Test_runCollect(t *testing.T) {
 	collectOpt.Column = "1"
 	if c := runCollect([]string{testFilePath("utf8.csv")}); c != 0 {
-		t.Errorf("Invalid success exit code: %d", c)
+		t.Fatalf("Invalid success exit code: %d", c)
 	}
 	collectOpt.Column = ""
 }
@@ -21,7 +21,7 @@ func Test_runCollect(t *testing.T) {
 func Test_runCollectOnNoFile(t *testing.T) {
 	collectOpt.Column = "1"
 	if c := runCollect([]string{testFilePath("no-file.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 	collectOpt.Column = ""
 }
@@ -29,7 +29,7 @@ func Test_runCollectOnNoFile(t *testing.T) {
 func Test_runCollectOnFail(t *testing.T) {
 	collectOpt.Column = "1"
 	if c := runCollect([]string{testFilePath("broken.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 	collectOpt.Column = ""
 }
@@ -38,7 +38,7 @@ func Test_runCollectOnBackup(t *testing.T) {
 	f, err := prepareWritingTest()
 	defer f()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	collectOpt.Column = "1"
 	collectOpt.Overwrite = true
@@ -48,7 +48,7 @@ func Test_runCollectOnBackup(t *testing.T) {
 	collectOpt.Overwrite = false
 	collectOpt.Column = ""
 	if b, err := existsBackup(); err != nil || !b {
-		t.Errorf("Failed backup")
+		t.Fatalf("Failed backup")
 	}
 }
 
@@ -56,7 +56,7 @@ func Test_runCollectOnOverwrite(t *testing.T) {
 	f, err := prepareWritingTest()
 	defer f()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	collectOpt.Column = "1"
 	collectOpt.Overwrite = true
@@ -65,15 +65,15 @@ func Test_runCollectOnOverwrite(t *testing.T) {
 	collectOpt.Column = ""
 	c, err := overwriteContent()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	if len(c[0]) != 1 {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 	if c[0][0] != "1" {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 	if c[1][0] != "2" {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 }

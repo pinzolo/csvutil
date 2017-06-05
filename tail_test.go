@@ -32,7 +32,7 @@ func TestTailWithZeroCount(t *testing.T) {
 	o := TailOption{}
 
 	if err := Tail(r, w, o); err == nil {
-		t.Error("Tail with zero count should raise error.")
+		t.Fatal("Tail with zero count should raise error.")
 	}
 }
 
@@ -49,7 +49,7 @@ func TestTailWithNegativeCount(t *testing.T) {
 	}
 
 	if err := Tail(r, w, o); err == nil {
-		t.Error("Tail with negative count should raise error.")
+		t.Fatal("Tail with negative count should raise error.")
 	}
 }
 
@@ -66,7 +66,7 @@ func TestTailWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Tail(r, w, o); err == nil {
-		t.Error("Tail with broken csv should raise error.")
+		t.Fatal("Tail with broken csv should raise error.")
 	}
 }
 
@@ -83,7 +83,7 @@ func TestTailWithBrokenheaderCSV(t *testing.T) {
 	}
 
 	if err := Tail(r, w, o); err == nil {
-		t.Error("Tail with broken header csv should raise error.")
+		t.Fatal("Tail with broken header csv should raise error.")
 	}
 }
 
@@ -97,11 +97,11 @@ func TestTailWithEmptyCSV(t *testing.T) {
 	expected := ""
 
 	if err := Tail(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -122,11 +122,11 @@ func TestTailWithLessCountThanLineCount(t *testing.T) {
 7,8,9
 `
 	if err := Tail(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -148,11 +148,11 @@ func TestTailWithGreaterCountThanLineCount(t *testing.T) {
 7,8,9
 `
 	if err := Tail(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -172,10 +172,10 @@ func TestTailWithNoHeader(t *testing.T) {
 7,8,9
 `
 	if err := Tail(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }

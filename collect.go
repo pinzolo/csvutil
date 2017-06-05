@@ -10,7 +10,6 @@ import (
 )
 
 var supportedSortKeys = []string{"value", "count"}
-var supportedSortDirections = []string{"asc", "desc"}
 
 type collectedItem struct {
 	value string

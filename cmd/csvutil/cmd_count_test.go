@@ -9,18 +9,18 @@ func Example_runCount() {
 
 func Test_runCount(t *testing.T) {
 	if c := runCount([]string{testFilePath("utf8.csv")}); c != 0 {
-		t.Errorf("Invalid success exit code: %d", c)
+		t.Fatalf("Invalid success exit code: %d", c)
 	}
 }
 
 func Test_runCountOnNoFile(t *testing.T) {
 	if c := runCount([]string{testFilePath("no-file.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 }
 
 func Test_runCountOnFail(t *testing.T) {
 	if c := runCount([]string{testFilePath("broken.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 }

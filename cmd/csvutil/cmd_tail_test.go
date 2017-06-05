@@ -13,20 +13,20 @@ func Example_runTail() {
 func Test_runTail(t *testing.T) {
 	tailOpt.Count = 1
 	if c := runTail([]string{testFilePath("utf8.csv")}); c != 0 {
-		t.Errorf("Invalid success exit code: %d", c)
+		t.Fatalf("Invalid success exit code: %d", c)
 	}
 	tailOpt.Count = 0
 }
 
 func Test_runTailOnNoFile(t *testing.T) {
 	if c := runTail([]string{testFilePath("no-file.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 }
 
 func Test_runTailOnFail(t *testing.T) {
 	if c := runTail([]string{testFilePath("broken.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 }
 
@@ -34,7 +34,7 @@ func Test_runTailOnBackup(t *testing.T) {
 	f, err := prepareWritingTest()
 	defer f()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	tailOpt.Count = 1
 	tailOpt.Overwrite = true
@@ -44,7 +44,7 @@ func Test_runTailOnBackup(t *testing.T) {
 	tailOpt.Overwrite = false
 	tailOpt.Count = 0
 	if b, err := existsBackup(); err != nil || !b {
-		t.Errorf("Failed backup")
+		t.Fatalf("Failed backup")
 	}
 }
 
@@ -52,7 +52,7 @@ func Test_runTailOnOverwrite(t *testing.T) {
 	f, err := prepareWritingTest()
 	defer f()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	tailOpt.Count = 1
 	tailOpt.Overwrite = true
@@ -61,9 +61,9 @@ func Test_runTailOnOverwrite(t *testing.T) {
 	tailOpt.Count = 0
 	c, err := overwriteContent()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	if len(c) != 2 || len(c[0]) != 2 || c[0][0] != "名前" || c[0][1] != "個数" || c[1][0] != "みかん" || c[1][1] != "2" {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 }
