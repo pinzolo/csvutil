@@ -106,26 +106,6 @@ func TestCollectWithUnsupportedSortKey(t *testing.T) {
 	}
 }
 
-func TestCollectWithUnsupportedSortDirection(t *testing.T) {
-	s := `aaa,bbb,ccc
-1,2,3
-4,5,6
-7,8,9
-`
-	r := bytes.NewBufferString(s)
-	w := &bytes.Buffer{}
-	o := CollectOption{
-		Column:        "aaa",
-		Sort:          true,
-		SortKey:       "count",
-		SortDirection: "foo",
-	}
-
-	if err := Collect(r, w, o); err == nil {
-		t.Fatal("Collect with unsupported sort direction should raise error.")
-	}
-}
-
 func TestCollectWithoutSort(t *testing.T) {
 	s := `aaa,bbb,ccc
 1,2,3
@@ -284,10 +264,9 @@ func TestCollectWithSortByValueAsc(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := CollectOption{
-		Column:        "aaa",
-		Sort:          true,
-		SortKey:       "value",
-		SortDirection: "asc",
+		Column:  "aaa",
+		Sort:    true,
+		SortKey: "value",
 	}
 
 	if err := Collect(r, w, o); err != nil {
@@ -312,10 +291,10 @@ func TestCollectWithSortByValueDesc(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := CollectOption{
-		Column:        "aaa",
-		Sort:          true,
-		SortKey:       "value",
-		SortDirection: "desc",
+		Column:     "aaa",
+		Sort:       true,
+		SortKey:    "value",
+		Descending: true,
 	}
 
 	if err := Collect(r, w, o); err != nil {
@@ -343,11 +322,10 @@ func TestCollectWithSortByCountAsc(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := CollectOption{
-		Column:        "aaa",
-		PrintCount:    true,
-		Sort:          true,
-		SortKey:       "count",
-		SortDirection: "asc",
+		Column:     "aaa",
+		PrintCount: true,
+		Sort:       true,
+		SortKey:    "count",
 	}
 
 	if err := Collect(r, w, o); err != nil {
@@ -375,11 +353,11 @@ func TestCollectWithSortByCountDesc(t *testing.T) {
 	r := bytes.NewBufferString(s)
 	w := &bytes.Buffer{}
 	o := CollectOption{
-		Column:        "aaa",
-		PrintCount:    true,
-		Sort:          true,
-		SortKey:       "count",
-		SortDirection: "desc",
+		Column:     "aaa",
+		PrintCount: true,
+		Sort:       true,
+		SortKey:    "count",
+		Descending: true,
 	}
 
 	if err := Collect(r, w, o); err != nil {

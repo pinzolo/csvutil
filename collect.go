@@ -9,8 +9,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-// TODO: sortコマンドに合わせる
-var supportedSortDirections = []string{"asc", "desc"}
 var supportedSortKeys = []string{"value", "count"}
 
 type collectedItem struct {
@@ -36,8 +34,8 @@ type CollectOption struct {
 	Sort bool
 	// Sort key (value or count)
 	SortKey string
-	// Sort direction
-	SortDirection string
+	// Sort in descending order
+	Descending bool
 }
 
 func (o CollectOption) validate() error {
@@ -51,9 +49,6 @@ func (o CollectOption) validate() error {
 	}
 	if o.SortKey != "" && !containsString(supportedSortKeys, o.SortKey) {
 		return errors.Errorf("unsupported sort key: %s", o.SortKey)
-	}
-	if o.SortDirection != "" && !containsString(supportedSortDirections, o.SortDirection) {
-		return errors.Errorf("unsupported sort direction: %s", o.SortDirection)
 	}
 	return nil
 }
@@ -125,25 +120,20 @@ func Collect(r io.Reader, w io.Writer, o CollectOption) error {
 
 func sortCollectedItems(items []*collectedItem, o CollectOption) []*collectedItem {
 	if o.SortKey == "count" {
-		if o.SortDirection == "asc" {
-			sort.Slice(items, func(i, j int) bool {
-				return items[i].count < items[j].count
-			})
-		} else {
-			sort.Slice(items, func(i, j int) bool {
+		sort.Slice(items, func(i, j int) bool {
+			if o.Descending {
 				return items[i].count > items[j].count
-			})
-		}
+			}
+			return items[i].count < items[j].count
+		})
 	} else {
-		if o.SortDirection == "asc" {
-			sort.Slice(items, func(i, j int) bool {
-				return strings.Compare(items[i].value, items[j].value) < 0
-			})
-		} else {
-			sort.Slice(items, func(i, j int) bool {
+		sort.Slice(items, func(i, j int) bool {
+			if o.Descending {
 				return strings.Compare(items[i].value, items[j].value) > 0
-			})
-		}
+
+			}
+			return strings.Compare(items[i].value, items[j].value) < 0
+		})
 	}
 	return items
 }

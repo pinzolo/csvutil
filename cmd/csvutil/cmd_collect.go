@@ -65,11 +65,8 @@ OPTIONS
                 value : 値をキーにしてソートします（初期値）
                 count : 出現数をキーにしてソートします
 
-        -sd, --sort-direction DIRECTION
-            ソートする際の昇順・降順を指定します。
-            対応している値:
-                asc  : 昇順でソートします（初期値）
-                desc : 降順でソートします
+        -d, --descending
+            ソートする際に降順で並び替えます。
 	`,
 }
 
@@ -102,8 +99,9 @@ func init() {
 	cmdCollect.Flag.BoolVar(&collectOpt.Sort, "s", false, "Sort")
 	cmdCollect.Flag.StringVar(&collectOpt.SortKey, "sort-key", "value", "Sort key")
 	cmdCollect.Flag.StringVar(&collectOpt.SortKey, "sk", "value", "Sort key")
-	cmdCollect.Flag.StringVar(&collectOpt.SortDirection, "sort-direction", "asc", "Sort direction")
-	cmdCollect.Flag.StringVar(&collectOpt.SortDirection, "sd", "asc", "Sort direction")
+	cmdCollect.Flag.BoolVar(&collectOpt.Descending, "descending", false, "Sort in descending order")
+	cmdCollect.Flag.BoolVar(&collectOpt.Descending, "desc", false, "Sort in descending order")
+	cmdCollect.Flag.BoolVar(&collectOpt.Descending, "d", false, "Sort in descending order")
 }
 
 // runCollect executes collect command and return exit code.

@@ -93,8 +93,8 @@ func init() {
 	cmdSort.Flag.StringVar(&sortOpt.DataType, "data-type", csvutil.SortDataTypeText, "Data type")
 	cmdSort.Flag.StringVar(&sortOpt.DataType, "dt", csvutil.SortDataTypeText, "Data type")
 	cmdSort.Flag.BoolVar(&sortOpt.Descending, "descending", false, "Order in descending")
-	cmdSort.Flag.BoolVar(&sortOpt.Descending, "desc", false, "Order in descending")
-	cmdSort.Flag.BoolVar(&sortOpt.Descending, "d", false, "Order in descending")
+	cmdSort.Flag.BoolVar(&sortOpt.Descending, "desc", false, "Sort in descending order")
+	cmdSort.Flag.BoolVar(&sortOpt.Descending, "d", false, "Sort in descending order")
 	cmdSort.Flag.StringVar(&sortOpt.EmptyHandling, "empty", csvutil.EmptyNatural, "Empty handling method")
 	cmdSort.Flag.StringVar(&sortOpt.EmptyHandling, "em", csvutil.EmptyNatural, "Empty handling method")
 }
