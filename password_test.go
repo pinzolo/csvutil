@@ -42,7 +42,7 @@ func TestPasswordWithoutColumn(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err == nil {
-		t.Error("Password without column symbol should raise error.")
+		t.Fatal("Password without column symbol should raise error.")
 	}
 }
 
@@ -61,7 +61,7 @@ func TestPasswordWithNegativeMinLength(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err == nil {
-		t.Error("Password with negative min length should raise error.")
+		t.Fatal("Password with negative min length should raise error.")
 	}
 }
 
@@ -80,7 +80,7 @@ func TestPasswordWithZeroMinLength(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err == nil {
-		t.Error("Password with zero min length should raise error.")
+		t.Fatal("Password with zero min length should raise error.")
 	}
 }
 
@@ -98,7 +98,7 @@ func TestPasswordWithNegativeMaxLength(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err == nil {
-		t.Error("Password with negative max length should raise error.")
+		t.Fatal("Password with negative max length should raise error.")
 	}
 }
 
@@ -117,7 +117,7 @@ func TestPasswordWithZeroMaxLength(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err == nil {
-		t.Error("Password with zero max length should raise error.")
+		t.Fatal("Password with zero max length should raise error.")
 	}
 }
 
@@ -136,7 +136,7 @@ func TestPasswordWithLessMaxLengthThanMinLength(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err == nil {
-		t.Error("Password with less max length than min length should raise error.")
+		t.Fatal("Password with less max length than min length should raise error.")
 	}
 }
 
@@ -155,7 +155,7 @@ func TestPasswordWithNoHeaderButColumnNotNumber(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err == nil {
-		t.Error("Password with not number column symbol for no header CSV should raise error.")
+		t.Fatal("Password with not number column symbol for no header CSV should raise error.")
 	}
 
 }
@@ -175,7 +175,7 @@ func TestPasswordWithUnknownColumn(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err == nil {
-		t.Error("Password with unknown column should raise error.")
+		t.Fatal("Password with unknown column should raise error.")
 	}
 }
 
@@ -194,7 +194,7 @@ func TestPasswordWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err == nil {
-		t.Error("Password with broken csv should raise error.")
+		t.Fatal("Password with broken csv should raise error.")
 	}
 }
 
@@ -213,7 +213,7 @@ func TestPasswordWithBrokenHeaderCSV(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err == nil {
-		t.Error("Password with broken header csv should raise error.")
+		t.Fatal("Password with broken header csv should raise error.")
 	}
 }
 
@@ -232,15 +232,15 @@ func TestPasswordWitColumn(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isPasswordFunc(lowerLetters, upperLetters, numeric, specialChars)); !ok {
-		t.Errorf("Password failed updating on password. %+v", data)
+		t.Fatalf("Password failed updating on password. %+v", data)
 	}
 	if ok := allOK(data, 0, isValidLengthPasswordFunc(o.MinLength, o.MaxLength)); !ok {
-		t.Errorf("Password is invalid length. %+v", data)
+		t.Fatalf("Password is invalid length. %+v", data)
 	}
 }
 
@@ -259,15 +259,15 @@ func TestPasswordWithNoHeader(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isPasswordFunc(lowerLetters, upperLetters, numeric, specialChars)); !ok {
-		t.Errorf("Password failed updating on mobile password. %+v", data)
+		t.Fatalf("Password failed updating on mobile password. %+v", data)
 	}
 	if ok := allOK(data, 0, isValidLengthPasswordFunc(o.MinLength, o.MaxLength)); !ok {
-		t.Errorf("Password is invalid length. %+v", data)
+		t.Fatalf("Password is invalid length. %+v", data)
 	}
 }
 
@@ -287,15 +287,15 @@ func TestPasswordWithNoNumeric(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isPasswordFunc(lowerLetters, upperLetters, specialChars)); !ok {
-		t.Errorf("Password failed updating on password. %+v", data)
+		t.Fatalf("Password failed updating on password. %+v", data)
 	}
 	if ok := allOK(data, 0, isValidLengthPasswordFunc(o.MinLength, o.MaxLength)); !ok {
-		t.Errorf("Password is invalid length. %+v", data)
+		t.Fatalf("Password is invalid length. %+v", data)
 	}
 }
 
@@ -315,15 +315,15 @@ func TestPasswordWitNoUpper(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isPasswordFunc(lowerLetters, numeric, specialChars)); !ok {
-		t.Errorf("Password failed updating on password. %+v", data)
+		t.Fatalf("Password failed updating on password. %+v", data)
 	}
 	if ok := allOK(data, 0, isValidLengthPasswordFunc(o.MinLength, o.MaxLength)); !ok {
-		t.Errorf("Password is invalid length. %+v", data)
+		t.Fatalf("Password is invalid length. %+v", data)
 	}
 }
 
@@ -343,15 +343,15 @@ func TestPasswordWitNoSpecial(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isPasswordFunc(lowerLetters, upperLetters, numeric)); !ok {
-		t.Errorf("Password failed updating on password. %+v", data)
+		t.Fatalf("Password failed updating on password. %+v", data)
 	}
 	if ok := allOK(data, 0, isValidLengthPasswordFunc(o.MinLength, o.MaxLength)); !ok {
-		t.Errorf("Password is invalid length. %+v", data)
+		t.Fatalf("Password is invalid length. %+v", data)
 	}
 }
 
@@ -371,14 +371,14 @@ func TestPasswordWithSameMinLengthAndMaxLength(t *testing.T) {
 	}
 
 	if err := Password(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	data := readCSV(w.String())
 	f := func(s string) bool {
 		return len([]rune(s)) == 8
 	}
 	if ok := allOK(data, 0, f); !ok {
-		t.Errorf("Password is invalid length. %+v", data)
+		t.Fatalf("Password is invalid length. %+v", data)
 	}
 }
 

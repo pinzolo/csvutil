@@ -36,7 +36,7 @@ func TestBuildingWithoutColumn(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err == nil {
-		t.Error("Building without column symbol should raise error.")
+		t.Fatal("Building without column symbol should raise error.")
 	}
 }
 
@@ -54,7 +54,7 @@ func TestBuildingWithNoHeaderButColumnNotNumber(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err == nil {
-		t.Error("Building with not number column symbol for no header CSV should raise error.")
+		t.Fatal("Building with not number column symbol for no header CSV should raise error.")
 	}
 
 }
@@ -74,7 +74,7 @@ func TestBuildingWithNegativeOfficeRate(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err == nil {
-		t.Error("Building with negative office rate should raise error.")
+		t.Fatal("Building with negative office rate should raise error.")
 	}
 }
 
@@ -93,7 +93,7 @@ func TestBuildingWithOver100OfficeRate(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err == nil {
-		t.Error("Building with over 100 office rate should raise error.")
+		t.Fatal("Building with over 100 office rate should raise error.")
 	}
 }
 
@@ -111,7 +111,7 @@ func TestBuildingWithUnknownColumn(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err == nil {
-		t.Error("Building with unknown column should raise error.")
+		t.Fatal("Building with unknown column should raise error.")
 	}
 }
 
@@ -129,7 +129,7 @@ func TestBuildingWithInvalidNumberWidth(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err == nil {
-		t.Error("Building with invalid office rate should raise error.")
+		t.Fatal("Building with invalid office rate should raise error.")
 	}
 }
 
@@ -147,12 +147,12 @@ func TestBuildingOnApartment(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isHalfApartment); !ok {
-		t.Errorf("Building failed updating on apartment. %+v", data)
+		t.Fatalf("Building failed updating on apartment. %+v", data)
 	}
 }
 
@@ -170,12 +170,12 @@ func TestBuildingWithNoHeader(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOKNoHeader(data, 0, isHalfApartment); !ok {
-		t.Errorf("Building failed updating on apartment. %+v", data)
+		t.Fatalf("Building failed updating on apartment. %+v", data)
 	}
 }
 
@@ -193,7 +193,7 @@ func TestBuildingWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err == nil {
-		t.Error("Building with broken csv should raise error.")
+		t.Fatal("Building with broken csv should raise error.")
 	}
 }
 
@@ -211,12 +211,12 @@ func TestBuildingOnApartmentFull(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isFullApartment); !ok {
-		t.Errorf("Building failed updating on apartment. %+v", data)
+		t.Fatalf("Building failed updating on apartment. %+v", data)
 	}
 }
 
@@ -235,12 +235,12 @@ func TestBuildingOnOffice(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isHalfOffice); !ok {
-		t.Errorf("Building failed updating on office. %+v", data)
+		t.Fatalf("Building failed updating on office. %+v", data)
 	}
 }
 
@@ -259,12 +259,12 @@ func TestBuildingOnOfficeFull(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isFullOffice); !ok {
-		t.Errorf("Building failed updating on office. %+v", data)
+		t.Fatalf("Building failed updating on office. %+v", data)
 	}
 }
 
@@ -282,18 +282,18 @@ func TestBuildingWithoutAppend(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if strings.HasPrefix(data[1][0], "1") {
-		t.Errorf("Building should not append after source value. %+v", data)
+		t.Fatalf("Building should not append after source value. %+v", data)
 	}
 	if strings.HasPrefix(data[2][0], "4") {
-		t.Errorf("Building should not append after source value. %+v", data)
+		t.Fatalf("Building should not append after source value. %+v", data)
 	}
 	if strings.HasPrefix(data[3][0], "7") {
-		t.Errorf("Building should not append after source value. %+v", data)
+		t.Fatalf("Building should not append after source value. %+v", data)
 	}
 }
 
@@ -312,18 +312,18 @@ func TestBuildingWithAppend(t *testing.T) {
 	}
 
 	if err := Building(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if !strings.HasPrefix(data[1][0], "1") {
-		t.Errorf("Building should append after source value. %+v", data)
+		t.Fatalf("Building should append after source value. %+v", data)
 	}
 	if !strings.HasPrefix(data[2][0], "4") {
-		t.Errorf("Building should append after source value. %+v", data)
+		t.Fatalf("Building should append after source value. %+v", data)
 	}
 	if !strings.HasPrefix(data[3][0], "7") {
-		t.Errorf("Building should append after source value. %+v", data)
+		t.Fatalf("Building should append after source value. %+v", data)
 	}
 }
 

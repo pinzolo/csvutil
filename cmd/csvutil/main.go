@@ -72,6 +72,7 @@ var commands = []*Command{
 	cmdPassword,
 	cmdRemove,
 	cmdSize,
+	cmdSort,
 	cmdSubstitute,
 	cmdTail,
 	cmdTel,

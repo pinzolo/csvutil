@@ -32,7 +32,7 @@ func TestHeaderWithBrokenCSV(t *testing.T) {
 	o := HeaderOption{}
 
 	if err := Header(r, w, o); err == nil {
-		t.Error("Header with broken csv should raise error.")
+		t.Fatal("Header with broken csv should raise error.")
 	}
 }
 
@@ -42,12 +42,12 @@ func TestHeaderWithEmpty(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := HeaderOption{}
 	if err := Header(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := ""
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -61,7 +61,7 @@ func TestHeader(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := HeaderOption{}
 	if err := Header(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `aaa
@@ -69,7 +69,7 @@ bbb
 ccc
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -85,7 +85,7 @@ func TestHeaderWithIndex(t *testing.T) {
 		Index: true,
 	}
 	if err := Header(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `0	aaa
@@ -93,7 +93,7 @@ func TestHeaderWithIndex(t *testing.T) {
 2	ccc
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -110,7 +110,7 @@ func TestHeaderWithIndexOrigin(t *testing.T) {
 		IndexOrigin: 1,
 	}
 	if err := Header(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `1	aaa
@@ -118,7 +118,7 @@ func TestHeaderWithIndexOrigin(t *testing.T) {
 3	ccc
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -135,7 +135,7 @@ func TestHeaderWithIndexOriginButWithoutIndex(t *testing.T) {
 		IndexOrigin: 1,
 	}
 	if err := Header(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `aaa
@@ -143,6 +143,6 @@ bbb
 ccc
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }

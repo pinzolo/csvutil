@@ -32,7 +32,7 @@ func TestNameWithoutTargetColumns(t *testing.T) {
 	w := &bytes.Buffer{}
 	o := NameOption{}
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name without size should raise error.")
+		t.Fatal("Name without size should raise error.")
 	}
 }
 
@@ -49,7 +49,7 @@ func TestNameWithNoHeaderAndNotDigitName(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with no header and not digit name column symbol should raise error.")
+		t.Fatal("Name with no header and not digit name column symbol should raise error.")
 	}
 }
 
@@ -66,7 +66,7 @@ func TestNameWithNoHeaderAndNotDigitFirstName(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with no header and not digit first name column symbol should raise error.")
+		t.Fatal("Name with no header and not digit first name column symbol should raise error.")
 	}
 }
 
@@ -83,7 +83,7 @@ func TestNameWithNoHeaderAndNotDigitLastName(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with no header and not digit last name column symbol should raise error.")
+		t.Fatal("Name with no header and not digit last name column symbol should raise error.")
 	}
 }
 
@@ -100,7 +100,7 @@ func TestNameWithNoHeaderAndNotDigitKana(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Kana with no header and not digit kana column symbol should raise error.")
+		t.Fatal("Kana with no header and not digit kana column symbol should raise error.")
 	}
 }
 
@@ -117,7 +117,7 @@ func TestNameWithNoHeaderAndNotDigitFirstKana(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with no header and not digit first kana column symbol should raise error.")
+		t.Fatal("Name with no header and not digit first kana column symbol should raise error.")
 	}
 }
 
@@ -134,7 +134,7 @@ func TestNameWithNoHeaderAndNotDigitLastKana(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with no header and not digit last kana column symbol should raise error.")
+		t.Fatal("Name with no header and not digit last kana column symbol should raise error.")
 	}
 }
 
@@ -151,7 +151,7 @@ func TestNameWithNoHeaderAndNotDigitGender(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with no header and not digit gender column symbol should raise error.")
+		t.Fatal("Name with no header and not digit gender column symbol should raise error.")
 	}
 }
 
@@ -169,7 +169,7 @@ func TestNameWithNoHeaderAndNotDigitReference(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with no header and not digit reference column symbol should raise error.")
+		t.Fatal("Name with no header and not digit reference column symbol should raise error.")
 	}
 }
 
@@ -187,7 +187,7 @@ func TestNameWithUnsupportedSpaceWidth(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with negative space width should raise error.")
+		t.Fatal("Name with negative space width should raise error.")
 	}
 }
 
@@ -205,7 +205,7 @@ func TestNameWithUnsupportedGenderFormat(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with unknown gender format should raise error.")
+		t.Fatal("Name with unknown gender format should raise error.")
 	}
 }
 
@@ -222,7 +222,7 @@ func TestNameOnNameNotFound(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with unknown name column symbol should raise error.")
+		t.Fatal("Name with unknown name column symbol should raise error.")
 	}
 }
 
@@ -239,7 +239,7 @@ func TestNameOnFirstNameNotFound(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with unknown first name column symbol should raise error.")
+		t.Fatal("Name with unknown first name column symbol should raise error.")
 	}
 }
 
@@ -256,7 +256,7 @@ func TestNameOnLastNameNotFound(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with unknown last name column symbol should raise error.")
+		t.Fatal("Name with unknown last name column symbol should raise error.")
 	}
 }
 
@@ -273,7 +273,7 @@ func TestNameOnKanaNotFound(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with unknown kana column symbol should raise error.")
+		t.Fatal("Name with unknown kana column symbol should raise error.")
 	}
 }
 
@@ -290,7 +290,7 @@ func TestNameOnFirstKanaNotFound(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with unknown first kana column symbol should raise error.")
+		t.Fatal("Name with unknown first kana column symbol should raise error.")
 	}
 }
 
@@ -307,7 +307,7 @@ func TestNameOnLastKanaNotFound(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with unknown last kana column symbol should raise error.")
+		t.Fatal("Name with unknown last kana column symbol should raise error.")
 	}
 }
 
@@ -325,7 +325,7 @@ func TestNameOnLastGenderNotFound(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with unknown gender column symbol should raise error.")
+		t.Fatal("Name with unknown gender column symbol should raise error.")
 	}
 }
 
@@ -343,7 +343,7 @@ func TestNameOnLastReferenceNotFound(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with unknown reference column symbol should raise error.")
+		t.Fatal("Name with unknown reference column symbol should raise error.")
 	}
 }
 
@@ -360,7 +360,7 @@ func TestNameWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with broken csv should raise error.")
+		t.Fatal("Name with broken csv should raise error.")
 	}
 }
 
@@ -377,20 +377,20 @@ func TestNameWithNoHeader(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
 	for _, rec := range actual {
 		s := rec[0]
 		if isHiraganaOrSpace(s) {
-			t.Errorf("name %s is hiragana", s)
+			t.Fatalf("name %s is hiragana", s)
 		}
 		if isKatakanaOrSpace(s) {
-			t.Errorf("name %s is katakana", s)
+			t.Fatalf("name %s is katakana", s)
 		}
 		if !isMultibyte(s) {
-			t.Errorf("name %s is not multibyte", s)
+			t.Fatalf("name %s is not multibyte", s)
 		}
 	}
 }
@@ -408,7 +408,7 @@ func TestNameWithName(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -418,13 +418,13 @@ func TestNameWithName(t *testing.T) {
 		}
 		s := rec[0]
 		if isHiraganaOrSpace(s) {
-			t.Errorf("name %s is hiragana", s)
+			t.Fatalf("name %s is hiragana", s)
 		}
 		if isKatakanaOrSpace(s) {
-			t.Errorf("name %s is katakana", s)
+			t.Fatalf("name %s is katakana", s)
 		}
 		if !isMultibyte(s) {
-			t.Errorf("name %s is not multibyte", s)
+			t.Fatalf("name %s is not multibyte", s)
 		}
 	}
 }
@@ -443,7 +443,7 @@ func TestNameWithNameAndSpaceWidth1(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -453,16 +453,16 @@ func TestNameWithNameAndSpaceWidth1(t *testing.T) {
 		}
 		s := rec[0]
 		if isHiraganaOrSpace(s) {
-			t.Errorf("name %s is hiragana", s)
+			t.Fatalf("name %s is hiragana", s)
 		}
 		if isKatakanaOrSpace(s) {
-			t.Errorf("name %s is katakana", s)
+			t.Fatalf("name %s is katakana", s)
 		}
 		if !isMultibyte(s) {
-			t.Errorf("name %s is not multibyte", s)
+			t.Fatalf("name %s is not multibyte", s)
 		}
 		if !strings.Contains(s, " ") {
-			t.Errorf("name %s does not have half space", s)
+			t.Fatalf("name %s does not have half space", s)
 		}
 	}
 }
@@ -481,7 +481,7 @@ func TestNameWithNameAndSpaceWidth2(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -491,16 +491,16 @@ func TestNameWithNameAndSpaceWidth2(t *testing.T) {
 		}
 		s := rec[0]
 		if isHiraganaOrSpace(s) {
-			t.Errorf("name %s is hiragana", s)
+			t.Fatalf("name %s is hiragana", s)
 		}
 		if isKatakanaOrSpace(s) {
-			t.Errorf("name %s is katakana", s)
+			t.Fatalf("name %s is katakana", s)
 		}
 		if !isMultibyte(s) {
-			t.Errorf("name %s is not multibyte", s)
+			t.Fatalf("name %s is not multibyte", s)
 		}
 		if !strings.Contains(s, "　") {
-			t.Errorf("name %s does not have full space", s)
+			t.Fatalf("name %s does not have full space", s)
 		}
 	}
 }
@@ -519,7 +519,7 @@ func TestNameWithFirstName(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -529,13 +529,13 @@ func TestNameWithFirstName(t *testing.T) {
 		}
 		s := rec[0]
 		if isKatakanaOrSpace(s) {
-			t.Errorf("first name %s is katakana", s)
+			t.Fatalf("first name %s is katakana", s)
 		}
 		if !isMultibyte(s) {
-			t.Errorf("first name %s is not multibyte", s)
+			t.Fatalf("first name %s is not multibyte", s)
 		}
 		if strings.Contains(s, " ") {
-			t.Errorf("first name %s should not have space", s)
+			t.Fatalf("first name %s should not have space", s)
 		}
 	}
 }
@@ -554,7 +554,7 @@ func TestNameWithLastName(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -564,16 +564,16 @@ func TestNameWithLastName(t *testing.T) {
 		}
 		s := rec[0]
 		if isHiraganaOrSpace(s) {
-			t.Errorf("last name %s is hiragana", s)
+			t.Fatalf("last name %s is hiragana", s)
 		}
 		if isKatakanaOrSpace(s) {
-			t.Errorf("last name %s is katakana", s)
+			t.Fatalf("last name %s is katakana", s)
 		}
 		if !isMultibyte(s) {
-			t.Errorf("last name %s is not multibyte", s)
+			t.Fatalf("last name %s is not multibyte", s)
 		}
 		if strings.Contains(s, " ") {
-			t.Errorf("last name %s should not have space", s)
+			t.Fatalf("last name %s should not have space", s)
 		}
 	}
 }
@@ -592,7 +592,7 @@ func TestNameWithKanaAndSpaceWidth1(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -602,13 +602,13 @@ func TestNameWithKanaAndSpaceWidth1(t *testing.T) {
 		}
 		s := rec[0]
 		if isHiraganaOrSpace(s) {
-			t.Errorf("kana %s is hiragana", s)
+			t.Fatalf("kana %s is hiragana", s)
 		}
 		if !isKatakanaOrSpace(s) {
-			t.Errorf("kana %s should be katakana", s)
+			t.Fatalf("kana %s should be katakana", s)
 		}
 		if !strings.Contains(s, " ") {
-			t.Errorf("kana %s does not have half space", s)
+			t.Fatalf("kana %s does not have half space", s)
 		}
 	}
 }
@@ -627,7 +627,7 @@ func TestNameWithKanaAndSpaceWidth2(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -637,13 +637,13 @@ func TestNameWithKanaAndSpaceWidth2(t *testing.T) {
 		}
 		s := rec[0]
 		if isHiraganaOrSpace(s) {
-			t.Errorf("kana %s is hiragana", s)
+			t.Fatalf("kana %s is hiragana", s)
 		}
 		if !isKatakanaOrSpace(s) {
-			t.Errorf("kana %s should be katakana", s)
+			t.Fatalf("kana %s should be katakana", s)
 		}
 		if !strings.Contains(s, "　") {
-			t.Errorf("kana %s does not have half space", s)
+			t.Fatalf("kana %s does not have half space", s)
 		}
 	}
 }
@@ -662,7 +662,7 @@ func TestNameWithFirstKana(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -672,13 +672,13 @@ func TestNameWithFirstKana(t *testing.T) {
 		}
 		s := rec[0]
 		if isHiraganaOrSpace(s) {
-			t.Errorf("first kana %s is hiragana", s)
+			t.Fatalf("first kana %s is hiragana", s)
 		}
 		if !isKatakanaOrSpace(s) {
-			t.Errorf("first kana %s should be katakana", s)
+			t.Fatalf("first kana %s should be katakana", s)
 		}
 		if strings.Contains(s, " ") {
-			t.Errorf("first kana %s should not have space", s)
+			t.Fatalf("first kana %s should not have space", s)
 		}
 	}
 }
@@ -697,7 +697,7 @@ func TestNameWithLastKana(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -707,13 +707,13 @@ func TestNameWithLastKana(t *testing.T) {
 		}
 		s := rec[0]
 		if isHiraganaOrSpace(s) {
-			t.Errorf("last kana %s is hiragana", s)
+			t.Fatalf("last kana %s is hiragana", s)
 		}
 		if !isKatakanaOrSpace(s) {
-			t.Errorf("last kana %s should be katakana", s)
+			t.Fatalf("last kana %s should be katakana", s)
 		}
 		if strings.Contains(s, " ") {
-			t.Errorf("last kana %s should not have space", s)
+			t.Fatalf("last kana %s should not have space", s)
 		}
 	}
 }
@@ -733,7 +733,7 @@ func TestNameWithKanaAndHiraganaAndSpaceWidth1(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -743,13 +743,13 @@ func TestNameWithKanaAndHiraganaAndSpaceWidth1(t *testing.T) {
 		}
 		s := rec[0]
 		if !isHiraganaOrSpace(s) {
-			t.Errorf("kana %s should be hiragana", s)
+			t.Fatalf("kana %s should be hiragana", s)
 		}
 		if isKatakanaOrSpace(s) {
-			t.Errorf("kana %s is katakana", s)
+			t.Fatalf("kana %s is katakana", s)
 		}
 		if !strings.Contains(s, " ") {
-			t.Errorf("kana %s does not have half space", s)
+			t.Fatalf("kana %s does not have half space", s)
 		}
 	}
 }
@@ -769,7 +769,7 @@ func TestNameWithKanaAndHiraganaAndSpaceWidth2(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -779,13 +779,13 @@ func TestNameWithKanaAndHiraganaAndSpaceWidth2(t *testing.T) {
 		}
 		s := rec[0]
 		if !isHiraganaOrSpace(s) {
-			t.Errorf("kana %s should be hiragana", s)
+			t.Fatalf("kana %s should be hiragana", s)
 		}
 		if isKatakanaOrSpace(s) {
-			t.Errorf("kana %s is katakana", s)
+			t.Fatalf("kana %s is katakana", s)
 		}
 		if !strings.Contains(s, "　") {
-			t.Errorf("kana %s does not have half space", s)
+			t.Fatalf("kana %s does not have half space", s)
 		}
 	}
 }
@@ -805,7 +805,7 @@ func TestNameWithFirstKanaAndHiragana(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -815,13 +815,13 @@ func TestNameWithFirstKanaAndHiragana(t *testing.T) {
 		}
 		s := rec[0]
 		if !isHiraganaOrSpace(s) {
-			t.Errorf("first kana %s should be hiragana", s)
+			t.Fatalf("first kana %s should be hiragana", s)
 		}
 		if isKatakanaOrSpace(s) {
-			t.Errorf("first kana %s is katakana", s)
+			t.Fatalf("first kana %s is katakana", s)
 		}
 		if strings.Contains(s, " ") {
-			t.Errorf("first kana %s should not have space", s)
+			t.Fatalf("first kana %s should not have space", s)
 		}
 	}
 }
@@ -841,7 +841,7 @@ func TestNameWithLastKanaAndHiragana(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -851,13 +851,13 @@ func TestNameWithLastKanaAndHiragana(t *testing.T) {
 		}
 		s := rec[0]
 		if !isHiraganaOrSpace(s) {
-			t.Errorf("last kana %s should be hiragana", s)
+			t.Fatalf("last kana %s should be hiragana", s)
 		}
 		if isKatakanaOrSpace(s) {
-			t.Errorf("last kana %s is katakana", s)
+			t.Fatalf("last kana %s is katakana", s)
 		}
 		if strings.Contains(s, " ") {
-			t.Errorf("last kana %s should not have space", s)
+			t.Fatalf("last kana %s should not have space", s)
 		}
 	}
 }
@@ -878,7 +878,7 @@ func TestNameWithGender(t *testing.T) {
 		}
 
 		if err := Name(r, w, o); err != nil {
-			t.Error(err)
+			t.Fatal(err)
 		}
 
 		actual := readCSV(w.String())
@@ -889,7 +889,7 @@ func TestNameWithGender(t *testing.T) {
 			s := rec[0]
 			genders := []string{maleGenders[i], femaleGenders[i]}
 			if !containsString(genders, s) {
-				t.Errorf("gender %s is invalid for %s format", s, gf)
+				t.Fatalf("gender %s is invalid for %s format", s, gf)
 			}
 		}
 	}
@@ -911,7 +911,7 @@ func TestNameWithGenderMaleRate100(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -921,7 +921,7 @@ func TestNameWithGenderMaleRate100(t *testing.T) {
 		}
 		s := rec[0]
 		if s == "F" {
-			t.Errorf("gender %s should be male", s)
+			t.Fatalf("gender %s should be male", s)
 		}
 	}
 }
@@ -942,7 +942,7 @@ func TestNameWithGenderMaleRate0(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -952,7 +952,7 @@ func TestNameWithGenderMaleRate0(t *testing.T) {
 		}
 		s := rec[0]
 		if s == "M" {
-			t.Errorf("gender %s should be female", s)
+			t.Fatalf("gender %s should be female", s)
 		}
 	}
 }
@@ -972,7 +972,7 @@ func TestNameWithReference(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -982,7 +982,7 @@ func TestNameWithReference(t *testing.T) {
 		}
 		s := rec[0]
 		if !strings.HasPrefix(s, "田中") {
-			t.Errorf("not named reference: %s", s)
+			t.Fatalf("not named reference: %s", s)
 		}
 	}
 }
@@ -1002,7 +1002,7 @@ func TestNameWithReferenceFullSpace(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -1012,7 +1012,7 @@ func TestNameWithReferenceFullSpace(t *testing.T) {
 		}
 		s := rec[0]
 		if !strings.HasPrefix(s, "田中") {
-			t.Errorf("not named reference: %s", s)
+			t.Fatalf("not named reference: %s", s)
 		}
 	}
 }
@@ -1032,7 +1032,7 @@ func TestNameWithReferenceLastNameOnly(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -1042,7 +1042,7 @@ func TestNameWithReferenceLastNameOnly(t *testing.T) {
 		}
 		s := rec[0]
 		if !strings.HasPrefix(s, "田中") {
-			t.Errorf("not named reference: %s", s)
+			t.Fatalf("not named reference: %s", s)
 		}
 	}
 }
@@ -1065,7 +1065,7 @@ func TestNameWithReferenceAndMaleRate100(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -1075,10 +1075,10 @@ func TestNameWithReferenceAndMaleRate100(t *testing.T) {
 		}
 		s := rec[0]
 		if !strings.HasPrefix(s, "田中") {
-			t.Errorf("not named reference: %s", s)
+			t.Fatalf("not named reference: %s", s)
 		}
 		if rec[2] == "F" {
-			t.Errorf("gender %s should be male", rec[2])
+			t.Fatalf("gender %s should be male", rec[2])
 		}
 	}
 }
@@ -1101,7 +1101,7 @@ func TestNameWithReferenceAndMaleRate0(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -1111,10 +1111,10 @@ func TestNameWithReferenceAndMaleRate0(t *testing.T) {
 		}
 		s := rec[0]
 		if !strings.HasPrefix(s, "田中") {
-			t.Errorf("not named reference: %s", s)
+			t.Fatalf("not named reference: %s", s)
 		}
 		if rec[2] == "M" {
-			t.Errorf("gender %s should be female", rec[2])
+			t.Fatalf("gender %s should be female", rec[2])
 		}
 	}
 }
@@ -1134,7 +1134,7 @@ func TestNameWithReferenceOnReferenceFail(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	actual := readCSV(w.String())
@@ -1144,7 +1144,7 @@ func TestNameWithReferenceOnReferenceFail(t *testing.T) {
 		}
 		s := rec[0]
 		if s != "" {
-			t.Errorf("empty should be output on reference failed: %s", s)
+			t.Fatalf("empty should be output on reference failed: %s", s)
 		}
 	}
 }
@@ -1165,7 +1165,7 @@ func TestNameWithRistrictReferenceOnReferenceFail(t *testing.T) {
 	}
 
 	if err := Name(r, w, o); err == nil {
-		t.Error("Name with ristrict reference should raise error on reference failed.")
+		t.Fatal("Name with ristrict reference should raise error on reference failed.")
 	}
 }
 

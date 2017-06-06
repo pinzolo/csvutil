@@ -92,7 +92,7 @@ func TestConvertWithoutFormatAndTemplate(t *testing.T) {
 	o := ConvertOption{}
 
 	if err := Convert(r, w, o); err == nil {
-		t.Error("Convert without format and template should raise error")
+		t.Fatal("Convert without format and template should raise error")
 	}
 }
 
@@ -109,7 +109,7 @@ func TestConvertWithUnsupportedFormat(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err == nil {
-		t.Error("Convert with unsupported format should raise error")
+		t.Fatal("Convert with unsupported format should raise error")
 	}
 }
 
@@ -126,7 +126,7 @@ func TestConvertWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err == nil {
-		t.Error("Convert with broken CSV should raise error")
+		t.Fatal("Convert with broken CSV should raise error")
 	}
 }
 
@@ -146,7 +146,7 @@ func TestConvertWithBrokenTemplate(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err == nil {
-		t.Error("Convert with broken template should raise error")
+		t.Fatal("Convert with broken template should raise error")
 	}
 }
 
@@ -159,11 +159,11 @@ func TestConvertWithEmptyCSV(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	if actual := w.String(); actual != "" {
-		t.Errorf("Expectd: empty, but got %s", actual)
+		t.Fatalf("Expectd: empty, but got %s", actual)
 	}
 }
 
@@ -180,7 +180,7 @@ func TestConvertToMarkdown(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `| aaa | bbb | ccc |
@@ -190,7 +190,7 @@ func TestConvertToMarkdown(t *testing.T) {
 |   7 |   8 |   9 |
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -207,7 +207,7 @@ func TestConvertToMarkdownWithNoHeader(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `| column1 | column2 | column3 |
@@ -217,7 +217,7 @@ func TestConvertToMarkdownWithNoHeader(t *testing.T) {
 |       7 |       8 |       9 |
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -234,7 +234,7 @@ func TestConvertToJSON(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `[
@@ -256,7 +256,7 @@ func TestConvertToJSON(t *testing.T) {
 ]
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -273,7 +273,7 @@ func TestConvertToJSONWithNoHeader(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `[
@@ -295,7 +295,7 @@ func TestConvertToJSONWithNoHeader(t *testing.T) {
 ]
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -312,7 +312,7 @@ func TestConvertToYAML(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `- aaa: "1"
@@ -326,7 +326,7 @@ func TestConvertToYAML(t *testing.T) {
   ccc: "9"
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -343,7 +343,7 @@ func TestConvertToYAMLWithNoHeader(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `- column1: "1"
@@ -357,7 +357,7 @@ func TestConvertToYAMLWithNoHeader(t *testing.T) {
   column3: "9"
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -374,7 +374,7 @@ func TestConvertToHTML(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `<table>
@@ -405,7 +405,7 @@ func TestConvertToHTML(t *testing.T) {
 </table>
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -422,7 +422,7 @@ func TestConvertToHTMLWithNoHeader(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `<table>
@@ -453,7 +453,7 @@ func TestConvertToHTMLWithNoHeader(t *testing.T) {
 </table>
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -470,7 +470,7 @@ func TestConvertToXML(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `<csv>
@@ -492,7 +492,7 @@ func TestConvertToXML(t *testing.T) {
 </csv>
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -509,7 +509,7 @@ func TestConvertToXMLWithNoHeader(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `<csv>
@@ -531,7 +531,7 @@ func TestConvertToXMLWithNoHeader(t *testing.T) {
 </csv>
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -551,7 +551,7 @@ func TestConvertWithCustomTemplate(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `aaa	bbb	ccc
@@ -560,7 +560,7 @@ func TestConvertWithCustomTemplate(t *testing.T) {
 7	8	9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -580,7 +580,7 @@ func TestConvertWithCustomTemplateAndNoHeader(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `column1	column2	column3
@@ -589,7 +589,7 @@ func TestConvertWithCustomTemplateAndNoHeader(t *testing.T) {
 7	8	9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -610,7 +610,7 @@ func TestConvertWithCustomHTMLTemplate(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `aaa	bbb	ccc
@@ -619,7 +619,7 @@ func TestConvertWithCustomHTMLTemplate(t *testing.T) {
 7	8	9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 
 }
@@ -641,7 +641,7 @@ func TestConvertWithFormatAndCustomTemplate(t *testing.T) {
 	}
 
 	if err := Convert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `aaa	bbb	ccc
@@ -650,6 +650,6 @@ func TestConvertWithFormatAndCustomTemplate(t *testing.T) {
 7	8	9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }

@@ -22,7 +22,7 @@ func TestGenerateWithoutSize(t *testing.T) {
 		Count: 3,
 	}
 	if err := Generate(w, o); err == nil {
-		t.Error("Generate without size should raise error.")
+		t.Fatal("Generate without size should raise error.")
 	}
 }
 
@@ -33,7 +33,7 @@ func TestGenerateWithNegativeSize(t *testing.T) {
 		Size:  -1,
 	}
 	if err := Generate(w, o); err == nil {
-		t.Error("Generate with negative size should raise error.")
+		t.Fatal("Generate with negative size should raise error.")
 	}
 }
 
@@ -43,7 +43,7 @@ func TestGenerateWithoutCount(t *testing.T) {
 		Size: 3,
 	}
 	if err := Generate(w, o); err == nil {
-		t.Error("Generate without size should raise error.")
+		t.Fatal("Generate without size should raise error.")
 	}
 }
 
@@ -54,7 +54,7 @@ func TestGenerateWithNegativeCount(t *testing.T) {
 		Size:  3,
 	}
 	if err := Generate(w, o); err == nil {
-		t.Error("Generate with negative size should raise error.")
+		t.Fatal("Generate with negative size should raise error.")
 	}
 }
 
@@ -70,11 +70,11 @@ func TestGenerate(t *testing.T) {
 ,,
 `
 	if err := Generate(w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -91,11 +91,11 @@ func TestGenerateWithHeaders(t *testing.T) {
 ,,
 `
 	if err := Generate(w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -111,11 +111,11 @@ func TestGenerateWithNoHeader(t *testing.T) {
 ,,
 `
 	if err := Generate(w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -132,11 +132,11 @@ func TestGenerateWithGreaterSizeThanHeadersLength(t *testing.T) {
 ,,
 `
 	if err := Generate(w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -153,11 +153,11 @@ func TestGenerateWithLessSizeThanHeadersLength(t *testing.T) {
 ,,
 `
 	if err := Generate(w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -174,10 +174,10 @@ func TestGenerateWithNoHeaderButGivenHeaders(t *testing.T) {
 ,,
 `
 	if err := Generate(w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }

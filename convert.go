@@ -1,7 +1,6 @@
 package csvutil
 
 import (
-	"bufio"
 	"encoding/json"
 	"encoding/xml"
 	htmpl "html/template"
@@ -73,15 +72,13 @@ func Convert(r io.Reader, w io.Writer, o ConvertOption) error {
 	}
 
 	cr, _ := reader(r, o.Encoding)
-	bw := bufio.NewWriter(w)
-	defer bw.Flush()
 
 	recs, err := cr.ReadAll()
 	if err != nil {
 		return err
 	}
 	if len(recs) == 0 {
-		bw.WriteString("")
+		w.Write([]byte(""))
 		return nil
 	}
 
@@ -106,12 +103,12 @@ func Convert(r io.Reader, w io.Writer, o ConvertOption) error {
 		if o.HTML {
 			var t *htmpl.Template
 			if t, err = htmpl.New("text").Parse(o.Template); err == nil {
-				err = t.Execute(bw, ctx)
+				err = t.Execute(w, ctx)
 			}
 		} else {
 			var t *txtmpl.Template
 			if t, err = txtmpl.New("text").Parse(o.Template); err == nil {
-				err = t.Execute(bw, ctx)
+				err = t.Execute(w, ctx)
 			}
 		}
 	} else if o.Format == "markdown" {
@@ -129,7 +126,7 @@ func Convert(r io.Reader, w io.Writer, o ConvertOption) error {
 	} else if o.Format == "html" {
 		var t *htmpl.Template
 		if t, err = htmpl.New("html").Parse(htmlTmpl()); err == nil {
-			err = t.Execute(bw, ctx)
+			err = t.Execute(w, ctx)
 		}
 	} else if o.Format == "xml" {
 		p, err = xml.MarshalIndent(ctx, "", "\t")
@@ -137,7 +134,7 @@ func Convert(r io.Reader, w io.Writer, o ConvertOption) error {
 	if err != nil {
 		return err
 	}
-	_, err = bw.Write(appendLastNewLine(p))
+	_, err = w.Write(appendLastNewLine(p))
 	return err
 }
 
@@ -176,11 +173,7 @@ func marshalee(ctx convertContext) []map[string]string {
 }
 
 func appendLastNewLine(p []byte) []byte {
-	if p == nil {
-		return p
-	}
-
-	if p[len(p)-1] == 10 {
+	if len(p) == 0 || p[len(p)-1] == 10 {
 		return p
 	}
 

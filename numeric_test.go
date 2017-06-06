@@ -278,23 +278,23 @@ func TestNumericWithDecimal(t *testing.T) {
 	data := readCSV(w.String())
 	f := func(s string) bool {
 		if !strings.Contains(s, ".") {
-			t.Errorf("Not contains period: %s", s)
+			t.Fatalf("Not contains period: %s", s)
 			return false
 		}
 		if f, err := strconv.ParseFloat(s, 32); err != nil || f < 0.0 {
-			t.Errorf("Less than min: %s", s)
+			t.Fatalf("Less than min: %s", s)
 			return false
 		}
 		if f, err := strconv.ParseFloat(s, 32); err != nil || 100.0 < f {
-			t.Errorf("Greater than max: %s", s)
+			t.Fatalf("Greater than max: %s", s)
 			return false
 		}
 		if len(strings.Split(s, ".")) != 2 {
-			t.Errorf("Invalid decimal format: %s", s)
+			t.Fatalf("Invalid decimal format: %s", s)
 			return false
 		}
 		if len(strings.Split(s, ".")[1]) != 3 {
-			t.Errorf("Invalid decimal digits (%d): %s", o.DecimalDigit, s)
+			t.Fatalf("Invalid decimal digits (%d): %s", o.DecimalDigit, s)
 			return false
 		}
 		return true
@@ -327,27 +327,27 @@ func TestNumericWithNegativeDecimal(t *testing.T) {
 	data := readCSV(w.String())
 	f := func(s string) bool {
 		if !strings.Contains(s, ".") {
-			t.Errorf("Not contains period: %s", s)
+			t.Fatalf("Not contains period: %s", s)
 			return false
 		}
 		if !strings.HasPrefix(s, "-") {
-			t.Errorf("Not negative decimal: %s", s)
+			t.Fatalf("Not negative decimal: %s", s)
 			return false
 		}
 		if f, err := strconv.ParseFloat(s, 32); err != nil || f < -100.0 {
-			t.Errorf("Less than min: %s", s)
+			t.Fatalf("Less than min: %s", s)
 			return false
 		}
 		if f, err := strconv.ParseFloat(s, 32); err != nil || 0.0 < f {
-			t.Errorf("Greater than max: %s", s)
+			t.Fatalf("Greater than max: %s", s)
 			return false
 		}
 		if len(strings.Split(s, ".")) != 2 {
-			t.Errorf("Invalid decimal format: %s", s)
+			t.Fatalf("Invalid decimal format: %s", s)
 			return false
 		}
 		if len(strings.Split(s, ".")[1]) != 3 {
-			t.Errorf("Invalid decimal digits (%d): %s", o.DecimalDigit, s)
+			t.Fatalf("Invalid decimal digits (%d): %s", o.DecimalDigit, s)
 			return false
 		}
 		return true
@@ -380,27 +380,27 @@ func TestNumericWithDecimalLessThanOne(t *testing.T) {
 	data := readCSV(w.String())
 	f := func(s string) bool {
 		if !strings.Contains(s, ".") {
-			t.Errorf("Not contains period: %s", s)
+			t.Fatalf("Not contains period: %s", s)
 			return false
 		}
 		if !strings.HasPrefix(s, "0.") {
-			t.Errorf("Integer part of %s should be zero", s)
+			t.Fatalf("Integer part of %s should be zero", s)
 			return false
 		}
 		if f, err := strconv.ParseFloat(s, 32); err != nil || f < 0.0 {
-			t.Errorf("Less than min: %s", s)
+			t.Fatalf("Less than min: %s", s)
 			return false
 		}
 		if f, err := strconv.ParseFloat(s, 32); err != nil || 100.0 < f {
-			t.Errorf("Greater than max: %s", s)
+			t.Fatalf("Greater than max: %s", s)
 			return false
 		}
 		if len(strings.Split(s, ".")) != 2 {
-			t.Errorf("Invalid decimal format: %s", s)
+			t.Fatalf("Invalid decimal format: %s", s)
 			return false
 		}
 		if len(strings.Split(s, ".")[1]) != 3 {
-			t.Errorf("Invalid decimal digits (%d): %s", o.DecimalDigit, s)
+			t.Fatalf("Invalid decimal digits (%d): %s", o.DecimalDigit, s)
 			return false
 		}
 		return true
@@ -433,27 +433,27 @@ func TestNumericWithNegativeDecimalGreaterThanMinusOne(t *testing.T) {
 	data := readCSV(w.String())
 	f := func(s string) bool {
 		if !strings.Contains(s, ".") {
-			t.Errorf("Not contains period: %s", s)
+			t.Fatalf("Not contains period: %s", s)
 			return false
 		}
 		if !strings.HasPrefix(s, "-0.") {
-			t.Errorf("Not negative decimal or integer part is not zero: %s", s)
+			t.Fatalf("Not negative decimal or integer part is not zero: %s", s)
 			return false
 		}
 		if f, err := strconv.ParseFloat(s, 32); err != nil || f < -100.0 {
-			t.Errorf("Less than min: %s", s)
+			t.Fatalf("Less than min: %s", s)
 			return false
 		}
 		if f, err := strconv.ParseFloat(s, 32); err != nil || 0.0 < f {
-			t.Errorf("Greater than max: %s", s)
+			t.Fatalf("Greater than max: %s", s)
 			return false
 		}
 		if len(strings.Split(s, ".")) != 2 {
-			t.Errorf("Invalid decimal format: %s", s)
+			t.Fatalf("Invalid decimal format: %s", s)
 			return false
 		}
 		if len(strings.Split(s, ".")[1]) != 3 {
-			t.Errorf("Invalid decimal digits (%d): %s", o.DecimalDigit, s)
+			t.Fatalf("Invalid decimal digits (%d): %s", o.DecimalDigit, s)
 			return false
 		}
 		return true

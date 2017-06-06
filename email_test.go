@@ -34,7 +34,7 @@ func TestEmailWithoutColumn(t *testing.T) {
 	o := EmailOption{}
 
 	if err := Email(r, w, o); err == nil {
-		t.Error("Email without column symbol should raise error.")
+		t.Fatal("Email without column symbol should raise error.")
 	}
 }
 
@@ -51,7 +51,7 @@ func TestEmailWithNoHeaderButColumnNotNumber(t *testing.T) {
 	}
 
 	if err := Email(r, w, o); err == nil {
-		t.Error("Email with not number column symbol for no header CSV should raise error.")
+		t.Fatal("Email with not number column symbol for no header CSV should raise error.")
 	}
 }
 
@@ -69,7 +69,7 @@ func TestEmailWithNegativeMobileRate(t *testing.T) {
 	}
 
 	if err := Email(r, w, o); err == nil {
-		t.Error("Email with negative mobile rate should raise error.")
+		t.Fatal("Email with negative mobile rate should raise error.")
 	}
 }
 
@@ -87,7 +87,7 @@ func TestEmailWithOver100MobileRate(t *testing.T) {
 	}
 
 	if err := Email(r, w, o); err == nil {
-		t.Error("Email with over 100 mobile rate should raise error.")
+		t.Fatal("Email with over 100 mobile rate should raise error.")
 	}
 }
 
@@ -104,7 +104,7 @@ func TestEmailWithUnknownColumn(t *testing.T) {
 	}
 
 	if err := Email(r, w, o); err == nil {
-		t.Error("Email with unknown column should raise error.")
+		t.Fatal("Email with unknown column should raise error.")
 	}
 }
 
@@ -121,7 +121,7 @@ func TestEmailWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Email(r, w, o); err == nil {
-		t.Error("Email with broken csv should raise error.")
+		t.Fatal("Email with broken csv should raise error.")
 	}
 }
 
@@ -138,12 +138,12 @@ func TestEmailWitColumn(t *testing.T) {
 	}
 
 	if err := Email(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isEmail); !ok {
-		t.Errorf("Email failed updating on email address. %+v", data)
+		t.Fatalf("Email failed updating on email address. %+v", data)
 	}
 }
 
@@ -161,12 +161,12 @@ func TestEmailMobile(t *testing.T) {
 	}
 
 	if err := Email(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isMobileEmailNumber); !ok {
-		t.Errorf("Email failed updating on mobile email address. %+v", data)
+		t.Fatalf("Email failed updating on mobile email address. %+v", data)
 	}
 }
 
@@ -184,12 +184,12 @@ func TestEmailWithNoHeader(t *testing.T) {
 	}
 
 	if err := Email(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOKNoHeader(data, 0, isMobileEmailNumber); !ok {
-		t.Errorf("Email failed updating on mobile email address. %+v", data)
+		t.Fatalf("Email failed updating on mobile email address. %+v", data)
 	}
 }
 

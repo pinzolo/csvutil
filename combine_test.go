@@ -34,7 +34,7 @@ func TestCombineWithEmptySource(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err == nil {
-		t.Error("Combine with empty column should raise error.")
+		t.Fatal("Combine with empty column should raise error.")
 	}
 }
 
@@ -48,7 +48,7 @@ func TestCombineWithNoHeaderAndNoDigitSource(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err == nil {
-		t.Error("Combine with no header and no digit column symbol should raise error.")
+		t.Fatal("Combine with no header and no digit column symbol should raise error.")
 	}
 }
 
@@ -66,7 +66,7 @@ func TestCombineWithSymbolSourceButNoHeader(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err == nil {
-		t.Error("When given header text as column symbol but CSV does not have header, Combine should raise error.")
+		t.Fatal("When given header text as column symbol but CSV does not have header, Combine should raise error.")
 	}
 }
 
@@ -84,7 +84,7 @@ func TestCombineWithSymbolDestinationButNoHeader(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err == nil {
-		t.Error("When given header text as column symbol but CSV does not have header, Combine should raise error.")
+		t.Fatal("When given header text as column symbol but CSV does not have header, Combine should raise error.")
 	}
 }
 
@@ -102,7 +102,7 @@ func TestCombineWithUnknownSourceSymbol(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err == nil {
-		t.Error("Combine with unknown source symbol should raise error.")
+		t.Fatal("Combine with unknown source symbol should raise error.")
 	}
 }
 
@@ -120,7 +120,7 @@ func TestCombineWithUnknownDestinationSymbol(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err == nil {
-		t.Error("Combine with unknown destination symbol should raise error.")
+		t.Fatal("Combine with unknown destination symbol should raise error.")
 	}
 }
 
@@ -138,7 +138,7 @@ func TestCombineWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err == nil {
-		t.Error("Combine with broken csv should raise error.")
+		t.Fatal("Combine with broken csv should raise error.")
 	}
 }
 
@@ -156,7 +156,7 @@ func TestCombine(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `aaa,bbb,ccc
 1,2,12
@@ -164,7 +164,7 @@ func TestCombine(t *testing.T) {
 7,8,78
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -182,7 +182,7 @@ func TestCombineWhenSourceIsIndex(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `aaa,bbb,ccc
 1,2,12
@@ -190,7 +190,7 @@ func TestCombineWhenSourceIsIndex(t *testing.T) {
 7,8,78
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -208,7 +208,7 @@ func TestCombineWhenDestinationIsIndex(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `aaa,bbb,ccc
 1,2,12
@@ -216,7 +216,7 @@ func TestCombineWhenDestinationIsIndex(t *testing.T) {
 7,8,78
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -234,14 +234,14 @@ func TestCombineWhenSourceIsIndexAndNoHeader(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `1,2,12
 4,5,45
 7,8,78
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -259,7 +259,7 @@ func TestCombineWhenSourceContainsDestination(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `aaa,bbb,ccc
 12,2,3
@@ -267,7 +267,7 @@ func TestCombineWhenSourceContainsDestination(t *testing.T) {
 78,8,9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -286,7 +286,7 @@ func TestCombineWithDelimiter(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `aaa,bbb,ccc
 1,2,1_2
@@ -294,7 +294,7 @@ func TestCombineWithDelimiter(t *testing.T) {
 7,8,7_8
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -313,7 +313,7 @@ func TestCombineWithSpecialCharDelimiter(t *testing.T) {
 	}
 
 	if err := Combine(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `aaa,bbb,ccc
 1,2,"2,1"
@@ -321,6 +321,6 @@ func TestCombineWithSpecialCharDelimiter(t *testing.T) {
 7,8,"8,7"
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }

@@ -27,7 +27,7 @@ func TestExtractWithEmptyColumn(t *testing.T) {
 	o := ExtractOption{}
 
 	if err := Extract(r, w, o); err == nil {
-		t.Error("Extract with empty column should raise error.")
+		t.Fatal("Extract with empty column should raise error.")
 	}
 }
 
@@ -40,7 +40,7 @@ func TestExtractWithNoHeaderAndNoDigitColumn(t *testing.T) {
 	}
 
 	if err := Extract(r, w, o); err == nil {
-		t.Error("Extract with no header and no digit column symbol should raise error.")
+		t.Fatal("Extract with no header and no digit column symbol should raise error.")
 	}
 }
 
@@ -57,7 +57,7 @@ func TestExtractWithSymbolColumnButNoHeader(t *testing.T) {
 	}
 
 	if err := Extract(r, w, o); err == nil {
-		t.Error("When given header text as column symbol but CSV does not have header, Extract should raise error.")
+		t.Fatal("When given header text as column symbol but CSV does not have header, Extract should raise error.")
 	}
 }
 
@@ -74,7 +74,7 @@ func TestExtractWithUnknownHeaderSymbol(t *testing.T) {
 	}
 
 	if err := Extract(r, w, o); err == nil {
-		t.Error("Extract with unknown header symbol should raise error.")
+		t.Fatal("Extract with unknown header symbol should raise error.")
 	}
 }
 
@@ -91,7 +91,7 @@ func TestExtractWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Extract(r, w, o); err == nil {
-		t.Error("Extract with broken csv should raise error.")
+		t.Fatal("Extract with broken csv should raise error.")
 	}
 }
 
@@ -108,7 +108,7 @@ func TestExtractWhenColumnIsHeaderText(t *testing.T) {
 	}
 
 	if err := Extract(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `bbb
 2
@@ -116,7 +116,7 @@ func TestExtractWhenColumnIsHeaderText(t *testing.T) {
 8
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -133,7 +133,7 @@ func TestExtractWhenColumnIsIndex(t *testing.T) {
 	}
 
 	if err := Extract(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `bbb
 2
@@ -141,7 +141,7 @@ func TestExtractWhenColumnIsIndex(t *testing.T) {
 8
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -158,14 +158,14 @@ func TestExtractWhenColumnIsIndexAndNoHeader(t *testing.T) {
 	}
 
 	if err := Extract(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `2
 5
 8
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -182,7 +182,7 @@ func TestExtractWhenColumnIsMultiColumn(t *testing.T) {
 	}
 
 	if err := Extract(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	expected := `aaa,bbb
 1,2
@@ -190,6 +190,6 @@ func TestExtractWhenColumnIsMultiColumn(t *testing.T) {
 7,8
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }

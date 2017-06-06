@@ -32,7 +32,7 @@ func TestCollectWithoutColumn(t *testing.T) {
 	o := CollectOption{}
 
 	if err := Collect(r, w, o); err == nil {
-		t.Error("Collect without column symbol should raise error.")
+		t.Fatal("Collect without column symbol should raise error.")
 	}
 }
 
@@ -49,7 +49,7 @@ func TestCollectWithNoHeaderButColumnNotNumber(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err == nil {
-		t.Error("Collect with not number column symbol for no header CSV should raise error.")
+		t.Fatal("Collect with not number column symbol for no header CSV should raise error.")
 	}
 }
 
@@ -66,7 +66,7 @@ func TestCollectWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err == nil {
-		t.Error("Collect with broken CSV should raise error.")
+		t.Fatal("Collect with broken CSV should raise error.")
 	}
 }
 
@@ -83,7 +83,7 @@ func TestCollectWithBrokenHeaderCSV(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err == nil {
-		t.Error("Collect with broken header CSV should raise error.")
+		t.Fatal("Collect with broken header CSV should raise error.")
 	}
 }
 
@@ -102,7 +102,7 @@ func TestCollectWithUnsupportedSortKey(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err == nil {
-		t.Error("Collect with unsupported sort key should raise error.")
+		t.Fatal("Collect with unsupported sort key should raise error.")
 	}
 }
 
@@ -122,7 +122,7 @@ func TestCollectWithUnsupportedSortDirection(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err == nil {
-		t.Error("Collect with unsupported sort direction should raise error.")
+		t.Fatal("Collect with unsupported sort direction should raise error.")
 	}
 }
 
@@ -139,7 +139,7 @@ func TestCollectWithoutSort(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `1
@@ -147,7 +147,7 @@ func TestCollectWithoutSort(t *testing.T) {
 2
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -164,7 +164,7 @@ func TestCollectWitNoHeader(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `1
@@ -172,7 +172,7 @@ func TestCollectWitNoHeader(t *testing.T) {
 2
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -189,14 +189,14 @@ func TestCollectOnDuplicateValues(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `1
 4
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -213,14 +213,14 @@ func TestCollectOnIgnoreEmpty(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `1
 4
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -238,7 +238,7 @@ func TestCollectWithAllowEmpty(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `1
@@ -246,7 +246,7 @@ func TestCollectWithAllowEmpty(t *testing.T) {
 
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -264,14 +264,14 @@ func TestCollectWithPrintCount(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `2	1
 1	4
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -291,7 +291,7 @@ func TestCollectWithSortByValueAsc(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `1
@@ -299,7 +299,7 @@ func TestCollectWithSortByValueAsc(t *testing.T) {
 4
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -319,7 +319,7 @@ func TestCollectWithSortByValueDesc(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `4
@@ -327,7 +327,7 @@ func TestCollectWithSortByValueDesc(t *testing.T) {
 1
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -351,7 +351,7 @@ func TestCollectWithSortByCountAsc(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `1	3
@@ -359,7 +359,7 @@ func TestCollectWithSortByCountAsc(t *testing.T) {
 3	1
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -383,7 +383,7 @@ func TestCollectWithSortByCountDesc(t *testing.T) {
 	}
 
 	if err := Collect(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `3	1
@@ -391,6 +391,6 @@ func TestCollectWithSortByCountDesc(t *testing.T) {
 1	3
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }

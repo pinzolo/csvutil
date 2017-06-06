@@ -22,26 +22,26 @@ func Example_runConvertWithTemplate() {
 
 func Test_runConvert(t *testing.T) {
 	if c := runConvert([]string{testFilePath("utf8.csv")}); c != 0 {
-		t.Errorf("Invalid success exit code: %d", c)
+		t.Fatalf("Invalid success exit code: %d", c)
 	}
 }
 
 func Test_runConvertOnNoFile(t *testing.T) {
 	if c := runConvert([]string{testFilePath("no-file.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 }
 
 func Test_runConvertOnFail(t *testing.T) {
 	if c := runConvert([]string{testFilePath("broken.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 }
 
 func Test_runConvertOnTemplateNotFound(t *testing.T) {
 	convertOpt.Template = testFilePath("no-template.tmpl")
 	if c := runConvert([]string{testFilePath("utf8.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 	convertOpt.Template = ""
 }

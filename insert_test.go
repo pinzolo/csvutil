@@ -28,7 +28,7 @@ func TestInsertWithoutSize(t *testing.T) {
 	o := InsertOption{}
 
 	if err := Insert(r, w, o); err == nil {
-		t.Error("Insert without size should raise error.")
+		t.Fatal("Insert without size should raise error.")
 	}
 }
 
@@ -40,7 +40,7 @@ func TestInsertWithNegativeSize(t *testing.T) {
 	}
 
 	if err := Insert(r, w, o); err == nil {
-		t.Error("Insert with negative size should raise error.")
+		t.Fatal("Insert with negative size should raise error.")
 	}
 }
 
@@ -57,7 +57,7 @@ func TestInsertWithHeadersOnly(t *testing.T) {
 	}
 
 	if err := Insert(r, w, o); err == nil {
-		t.Error("Insert without size should raise error.")
+		t.Fatal("Insert without size should raise error.")
 	}
 }
 
@@ -75,7 +75,7 @@ func TestInsertWithInvalidBefore(t *testing.T) {
 		Headers: []string{"foo", "bar"},
 	}
 	if err := Insert(r, w, o); err == nil {
-		t.Error("Insert with invalid before should raise error.")
+		t.Fatal("Insert with invalid before should raise error.")
 	}
 }
 
@@ -92,7 +92,7 @@ func TestInsertWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Insert(r, w, o); err == nil {
-		t.Error("Insert with broken csv should raise error.")
+		t.Fatal("Insert with broken csv should raise error.")
 	}
 }
 
@@ -108,7 +108,7 @@ func TestInsertWithSizeAndNoBefore(t *testing.T) {
 		Size: 2,
 	}
 	if err := Insert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `column1,column2,aaa,bbb,ccc
@@ -117,7 +117,7 @@ func TestInsertWithSizeAndNoBefore(t *testing.T) {
 ,,7,8,9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -134,7 +134,7 @@ func TestInsertWithGreaterSizeThanHeadersLength(t *testing.T) {
 		Size:    3,
 	}
 	if err := Insert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `foo,bar,column1,aaa,bbb,ccc
@@ -143,7 +143,7 @@ func TestInsertWithGreaterSizeThanHeadersLength(t *testing.T) {
 ,,,7,8,9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -160,7 +160,7 @@ func TestInsertWithLessSizeThanHeadersLength(t *testing.T) {
 		Size:    2,
 	}
 	if err := Insert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `foo,bar,aaa,bbb,ccc
@@ -169,7 +169,7 @@ func TestInsertWithLessSizeThanHeadersLength(t *testing.T) {
 ,,7,8,9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -186,7 +186,7 @@ func TestInsertWithLessSizeThanHeadersLengthButNoHeader(t *testing.T) {
 		NoHeader: true,
 	}
 	if err := Insert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `,,1,2,3
@@ -194,7 +194,7 @@ func TestInsertWithLessSizeThanHeadersLengthButNoHeader(t *testing.T) {
 ,,7,8,9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -211,7 +211,7 @@ func TestInsertWithSizeAndBefore(t *testing.T) {
 		Before: "bbb",
 	}
 	if err := Insert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `aaa,column1,column2,bbb,ccc
@@ -220,7 +220,7 @@ func TestInsertWithSizeAndBefore(t *testing.T) {
 7,,,8,9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }
 
@@ -238,7 +238,7 @@ func TestInsertWithSizeAndBeforeAndHeaders(t *testing.T) {
 		Headers: []string{"foo", "bar"},
 	}
 	if err := Insert(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	expected := `aaa,foo,bar,bbb,ccc
@@ -247,6 +247,6 @@ func TestInsertWithSizeAndBeforeAndHeaders(t *testing.T) {
 7,,,8,9
 `
 	if actual := w.String(); actual != expected {
-		t.Errorf("Expectd: %s, but got %s", expected, actual)
+		t.Fatalf("Expectd: %s, but got %s", expected, actual)
 	}
 }

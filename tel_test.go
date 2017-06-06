@@ -37,7 +37,7 @@ func TestTelWithoutColumn(t *testing.T) {
 	o := TelOption{}
 
 	if err := Tel(r, w, o); err == nil {
-		t.Error("Email without column symbol should raise error.")
+		t.Fatal("Email without column symbol should raise error.")
 	}
 }
 
@@ -54,7 +54,7 @@ func TestTelWithNoHeaderButColumnNotNumber(t *testing.T) {
 	}
 
 	if err := Tel(r, w, o); err == nil {
-		t.Error("Email with not number column symbol for no header CSV should raise error.")
+		t.Fatal("Email with not number column symbol for no header CSV should raise error.")
 	}
 
 }
@@ -73,7 +73,7 @@ func TestTelWithNegativeMobileRate(t *testing.T) {
 	}
 
 	if err := Tel(r, w, o); err == nil {
-		t.Error("Tel with negative mobile rate should raise error.")
+		t.Fatal("Tel with negative mobile rate should raise error.")
 	}
 }
 
@@ -91,7 +91,7 @@ func TestTelWithOver100MobileRate(t *testing.T) {
 	}
 
 	if err := Tel(r, w, o); err == nil {
-		t.Error("Tel with over 100 rate should raise error.")
+		t.Fatal("Tel with over 100 rate should raise error.")
 	}
 }
 
@@ -108,7 +108,7 @@ func TestTelWithUnknownColumn(t *testing.T) {
 	}
 
 	if err := Tel(r, w, o); err == nil {
-		t.Error("Tel with unknown column should raise error.")
+		t.Fatal("Tel with unknown column should raise error.")
 	}
 }
 
@@ -125,7 +125,7 @@ func TestTelWithBrokenCSV(t *testing.T) {
 	}
 
 	if err := Tel(r, w, o); err == nil {
-		t.Error("Tel with broken csv should raise error.")
+		t.Fatal("Tel with broken csv should raise error.")
 	}
 }
 
@@ -143,12 +143,12 @@ func TestTelWithNoHeader(t *testing.T) {
 	}
 
 	if err := Tel(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOKNoHeader(data, 0, isTelNumber); !ok {
-		t.Errorf("Tel failed updating on tel number. %+v", data)
+		t.Fatalf("Tel failed updating on tel number. %+v", data)
 	}
 }
 
@@ -165,12 +165,12 @@ func TestTelWitColumn(t *testing.T) {
 	}
 
 	if err := Tel(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isTelNumber); !ok {
-		t.Errorf("Tel failed updating on tel number. %+v", data)
+		t.Fatalf("Tel failed updating on tel number. %+v", data)
 	}
 }
 
@@ -188,12 +188,12 @@ func TestTelMobile(t *testing.T) {
 	}
 
 	if err := Tel(r, w, o); err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 
 	data := readCSV(w.String())
 	if ok := allOK(data, 0, isMobileTelNumber); !ok {
-		t.Errorf("Tel failed updating on mobile tel number. %+v", data)
+		t.Fatalf("Tel failed updating on mobile tel number. %+v", data)
 	}
 }
 

@@ -16,20 +16,20 @@ func Example_runRemove() {
 func Test_runRemove(t *testing.T) {
 	removeOpt.Column = "名前"
 	if c := runRemove([]string{testFilePath("utf8.csv")}); c != 0 {
-		t.Errorf("Invalid success exit code: %d", c)
+		t.Fatalf("Invalid success exit code: %d", c)
 	}
 	removeOpt.Column = ""
 }
 
 func Test_runRemoveOnNoFile(t *testing.T) {
 	if c := runRemove([]string{testFilePath("no-file.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 }
 
 func Test_runRemoveOnFail(t *testing.T) {
 	if c := runRemove([]string{testFilePath("broken.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 }
 
@@ -37,7 +37,7 @@ func Test_runRemoveOnBackup(t *testing.T) {
 	f, err := prepareWritingTest()
 	defer f()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	removeOpt.Column = "名前"
 	removeOpt.Overwrite = true
@@ -47,7 +47,7 @@ func Test_runRemoveOnBackup(t *testing.T) {
 	removeOpt.Overwrite = false
 	removeOpt.Column = ""
 	if b, err := existsBackup(); err != nil || !b {
-		t.Errorf("Failed backup")
+		t.Fatalf("Failed backup")
 	}
 }
 
@@ -55,7 +55,7 @@ func Test_runRemoveOnOverwrite(t *testing.T) {
 	f, err := prepareWritingTest()
 	defer f()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	removeOpt.Column = "名前"
 	removeOpt.Overwrite = true
@@ -64,9 +64,9 @@ func Test_runRemoveOnOverwrite(t *testing.T) {
 	removeOpt.Column = ""
 	c, err := overwriteContent()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	if len(c[0]) != 1 || c[0][0] != "個数" || c[1][0] != "1" || c[2][0] != "2" {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 }

@@ -17,7 +17,7 @@ func Test_runFilter(t *testing.T) {
 	filterOpt.Pattern = `[A-E]`
 	filterOpt.Regexp = true
 	if c := runFilter([]string{testFilePath("filter.csv")}); c != 0 {
-		t.Errorf("Invalid success exit code: %d", c)
+		t.Fatalf("Invalid success exit code: %d", c)
 	}
 	filterOpt.Regexp = false
 	filterOpt.Pattern = ""
@@ -27,7 +27,7 @@ func Test_runFilterOnNoFile(t *testing.T) {
 	filterOpt.Pattern = `[A-E]`
 	filterOpt.Regexp = true
 	if c := runFilter([]string{testFilePath("no-file.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 	filterOpt.Regexp = false
 	filterOpt.Pattern = ""
@@ -38,7 +38,7 @@ func Test_runFilterOnFail(t *testing.T) {
 	filterOpt.Pattern = `\d`
 	filterOpt.Regexp = true
 	if c := runFilter([]string{testFilePath("broken.csv")}); c == 0 {
-		t.Errorf("Invalid failed exit code: %d", c)
+		t.Fatalf("Invalid failed exit code: %d", c)
 	}
 	filterOpt.Regexp = false
 	filterOpt.Pattern = ""
@@ -49,7 +49,7 @@ func Test_runFilterOnBackup(t *testing.T) {
 	f, err := prepareWritingTest()
 	defer f()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	filterOpt.Pattern = "2"
 	filterOpt.Overwrite = true
@@ -59,7 +59,7 @@ func Test_runFilterOnBackup(t *testing.T) {
 	filterOpt.Overwrite = false
 	filterOpt.Pattern = ""
 	if b, err := existsBackup(); err != nil || !b {
-		t.Errorf("Failed backup")
+		t.Fatalf("Failed backup")
 	}
 }
 
@@ -67,7 +67,7 @@ func Test_runFilterOnOverwrite(t *testing.T) {
 	f, err := prepareWritingTest()
 	defer f()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	filterOpt.Pattern = "2"
 	filterOpt.Regexp = true
@@ -78,15 +78,15 @@ func Test_runFilterOnOverwrite(t *testing.T) {
 	filterOpt.Pattern = ""
 	c, err := overwriteContent()
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	if len(c[0]) != 2 {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 	if c[0][0] != "名前" || c[0][1] != "個数" {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 	if c[1][0] != "みかん" || c[1][1] != "2" {
-		t.Errorf("Overwrite failed. got %+v", c)
+		t.Fatalf("Overwrite failed. got %+v", c)
 	}
 }
