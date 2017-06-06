@@ -43,7 +43,6 @@ type SortOption struct {
 	Descending bool
 	// Handling method of empty string
 	EmptyHandling string
-	col           *column
 }
 
 func (o SortOption) outputEncoding() string {
@@ -91,28 +90,29 @@ func Sort(r io.Reader, w io.Writer, o SortOption) error {
 	}
 
 	var data [][]string
+	var col *column
 	if o.NoHeader {
-		o.col = newColumnWithIndex(o.Column, nil)
+		col = newColumnWithIndex(o.Column, nil)
 		data = recs
 	} else {
-		o.col = newColumnWithIndex(o.Column, recs[0])
+		col = newColumnWithIndex(o.Column, recs[0])
 		cw.Write(recs[0])
 		data = recs[1:]
 	}
 
 	if o.DataType == SortDataTypeNumber {
 		for _, rec := range data {
-			if rec[o.col.index] == "" {
+			if rec[col.index] == "" {
 				continue
 			}
-			_, err := strconv.ParseFloat(rec[o.col.index], 64)
+			_, err := strconv.ParseFloat(rec[col.index], 64)
 			if err != nil {
 				return err
 			}
 		}
 	}
 
-	data = sortCSVData(data, o)
+	data = sortCSVData(data, col, o)
 	return cw.WriteAll(data)
 }
 
@@ -128,10 +128,10 @@ func compareStringsAsNumber(s1 string, s2 string) float64 {
 	return f1 - f2
 }
 
-func sortCSVData(data [][]string, o SortOption) [][]string {
+func sortCSVData(data [][]string, col *column, o SortOption) [][]string {
 	sort.Slice(data, func(i, j int) bool {
-		si := data[i][o.col.index]
-		sj := data[j][o.col.index]
+		si := data[i][col.index]
+		sj := data[j][col.index]
 		if o.EmptyHandling != EmptyNatural {
 			if si == "" {
 				return o.EmptyHandling == EmptyFirst
