@@ -9,6 +9,8 @@ import (
 	"github.com/pkg/errors"
 )
 
+// TODO: sortコマンドに合わせる
+var supportedSortDirections = []string{"asc", "desc"}
 var supportedSortKeys = []string{"value", "count"}
 
 type collectedItem struct {
