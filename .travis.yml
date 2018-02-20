@@ -8,6 +8,8 @@ branches:
 
 go:
   - 1.8
+  - 1.9
+  - "1.10"
 
 before_install:
   - go get github.com/mattn/goveralls
